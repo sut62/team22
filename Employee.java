@@ -21,7 +21,6 @@ import com.cpe.backend.entity.Age;
 import com.cpe.backend.entity.Gender;
 import com.cpe.backend.entity.Position;
 import com.cpe.backend.entity.Marital_Status;
-
 @Data
 @Entity
 @NoArgsConstructor
