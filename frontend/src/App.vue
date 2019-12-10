@@ -6,19 +6,19 @@
     
 
     <v-content class="font-weight-black ">
-      <HelloWorld/>
+      <reservation/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import HelloWorld from './components/reservation';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    reservation,
   },
 
   data: () => ({
