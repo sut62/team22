@@ -6,19 +6,18 @@
     
 
     <v-content class="font-weight-black ">
-      <reservation/>
+		<router-view/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import reservation from './components/reservation';
+
 
 export default {
   name: 'App',
 
-  components: {
-    reservation,
+ 
   },
 
   data: () => ({
