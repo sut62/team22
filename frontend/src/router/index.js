@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import reservation from '../components/reservation.vue'
+import menumanager from '../components/MenuManager.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,11 @@ const routes = [
     name: 'reservation',
     component: reservation
   },
+  {
+    path: '/menumng',
+    name: 'menumanager',
+    component: menumanager
+  }
  
 ]
 
