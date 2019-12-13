@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import HelloWorld from './components/reservation';
+import reservation from './components/reservation';
 
 export default {
   name: 'App',
