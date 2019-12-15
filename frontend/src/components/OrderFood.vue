@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import http from '../plugins/https';
   export default {
     data () {
       return {
