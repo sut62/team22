@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import reservation from '../components/reservation.vue'
 import menumanager from '../components/MenuManager.vue'
 import employeereg from '../components/EmployeeREG.vue'
+import member from '../components/member.vue'
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,12 @@ const routes = [
     path: '/employeereg',
     name: 'employeereg',
     component: employeereg
-  }
+  },
+   {
+    path: '/member',
+    name: 'member',
+    component: member
+  },
  
 ]
 
