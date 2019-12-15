@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import reservation from '../components/reservation.vue'
 import menumanager from '../components/MenuManager.vue'
+import employeereg from '../components/employeereg.vue'
 
 Vue.use(VueRouter)
 
