@@ -1,5 +1,5 @@
 package com.okta.springbootvue.entity;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +39,10 @@ public class reservations {
 	private member reservefor;
 	
 		@Column(name = "RESERVE_DATE_AND_TIME")
-	private Date reservedateandtime;
+	private LocalDateTime reservedateandtime;
+	
+		@Column(name = "SEATS")
+	private Integer seats;
 	
 		@ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
 		@JoinColumn(name = "table_id",insertable = true)
