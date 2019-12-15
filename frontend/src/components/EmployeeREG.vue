@@ -144,7 +144,7 @@
 
 <script>
 
-import https from '../plugins/https';
+import http from '../plugins/https';
 
 
 
