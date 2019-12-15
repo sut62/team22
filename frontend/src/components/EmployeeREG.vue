@@ -144,7 +144,7 @@
 
 <script>
 
-import http from "../http-common";
+import https from '../plugins/https';
 
 
 
