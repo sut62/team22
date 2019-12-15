@@ -16,6 +16,11 @@ const routes = [
     path: '/menumng',
     name: 'menumanager',
     component: menumanager
+  },
+  {
+    path: '/employeereg',
+    name: 'employeereg',
+    component: employeereg
   }
  
 ]
