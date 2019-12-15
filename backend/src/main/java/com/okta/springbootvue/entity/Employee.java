@@ -1,4 +1,4 @@
-package com.okta.springbootvue.entity;
+package com.cpe.backend.entity;
 
 import lombok.*;
 
@@ -21,6 +21,9 @@ import com.cpe.backend.entity.Age;
 import com.cpe.backend.entity.Gender;
 import com.cpe.backend.entity.Position;
 import com.cpe.backend.entity.Marital_Status;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -39,6 +42,7 @@ public class Employee {
 
     private @NonNull String E_ADDRESS;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private @NonNull Date E_BIRTH;
     
     private @NonNull String E_NUM;
@@ -47,7 +51,7 @@ public class Employee {
 
     private @NonNull Date E_REGDATE;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Prefix.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Age.class)
     @JoinColumn(name = "Age_ID", insertable = true)
     private Age age;
 
@@ -61,6 +65,6 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Marital_Status.class)
     @JoinColumn(name = "Marital_Status_ID", insertable = true)
-    private Marital_Status marital_status;
+    private Marital_Status marital_Status;
     
 }
