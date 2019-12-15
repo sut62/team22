@@ -4,6 +4,7 @@ import reservation from '../components/reservation.vue'
 import menumanager from '../components/MenuManager.vue'
 import employeereg from '../components/EmployeeREG.vue'
 import member from '../components/member.vue'
+import OrderFood from '../components/OrderFood.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,12 @@ const routes = [
     name: 'member',
     component: member
   },
+  {
+    path: '/OrderFood',
+    name: 'OrderFood',
+    component: OrderFood
+  }
+  
  
 ]
 
