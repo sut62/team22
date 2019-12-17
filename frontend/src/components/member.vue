@@ -17,11 +17,19 @@
       >
       </v-combobox>
       </v-col>
-      <v-col cols="10">
+      <v-col cols="6">
     <v-text-field
       v-model="member.name"      
       label="ชื่อ-สกุล"  
     ></v-text-field>
+      </v-col>
+      <v-col cols="2">
+      <v-combobox 
+      label="เพศ"
+      v-modle="member.genders"
+      :items="gender"
+      >
+      </v-combobox>
       </v-col>
     </v-row>
 
