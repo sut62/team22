@@ -23,7 +23,7 @@ public class TableNumberController {
     }
 
     @GetMapping("/TableNumber")
-    public Collection<TableNumber> ParcelStores() {
+    public Collection<TableNumber> TableNumbers() {
         return tableNumberRepository.findAll().stream().collect(Collectors.toList());
     }
 
