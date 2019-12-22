@@ -1,12 +1,13 @@
 package com.okta.springbootvue.repository;
 
-import com.okta.springbootvue.entity.services;
+import com.okta.springbootvue.entity.reservations;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public
-interface ServicesReservation extends JpaRepository<services, Long> {
-	services findById(long id);
+interface ReservationsRepository extends JpaRepository<reservations, Long> {
+	reservations findById(long id);
 }

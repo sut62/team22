@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.cpe.backend.entity.Prefix;
-import com.cpe.backend.repository.PrefixRepository;
+import com.okta.springbootvue.entity.Prefix;
+import com.okta.springbootvue.repository.PrefixRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 

@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.cpe.backend.entity.Marital_Status;
-import com.cpe.backend.repository.Marital_StatusRepository;
+import com.okta.springbootvue.entity.Marital_Status;
+import com.okta.springbootvue.repository.Marital_StatusRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 

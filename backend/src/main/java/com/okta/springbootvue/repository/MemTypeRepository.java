@@ -1,12 +1,12 @@
-package com.cpe.backend.repository;
+package com.okta.springbootvue.repository;
 
-import com.cpe.backend.entity.MemType;
+import com.okta.springbootvue.entity.MenuType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public
-interface MemTypeRepository extends JpaRepository<MemType, Long> {
-    MemType findById(long id);
+interface MemTypeRepository extends JpaRepository<MenuType, Long> {
+    MenuType findById(long id);
 }

@@ -1,8 +1,10 @@
-package main.java.com.okta.springbootvue.controller;
+package com.okta.springbootvue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -25,7 +27,7 @@ public class ReservationsController {
     }
 
     @GetMapping("/reservs")
-    public Collection<newresavations> newresavations() {
+    public Collection<reservations> newresavations() {
         return ReservationsRepository.findAll().stream().collect(Collectors.toList());
     }
 
@@ -41,7 +43,7 @@ public class ReservationsController {
   ) {
   
     Member reservefor = MemberRepository.findById(member_id);
-    tables has = TableRepository.findById(table_id);
+    tables has = TablesRepository.findById(table_id);
     services serviceto = ServicesRepository.findById(service_id);
     LocalDateTime datetime = LocalDateTime.parse(reservs_date+"T"+reservs_time);
     

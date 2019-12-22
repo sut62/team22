@@ -1,7 +1,7 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
-import com.cpe.backend.entity.DishSize;
-import com.cpe.backend.repository.DishSizeRepository;
+import com.okta.springbootvue.entity.DishSize;
+import com.okta.springbootvue.repository.DishSizeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

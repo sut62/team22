@@ -12,13 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 	@Data
 	@Entity
 	@Getter @Setter
@@ -36,7 +30,7 @@ public class reservations {
 	
 		@ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
 		@JoinColumn(name = "MEMBER_ID")
-	private member reservefor;
+	private Member reservefor;
 	
 		@Column(name = "RESERVE_DATE_AND_TIME")
 	private LocalDateTime reservedateandtime;

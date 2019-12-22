@@ -1,7 +1,7 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
-import com.cpe.backend.entity.Menu;
-import com.cpe.backend.repository.MenuRepository;
+import com.okta.springbootvue.entity.Menu;
+import com.okta.springbootvue.repository.MenuRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

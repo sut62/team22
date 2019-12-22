@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,8 +19,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.net.URLDecoder;
 
-import com.cpe.backend.entity.*;
-import com.cpe.backend.repository.*;
+import com.okta.springbootvue.entity.*;
+import com.okta.springbootvue.repository.*;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -30,7 +30,7 @@ public class OrderFoodController {
     @Autowired
     private final OrderFoodRepository orderfoodRepository;
     @Autowired
-    private TableNumberRepository tablenumberRepository;
+    private TablesRepository tablenumberRepository;
     @Autowired
     private MenuRepository menuRepository;
     @Autowired

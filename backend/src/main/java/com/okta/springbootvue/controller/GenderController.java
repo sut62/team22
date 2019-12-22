@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.cpe.backend.entity.Gender;
-import com.cpe.backend.repository.GenderRepository;
+import com.okta.springbootvue.entity.Gender;
+import com.okta.springbootvue.repository.GenderRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
