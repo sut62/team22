@@ -1,11 +1,26 @@
-<template>
+<template >
+
+  <v-container>
+    
   <div class="home">
+    
     <v-row justify="center">
-      <div class="brown--text text--darken-1 headline mt-8">กรอกข้อมูลพนักงาน</div>
+      <v-col cols="6" sm="6" md="3" class="mt-0 ">
+        </v-col>
+    </v-row>
+
+    <v-row justify="center">
+      <div class="black--text text--white headline mt-8 ">Employee Register</div>
     </v-row>
 
     <v-row justify="center" class="mt-8">
-      <v-col cols="6" sm="6" md="3" class="mt-0">
+     <v-col cols="6" sm="6" md="3" class="mt-0 white"></v-col>
+     <v-col cols="6" sm="6" md="3" class="mt-0 white"></v-col>
+    </v-row>
+
+    <v-row justify="center" class="mt-0">
+      
+      <v-col cols="6" sm="6" md="3" class="mt-0 white">
         <v-text-field
           label="ชื่อ-นามสกุล"
           v-model="Employee.name"
@@ -16,7 +31,7 @@
 
     
 
-      <v-col cols="6" sm="6" md="3" class="mt-0">
+      <v-col cols="6" sm="6" md="3" class="mt-0 white">
         <v-autocomplete
           label="อายุ"
           outlined
@@ -30,8 +45,8 @@
       </v-col>
     </v-row>
 
-    <v-row justify="center">
-      <v-col class="d-flex mt-0" cols="6" sm="3">
+    <v-row justify="center ">
+      <v-col class="d-flex mt-0  white" cols="6" sm="3">
         <v-text-field
           label="เบอร์โทรศัพท์"
           v-model="Employee.tel"
@@ -40,7 +55,7 @@
         ></v-text-field>
       </v-col>
 
-      <v-col cols="6" sm="6" md="3" class="mt-0">
+      <v-col cols="6" sm="6" md="3" class="mt-0 white">
         <v-autocomplete
           label="เพศ"
           outlined
@@ -54,7 +69,7 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col cols="6" sm="6" md="6" class="mt-0">
+      <v-col cols="6" sm="6" md="6" class="mt-0 white">
         <v-text-field
           label="ที่อยู่"
           v-model="Employee.address"
@@ -65,7 +80,7 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col class="d-flex mt-0" cols="6" sm="3">
+      <v-col class="d-flex mt-0 white" cols="6" sm="3">
         <v-text-field
           label="เลขบัตรประชาชน"
           v-model="Employee.enum"
@@ -74,7 +89,7 @@
         ></v-text-field>
       </v-col>
 
-      <v-col class="d-flex mt-0" cols="6" sm="3">
+      <v-col class="d-flex mt-0 white" cols="6" sm="3">
         <v-autocomplete
           label="สถานภาพ"
           outlined
@@ -90,7 +105,7 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col cols="6" sm="6" md="3" class="mt-0">
+      <v-col cols="6" sm="6" md="3" class="mt-0 white">
         <v-menu
                   ref="menu"
                   v-model="menu"
@@ -118,7 +133,7 @@
                 </v-menu>
       </v-col>
 
-      <v-col cols="6" sm="6" md="3" class="mt-0">
+      <v-col cols="6" sm="6" md="3" class="mt-0 white">
         <v-autocomplete
           label="ตำแหน่ง"
           outlined
@@ -132,19 +147,25 @@
       </v-col>
     </v-row>
 
-    
-
     <v-row justify="center">
-      <v-btn @click="saveEmployee" :class="{ red: !valid, green: valid }">save</v-btn>
+      <v-col cols="6" sm="6" md="6" class="mt-0 white">
+
+        <v-btn @click="saveEmployee" block color="secondary" dark>save</v-btn>
+
+      </v-col>
     </v-row>
+    
+    <v-col cols="6" sm="6" md="3" class="mt-0"></v-col>
   </div>
+
+  </v-container>
 </template>
 
 
 
 <script>
 
-import http from '../plugins/https';
+import http from "../http-common";
 
 
 
@@ -262,9 +283,12 @@ export default {
         )
         .then(response => {
           console.log(response);
+          alert("ลงทะเบียนสำเร็จ")
+          location.reload();
         })
         .catch(e => {
           console.log(e);
+          alert("ลงทะเบียนไม่สำเร็จ")
         });
       this.submitted = true;
     },
