@@ -26,7 +26,7 @@ public class reservations {
 	    @SequenceGenerator(name="RESERVATIONS_SEQ",sequenceName="RESERVATIONS_SEQ")               
 	    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="RESERVATIONS_SEQ")  
 	    @Column(name="RESERVATIONS_ID",unique = true, nullable = true)	
-	private @NonNull Long id;
+	private  long id;
 	
 		@ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
 		@JoinColumn(name = "MEMBER_ID")
