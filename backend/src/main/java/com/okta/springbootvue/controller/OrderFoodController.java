@@ -46,7 +46,7 @@ public class OrderFoodController {
 
     }
     
-    @PostMapping("/Order/{tablenumber_id}/{menu_id}/{dishsize_id}")
+    @PostMapping("/Order/{tablenumber_id}/{menu_id}/{dishnumber}/{dishsize_id}")
     public OrderFood newOrder(OrderFood newOrderFood,
     @PathVariable long tablenumber_id,
     @PathVariable long menu_id,
