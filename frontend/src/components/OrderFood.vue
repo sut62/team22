@@ -25,8 +25,8 @@
           :items="tablenumbers"
           item-text="number"
           item-value="id"
-          :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
-          
+          :rules="[(v) => !!v || 'ยังไม่ได้เลือกโต๊ะ']"
+           solo
         ></v-select>
       </v-col>
 
@@ -37,8 +37,8 @@
           :items="menus"
           item-text="name"
           item-value="id"
-          :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
-          
+          :rules="[(v) => !!v || 'ยังไม่ได้เลือกอาหาร']"
+          solo
         ></v-select>
       </v-col>
 
@@ -46,7 +46,8 @@
         <v-text-field
             label="จำนวน"
             v-model="orderfood.dishnumber"
-            :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
+            :rules="[(v) => !!v || 'ยังไม่ได้เลือกจำนวน']"
+            solo
           ></v-text-field>
       </v-col>
 
@@ -57,8 +58,8 @@
           :items="dishsizes"
           item-text="size"
           item-value="id"
-          :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
-          
+          :rules="[(v) => !!v || 'ยังไม่ได้เลือกขนาดจาน']"
+          solo
         ></v-select>
       </v-col>
     </v-row>
