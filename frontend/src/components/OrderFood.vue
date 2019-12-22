@@ -20,44 +20,51 @@
    <v-row align="center">
       <v-col class="d-flex" cols="12" sm="6">
          <v-select
-          v-model="e1"
-          :items="num"
           label="เลือกโต๊ะ"
+          v-model="orderfood.tablenumberId"
+          :items="tablenumbers"
+          item-text="number"
+          item-value="id"
           :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
-          chips
+          
         ></v-select>
       </v-col>
 
       <v-col class="d-flex" cols="12" sm="6">
          <v-select
-          v-model="e2"
-          :items="states"
           label="เลือกเมนูอาหาร"
+          v-model="orderfood.menuId"
+          :items="menus"
+          item-text="name"
+          item-value="id"
           :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
-          chips
+          
         ></v-select>
       </v-col>
 
       <v-col class="d-flex" cols="12" sm="6">
         <v-text-field
             label="จำนวน"
+            v-model="orderfood.dishnumber"
             :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
           ></v-text-field>
       </v-col>
 
       <v-col class="d-flex" cols="12" sm="6">
         <v-select
-          v-model="e4"
-          :items="scale"
           label="ขนาด"
+          v-model="orderfood.dishsizeId"
+          :items="dishsizes"
+          item-text="size"
+          item-value="id"
           :rules="[(v) => !!v || 'ยังไม่ได้เลือกพัสดุ']"
-          chips
+          
         ></v-select>
       </v-col>
     </v-row>
    
       <div class = "text-center" cols="12" sm="4">
-        <v-btn class="{ red: !valid, green: valid }">SAVE</v-btn>
+        <v-btn @click="saveOrderFood" :class="{ red: !valid, green: valid }" color=" white--text">SAVE</v-btn>
       </div>
     </v-form>
 
@@ -75,39 +82,124 @@
 </template>
 
 <script>
+import http from "../plugins/https";
+
   export default {
+    name: "orderfood",
     data () {
       return {
-         e1: [],
-         e2: [],
-         e3: [],
-         e4: [],
+         orderfood: {
+           menuId: "",
+           tablenumberId: "",
+           dishsizeId: "",
+           dishnumber: ""
+         },
         loading: true,
-        states: [
-          'ข้าวไข่เจียว','ข้าวกะเพราหมู'
-        ],
-        num: [
-          '1','2','3','4'
-        ],
-        scale: [
-          'เล็ก','กลาง','ใหญ่'
-        ],
         headers: [
           {
             text: 'TABLE',
             align: 'left',
             sortable: false,
-            value: 'name',
+            value: 'tablenumber.number',
           },
-          { text: 'MENU', value: 'MENU' },
-          { text: 'DishSize', value: 'DishSize' },
-          { text: 'DishNumber', value: 'DishNumber' }
+          { text: 'MENU', value: 'menu.name' },
+          { text: 'DishSize', value: 'dishsize.size' },
+          { text: 'DishNumber', value: 'dishnumber' }
         ],
-      }
+        valid : false,
+        tablenumber: [],
+        menus: [],
+        dishsizes: []
+      };
     },
     methods: {
+      /* eslint-disable no-console */
+      getTableNunber() {
+         http
+        .get("/TableNumber")
+        .then(response => {
+          this.tablenumbers = response.data;
+          console.log(response.data);          
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      },
+       getMenu() {
+         http
+        .get("/Menu")
+        .then(response => {
+          this.menus = response.data;
+          console.log(response.data);          
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      },
+       getDishSize() {
+         http
+        .get("/DishSize")
+        .then(response => {
+          this.dishsizes = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      },
+      saveOrderFood() {
+      http
+        .post(
+          "/Order/" +
+            this.orderfood.tablenumberId +
+            "/"+
+            this.orderfood.menuId +
+            "/" +
+            this.orderfood.dishnumber +
+            "/" + 
+            this.orderfood.dishsizeId
+        )
+        
+        .then(response => {
+          this.getTableNunber();
+          this.getMenu();
+          this.getDishSize();
+          this.getOrderFood();
+          this.clear();
+          console.log(response);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      //location.reload();  
+      this.submitted = true;
+    },
+    getOrderFood() {
+      http
+        .get("/Order")
+        .then(response => {
+          this.items = response.data;
+          console.log(this.items);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+      refreshList() {
+        this.getTableNunber();
+        this.getMenu();
+        this.getDishSize();
+        this.getOrderFood();
+      }
+       /* eslint-enable no-console */
+    },
+      mounted() {
+        this.getTableNunber();
+        this.getMenu();
+        this.getDishSize();
+        this.getOrderFood();
     }
-  }
+  };
 </script>
 <style>
 /* Helper classes */
