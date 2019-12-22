@@ -9,45 +9,62 @@
     <br><br>
     <v-row justify="center">
       <v-col cols="2">
-      <v-combobox 
+      <v-select 
       label="คำนำหน้าชื่อ"
-      v-modle="member.prefixs"
+      v-model="Member.prefixID"
       :items="prefix"
+      item-text="name"
+      item-value="id"
       prepend-icon="mdi-human-male-female"
       >
-      </v-combobox>
+      </v-select>
       </v-col>
       <v-col cols="6">
     <v-text-field
-      v-model="member.name"      
+      v-model="Member.name"      
       label="ชื่อ-สกุล"  
     ></v-text-field>
       </v-col>
       <v-col cols="2">
-      <v-combobox 
+      <v-select 
       label="เพศ"
-      v-modle="member.genders"
+      v-model="Member.genderID"
       :items="gender"
+      item-text="name"
+      item-value="id"
       >
-      </v-combobox>
+      </v-select>
       </v-col>
     </v-row>
 
     <v-row justify="center">
-		<v-menu max-width="290" >
-      <template v-slot:activator="{ on }">
-        <v-text-field
-        readonly
-        label="วันเดือนปีเกิด"
-        prepend-icon="mdi-calendar-range"
-        :value="formattedDate"
-        v-on="on"
-      ></v-text-field>
-      </template>
-      <v-date-picker v-model="date" ></v-date-picker>
-    </v-menu>
+		<v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :return-value.sync="date"
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="date"
+                      label="วัน/เดือน/ปีเกิด"
+                      prepend-icon="event"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="date" locale="th" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                  </v-date-picker>
+                </v-menu>
     <v-text-field
-      v-model="member.tel"      
+      v-model="Member.tel"      
       label="เบอร์โทร"  
        prepend-icon="mdi-dialpad"
     ></v-text-field>
@@ -55,27 +72,31 @@
 
     <v-row justify="center">
     <v-text-field
-      v-model="member.mail"      
+      v-model="Member.mail"      
       label="E-mail"  
        prepend-icon="mdi-message-text"
     ></v-text-field>
-    <v-combobox
+    <v-select
       label="ประเภทสมาชิก"
-      v-model="member.memtype"
+      v-model="Member.memtypeID"
       :items="memtype"
+      item-text="name"
+      item-value="id"
       prepend-icon="mdi-table-chair"
     >
-    </v-combobox>
+    </v-select>
     </v-row>
     
     <v-row justify="center">
-    <v-combobox
+    <v-select
       label="พนักงานที่ลงทะเบียน"
-      v-modle="member.employees"
+      v-model="Member.employeeID"
       :items="employee"
+      item-text="name"
+      item-value="id"
       prepend-icon="info"
     >
-    </v-combobox>
+    </v-select>
     </v-row>
     <br><br>
     <v-row justify="center">
@@ -87,52 +108,132 @@
     </v-btn>
     </v-row>
     <br><br><br>
-    <span class="display font-weight-light white--text">*สมัครเลยวันนี้ "ลูกค้าบัตรสมาชิกVIPลดเลยทันที 10% บัตรสมาชิกนักศึกษาลดเลยทันที 7%"</span>
+    <span class="display font-weight-light white--text">*สมัครเลยวันนี้ "ลูกค้าบัตรสมาชิกVIPลดเลยทันที 10% บัตรสมาชิกนักศึกษาลดเลยทันที 5% บัตรทั่วไปลดทันที 7%"</span>
     <br>
-    <span class="display font-weight-light white--text">*นักศึกษาเพียงแสดงบัตร สมัครฟรี!! บัตรVIPมีค่าสมัครเพียง 200 บาท"</span>
+    <span class="display font-weight-light white--text">*นักศึกษาเพียงแสดงบัตร สมัครฟรี!! บัตรVIPมีค่าสมัครเพียง 200 บาท บัตรทั่วไปมีค่าสมัคร 100 บาท"</span>
   </v-container>
   
 </template>
 
 <script>
-import format from 'date-fns/format'
-import parselISO from 'date-fns/parseISO'
-export default {
-  name: 'HelloWorld',
-  
-  data: () => ({
-        date:null,
-        HH:['10','11','12','13','14','15','16','17','18','19','20','21','22'],
-        MM:["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"],
-        SS:["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"],
-        member:{
-          time:null,
-          
-        },
-        
-  }),
-  
-  computed:{
-    formattedDate(){
-      return this.date ? format(parselISO(this.date), 'do MMM YYY') : ''
-    }
-  },
-  methods:{
-    save(){
+import http from "../plugins/http";
 
+export default {
+ name: "Member",
+  data() {
+    return {
+      Member: {
+        name: "",
+        tel: "",
+        mail: "",
+        employeeID: "",
+        genderID: "",
+        prefixID: "",
+        memtypeID: ""
+      },
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      prefix: [],
+      employee: [],
+      gender: [],
+      memtype: [],
+      items: [],
+      valid: false
+    };
+  },
+  
+  methods:{
+     /* eslint-disable no-console */
+    save(){
+      http
+        .post(
+          "/members/" +
+            this.Member.prefixID +
+            "/" +
+            this.Member.name +
+            "/" +
+            this.Member.genderID +
+            "/" +
+            this.date +
+            "/" +
+            this.Member.tel +
+            "/" +
+            this.Member.mail +
+            "/" +
+            this.Member.memtypeID +
+            "/" +
+            this.Member.employeeID 
+             
+        )
+        .then(response => {
+          alert("ลงทะเบียนสำเร็จ");
+          console.log(response);
+          window.location.reload()
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    clear() {
+      this.$refs.form.reset();
     },
     getPrefix(){
-
+       http
+        .get("/prefixes")
+        .then(response => {
+          this.prefix = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    getGender(){
+       http
+        .get("/genders")
+        .then(response => {
+          this.gender = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     getMemType(){
-
+      http
+        .get("/memTypes")
+        .then(response => {
+          this.memtype = response.data;
+          console.log(this.items);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     getEmployee(){
-
+      http
+        .get("/employees")
+        .then(response => {
+          this.employee = response.data;
+          console.log(this.items);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
-
-    
+    refreshList() {
+      this.getPrefix();
+      this.getGender();
+      this.getMemType();
+      this.getEmployee();
+    }
+    /* eslint-enable no-console */
+  },
+  mounted() {
+    this.getPrefix();
+    this.getGender();
+    this.getMemType();
+    this.getEmployee();
   }
-   
-}
+};
 </script>
