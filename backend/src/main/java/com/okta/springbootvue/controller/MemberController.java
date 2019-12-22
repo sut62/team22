@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,18 +22,12 @@ import java.net.URLDecoder;
 import java.text.SimpleDateFormat; 
 import java.text.ParseException;
 
-import com.cpe.backend.entity.MemType;
-import com.cpe.backend.entity.Gender;
-import com.cpe.backend.entity.Prefix;
-import com.cpe.backend.entity.Employee;
-import com.cpe.backend.entity.Member;
+import com.okta.springbootvue.entity.*;
 
 
-import com.cpe.backend.repository.MemTypeRepository;
-import com.cpe.backend.repository.GenderRepository;
-import com.cpe.backend.repository.PrefixRepository;
-import com.cpe.backend.repository.EmployeeRepository;
-import com.cpe.backend.repository.MemberRepository;
+
+import com.okta.springbootvue.repository.*;
+
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;

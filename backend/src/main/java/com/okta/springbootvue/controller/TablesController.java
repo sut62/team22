@@ -1,4 +1,4 @@
-package main.java.com.okta.springbootvue.controller;
+package com.okta.springbootvue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import com.okta.springbootvue.entity.tables;
-import com.okta.springbootvue.repository.TableRepository;
+import com.okta.springbootvue.repository.TablesRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class TablesController {
 
     @Autowired
-    private final TableRepository TableRepository;
+    private final TablesRepository TableRepository;
 
-    public TablesController(TableRepository TableRepository) {
+    public TablesController(TablesRepository TableRepository) {
         this.TableRepository = TableRepository;
     }
 
     @GetMapping("/tables")
     public Collection<tables> tables() {
-        return TableRepository.findAll().stream().collect(Collectors.toList());
+        return TablesRepository.findAll().stream().collect(Collectors.toList());
     }
 
 }

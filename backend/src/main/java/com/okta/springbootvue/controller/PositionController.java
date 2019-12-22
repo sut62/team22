@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.cpe.backend.entity.Position;
-import com.cpe.backend.repository.PositionRepository;
+import com.okta.springbootvue.entity.Position;
+import com.okta.springbootvue.repository.PositionRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 

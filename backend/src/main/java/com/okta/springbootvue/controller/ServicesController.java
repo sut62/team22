@@ -1,4 +1,4 @@
-package main.java.com.okta.springbootvue.controller;
+package com.okta.springbootvue.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-public class ServiesController {
+public class ServicesController {
 
     @Autowired
     private final ServicesRepository ServicesRepository;
 
-    public ServiesController(ServicesRepository ServicesRepository) {
+    public ServicesController(ServicesRepository ServicesRepository) {
         this.ServicesRepository = ServicesRepository;
     }
 
     @GetMapping("/services")
     public Collection<services> services() {
-        return ServiesController.findAll().stream().collect(Collectors.toList());
+        return ServicesController.findAll().stream().collect(Collectors.toList());
     }
 
 }

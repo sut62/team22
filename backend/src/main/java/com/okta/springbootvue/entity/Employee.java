@@ -1,4 +1,4 @@
-package com.cpe.backend.entity;
+package com.okta.springbootvue.entity;
 
 import lombok.*;
 
@@ -17,10 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-import com.cpe.backend.entity.Age;
-import com.cpe.backend.entity.Gender;
-import com.cpe.backend.entity.Position;
-import com.cpe.backend.entity.Marital_Status;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 

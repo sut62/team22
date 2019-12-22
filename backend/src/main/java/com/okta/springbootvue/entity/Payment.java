@@ -32,9 +32,9 @@ public class Payment {
     @Column(name = "PAYMENT_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Order.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderFood.class)
     @JoinColumn(name = "ORDER_ID", insertable = true)
-    private Order select_order;
+    private OrderFood select_order;
 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)

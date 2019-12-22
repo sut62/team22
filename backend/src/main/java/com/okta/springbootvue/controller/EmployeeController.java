@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,20 +23,9 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 
-import com.cpe.backend.entity.Age;
-import com.cpe.backend.entity.Gender;
-import com.cpe.backend.entity.Position;
-import com.cpe.backend.entity.Marital_Status;
-import com.cpe.backend.entity.Employee;
+import com.okta.springbootvue.entity.*;
+import com.okta.springbootvue.repository.*;
 
-
-
-
-import com.cpe.backend.repository.AgeRepository;
-import com.cpe.backend.repository.GenderRepository;
-import com.cpe.backend.repository.Marital_StatusRepository;
-import com.cpe.backend.repository.PositionRepository;
-import com.cpe.backend.repository.EmployeeRepository;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;

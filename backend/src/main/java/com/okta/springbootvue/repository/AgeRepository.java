@@ -1,6 +1,6 @@
-package com.cpe.backend.repository;
+package com.okta.springbootvue.repository;
 
-import com.cpe.backend.entity.Age;
+import com.okta.springbootvue.entity.Age;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;

@@ -1,4 +1,4 @@
-package com.cpe.backend.entity;
+package com.okta.springbootvue.entity;
 
 import lombok.*;
 
@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,9 +33,9 @@ public class OrderFood {
     private @NonNull Long dishnumber;
 
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = TableNumber.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
     @JoinColumn(name = "TableNumber_ID", insertable = true)
-    private TableNumber tablenumber;
+    private tables tables;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Menu.class)
     @JoinColumn(name = "Menu_ID", insertable = true)
