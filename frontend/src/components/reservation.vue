@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-12 ml-12">
     <v-text-field
-      v-model="reservation.customer"      
+      v-model.number="reservation.customer"      
       label="Customer ID"  
       prepend-icon="mdi-human-male-female"
     ></v-text-field>
@@ -23,7 +23,7 @@
     </v-menu>
     <v-row class="ml-0">
         <v-menu
-          ref="menu"
+         
           v-model="menu1"
           :close-on-content-click="false"
           :nudge-right="40"
@@ -49,30 +49,39 @@
               v-if="menu1"
               v-model="reservation.time"
               full-width
+              format="24hr"
               @click:minute="$ref.menu.save(time)"
             ></v-time-picker>
         </v-menu>
      </v-row>
-    <v-combobox
+    <v-select
       label="Select Table"
       v-model="reservation.table"
       :items="table"
+      item-text="id"
+      item-value="id"
       prepend-icon="mdi-table-chair"
+      return-object
     >
-    </v-combobox>
-    <v-combobox
+    </v-select>
+    <v-select
       label="Select Number of Seats"
-      v-modle="reservation.seats"
+      v-model="reservation.seats"
       :items="seat"
+      item-text="id"
+      item-value="id"
       prepend-icon="mdi-seat"
+     
     >
-    </v-combobox>
-    <v-combobox
+    </v-select>
+    <v-select
+      :items="services"
+      v-model="reservation.service"
       label="Select Service"
-      v-modle="reservation.service"
-      :items="service"
-    >
-    </v-combobox>
+      item-text="serviceName"
+      item-value="id"
+      prepend-icon="mdi-room-service"
+    ></v-select>
     <v-btn color="success"
       @click="save"
       
@@ -87,38 +96,81 @@ import format from 'date-fns/format'
 import parselISO from 'date-fns/parseISO'
 import https from '../plugins/https'
 export default {
-  name: 'HelloWorld',
+  name: 'reservation',
 
   data: () => ({
         menu1:false,
         date:null,
+        service:null,
         reservation:{
-          time:null,
+          time:'',
           table:'',
-          seats:null,
+          seats:'',
           customer:'',
           service:'',
         },
-        service:null,
-        
+        services:[],
+        findmember:false,
+        table:[],
+        seat:[],
   }),
   computed:{
     formattedDate(){
       return this.date ? format(parselISO(this.date), 'do MMM YYY') : ''
-    }
+    },
+    seats(){
+      return this.reservation.table
+    },
+    
+    
   },
   methods:{
     customerchk(){
-
+      https.get("/members/"+this.reservation.customer).then( doc =>{
+              if(doc.data!=null){
+                this.findmember = true
+              }
+              else{
+                this.findmember = false
+                this.reservation.customer = null
+              }
+      })
     },
+  
     save(){
-
+        https.post("/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats)
     },
     getTables(){
+       https.get("/tableses").then( doc =>{
 
+                      this.table=doc.data
+                  
+                   
+      })
+    },
+    getService(){
+        https.get("/serviceses").then( doc =>{
+              
+                      
+                  this.services=doc.data
+               
+                
+      })
     },
     
-  }
+  },
+  mounted(){
+    this.getTables()
+    this.getService()
    
+  },
+  watch:{
+    seats(){
+      let mxSeat = this.reservation.table.seats
+      for(let nseat = 1;nseat <= mxSeat;nseat++){
+        this.seat.push({id:nseat})
+      }
+    }
+  }  
 }
 </script>

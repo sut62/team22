@@ -23,9 +23,9 @@ public class ServicesController {
         this.ServicesRepository = ServicesRepository;
     }
 
-    @GetMapping("/services")
+    @GetMapping("/serviceses")
     public Collection<services> services() {
-        return ServicesController.findAll().stream().collect(Collectors.toList());
+        return ServicesRepository.findAll().stream().collect(Collectors.toList());
     }
 
 }

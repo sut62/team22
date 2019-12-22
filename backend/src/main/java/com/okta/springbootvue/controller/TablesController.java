@@ -23,9 +23,9 @@ public class TablesController {
         this.TableRepository = TableRepository;
     }
 
-    @GetMapping("/tables")
+    @GetMapping("/tableses")
     public Collection<tables> tables() {
-        return TablesRepository.findAll().stream().collect(Collectors.toList());
+        return TableRepository.findAll().stream().collect(Collectors.toList());
     }
 
 }
