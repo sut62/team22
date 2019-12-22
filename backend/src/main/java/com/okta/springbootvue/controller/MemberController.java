@@ -1,4 +1,4 @@
-package com.okta.springbootvue.controller;
+package com.cpe.backend.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,12 +22,18 @@ import java.net.URLDecoder;
 import java.text.SimpleDateFormat; 
 import java.text.ParseException;
 
-import com.okta.springbootvue.entity.*;
+import com.cpe.backend.entity.MemType;
+import com.cpe.backend.entity.Gender;
+import com.cpe.backend.entity.Prefix;
+import com.cpe.backend.entity.Employee;
+import com.cpe.backend.entity.Member;
 
 
-
-import com.okta.springbootvue.repository.*;
-
+import com.cpe.backend.repository.MemTypeRepository;
+import com.cpe.backend.repository.GenderRepository;
+import com.cpe.backend.repository.PrefixRepository;
+import com.cpe.backend.repository.EmployeeRepository;
+import com.cpe.backend.repository.MemberRepository;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,12 +57,17 @@ public class MemberController {
         this.memberRepository = memberRepository;
     }
 
-    @GetMapping("/Member")
+    @GetMapping("members")
     public Collection<Member> Members() {
         return memberRepository.findAll().stream().collect(Collectors.toList());
     }
+    @GetMapping("/members/{id}")
+    public Optional<Member> Members(@PathVariable Long id) {
+        Optional<Member> member = memberRepository.findById(id);
+        return member;
+    }
 
-    @PostMapping("/Member/{prefix_id}/{name}/{birth}/{tel}/{gender_id}/{mail}/{memtype_id}/{employee_id}")
+    @PostMapping("/members/{prefix_id}/{name}/{gender_id}/{birth}/{tel}/{mail}/{memtype_id}/{employee_id}")
     public Member newMember(Member newMember,
     @PathVariable long prefix_id,
     @PathVariable long gender_id,
