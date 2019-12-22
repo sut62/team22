@@ -5,6 +5,7 @@ import menumanager from '../components/MenuManager.vue'
 import employeereg from '../components/EmployeeREG.vue'
 import member from '../components/member.vue'
 import OrderFood from '../components/OrderFood.vue'
+import payment from '../components/Payment.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/OrderFood',
     name: 'OrderFood',
     component: OrderFood
+  },
+  {
+    path: '/',
+    name: 'payment',
+    component: payment
   }
   
  
