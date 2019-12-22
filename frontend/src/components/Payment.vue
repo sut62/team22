@@ -18,7 +18,6 @@
       <v-row justify="center">
         <v-col cols="8">
           <v-form v-model="valid" ref="form">
-
             <v-combobox
               label="เลือกออเดอร์"
               v-model="payment.order"
