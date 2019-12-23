@@ -1,4 +1,4 @@
-package com.cpe.backend.controller;
+package com.okta.springbootvue.controller;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -42,7 +42,7 @@ public class MemberController {
         this.memberRepository = memberRepository;
     }
 
-    @GetMapping("members")
+    @GetMapping("/members")
     public Collection<Member> Members() {
         return memberRepository.findAll().stream().collect(Collectors.toList());
     }
