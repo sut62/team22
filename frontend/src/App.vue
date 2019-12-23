@@ -6,7 +6,7 @@
     <v-row no-gutters>
       <v-col  :cols="3">
         <v-card class="align-end fill-height" :width="295" color="#aaceee">
-          <v-navigation-drawer color="#aaceee" >
+          <v-navigation-drawer color="#aacee4" >
             <h1>Restuarant</h1>
             <v-btn color="#aaceee" tile :height="125" :width="300" to = "/" >Reservation</v-btn>
             <v-btn color="#aaceee" tile :height="125" :width="300" to = "/menumng" >Menu Management</v-btn>
