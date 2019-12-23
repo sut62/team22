@@ -1,4 +1,4 @@
-package com.cpe.backend.entity;
+package com.okta.springbootvue.entity;
 
 import lombok.*;
 import javax.persistence.Id;
