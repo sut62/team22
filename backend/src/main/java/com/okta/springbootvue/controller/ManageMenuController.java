@@ -27,38 +27,42 @@ import com.okta.springbootvue.repository.*;
 @RestController
 public class ManageMenuController {
   @Autowired
-  private final ManageMenuRepository ManageMenuRepository;
+  private final ManageMenuRepository ManageMenuRep;
   @Autowired
-  // private MenuCategoryRepository MenuCategoryRepository;
-  // @Autowired
-  // private MenuIngredientRepository MenuIngredientRepository;
-  // @Autowired
-  // private MenuTypeRepository MenuTypeRepository;
+  private MenuCategoryRepository MenuCategoryRep;
+  @Autowired
+  private MenuIngredientRepository MenuIngredientRep;
+  @Autowired
+  private MenuTypeRepository MenuTypeRep;
 
-  ManageMenuController(ManageMenuRepository ManageMenuRepository) {
-    this.ManageMenuRepository = ManageMenuRepository;
+  ManageMenuController(ManageMenuRepository ManageMenuRep) {
+    this.ManageMenuRep = ManageMenuRep;
   }
 
-  // @GetMapping("/ManageMenus")
-  // public Collection<ManageMenu> ManageMenus() {
-  //   return ManageMenuRepository.findAll().stream().collect(Collectors.toList());
-  // }
+  @GetMapping("/manageMenus")
+  public Collection<ManageMenu> ManageMenus() {
+    return ManageMenuRep.findAll().stream().collect(Collectors.toList());
+  }
 
-  // @PostMapping("/ManageMenus/{patient_id}/{foodmenu_id}/{sendtime_id}")
-  // public ManageMenu newManageMenu(ManageMenu newManageMenu,
-  // @PathVariable long patient_id,
-  // @PathVariable long foodmenu_id,
-  // @PathVariable long sendtime_id
-  // ) {
-  //
-  //   Patient selectPatient = PatientRepository.findById(patient_id);
-  //   FoodMenu selectFood = FoodMenuRepository.findById(foodmenu_id);
-  //   SendTime selectTime = SendTimeRepository.findById(sendtime_id);
-  //
-  //   newManageMenu.setSelectPatient(selectPatient);
-  //   newManageMenu.setSelectFood(selectFood);
-  //   newManageMenu.setSelectTime(selectTime);
-  //   newManageMenu.setCreateDate(new Date());
-  //   return ManageMenuRepository.save(newManageMenu); //บันทึก Objcet ชื่อ VideoRental
-  // }
+  @PostMapping("/manageMenus/{mname}/{mprice}/{categoryid}/{ingredientid}/{typeid}")
+  public ManageMenu newManageMenu(ManageMenu newMenu,
+  @PathVariable String mname,
+  @PathVariable Integer mprice,
+  @PathVariable long categoryid,
+  @PathVariable long ingredientid,
+  @PathVariable long typeid
+  ) {
+
+    MenuCategory selectCategory = MenuCategoryRep.findById(categoryid);
+    MenuIngredient selectIngredient = MenuIngredientRep.findById(ingredientid);
+    MenuType selectType = MenuTypeRep.findById(typeid);
+
+    newMenu.setMname(mname);
+    newMenu.setMprice(mprice);
+    newMenu.setSel_category(selectCategory);
+    newMenu.setSel_ingredient(selectIngredient);
+    newMenu.setSel_type(selectType);
+
+    return ManageMenuRep.save(newMenu);
+  }
 }

@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class MenuCategoryController {
 
     @Autowired
-    private final MenuCategoryRepository MenuCategoryRepository;
+    private final MenuCategoryRepository MenuCategoryRep;
 
-    public MenuCategoryController(MenuCategoryRepository MenuCategoryRepository) {
-        this.MenuCategoryRepository = MenuCategoryRepository;
+    public MenuCategoryController(MenuCategoryRepository MenuCategoryRep) {
+        this.MenuCategoryRep = MenuCategoryRep;
     }
 
-    @GetMapping("/MenuCategorys")
+    @GetMapping("/menuCategories")
     public Collection<MenuCategory> MenuCategorys() {
-        return MenuCategoryRepository.findAll().stream().collect(Collectors.toList());
+        return MenuCategoryRep.findAll().stream().collect(Collectors.toList());
     }
 
 }
