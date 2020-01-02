@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import com.okta.springbootvue.entity.MenuType;
-import com.okta.springbootvue.repository.MemTypeRepository;
+import com.okta.springbootvue.repository.MenuTypeRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class MenuTypeController {
 
     @Autowired
-    private final MemTypeRepository MemTypeRepository;
+    private final MenuTypeRepository MenuTypeRep;
 
-    public MenuTypeController(MemTypeRepository MemTypeRepository) {
-        this.MemTypeRepository = MemTypeRepository;
+    public MenuTypeController(MenuTypeRepository MenuTypeRep) {
+        this.MenuTypeRep = MenuTypeRep;
     }
 
-    @GetMapping("/MenuTypes")
+    @GetMapping("/menuTypes")
     public Collection<MenuType> MenuTypes() {
-        return MemTypeRepository.findAll().stream().collect(Collectors.toList());
+        return MenuTypeRep.findAll().stream().collect(Collectors.toList());
     }
 
 }
