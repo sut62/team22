@@ -34,7 +34,7 @@ public class OrderFood {
 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
-    @JoinColumn(name = "TableNumber_ID", insertable = true)
+    @JoinColumn(name = "tables_ID", insertable = true)
     private tables tables;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Menu.class)

@@ -30,7 +30,7 @@ public class OrderFoodController {
     @Autowired
     private final OrderFoodRepository orderfoodRepository;
     @Autowired
-    private TablesRepository tablenumberRepository;
+    private TablesRepository tablesRepository;
     @Autowired
     private MenuRepository menuRepository;
     @Autowired
@@ -46,19 +46,19 @@ public class OrderFoodController {
 
     }
     
-    @PostMapping("/Order/{tablenumber_id}/{menu_id}/{dishnumber}/{dishsize_id}")
+    @PostMapping("/Order/{tables_id}/{menu_id}/{dishnumber}/{dishsize_id}")
     public OrderFood newOrder(OrderFood newOrderFood,
-    @PathVariable long tablenumber_id,
+    @PathVariable long tables_id,
     @PathVariable long menu_id,
     @PathVariable long dishnumber,
     @PathVariable long dishsize_id) {
 
-    TableNumber tablenumber = tablenumberRepository.findById(tablenumber_id);
+    tables tables = tablesRepository.findById(tables_id);
     Menu menu = menuRepository.findById(menu_id);
     DishSize dishsize = dishsizeRepository.findById(dishsize_id);   
 
    
-    newOrderFood.setTablenumber(tablenumber);
+    newOrderFood.setTables(tables);
     newOrderFood.setMenu(menu);
     newOrderFood.setDishnumber(dishnumber);
     newOrderFood.setDishsize(dishsize);
