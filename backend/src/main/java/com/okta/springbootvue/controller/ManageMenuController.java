@@ -29,38 +29,39 @@ public class ManageMenuController {
   @Autowired
   private final ManageMenuRepository ManageMenuRep;
   @Autowired
-  private MenuCategoryRepository MenuCategoryRep;
+  private MenuCateRepository CateRep;
   @Autowired
-  private MenuIngredientRepository MenuIngredientRep;
+  private MenuIngreRepository IngreRep;
   @Autowired
-  private MenuTypeRepository MenuTypeRep;
+  private MenuTypeRepository TypeRep;
 
   ManageMenuController(ManageMenuRepository ManageMenuRep) {
     this.ManageMenuRep = ManageMenuRep;
   }
 
-  @GetMapping("/manageMenus")
+  @GetMapping("/ManageMenus")
   public Collection<ManageMenu> ManageMenus() {
     return ManageMenuRep.findAll().stream().collect(Collectors.toList());
   }
 
-  @PostMapping("/manageMenus/{mname}/{mprice}/{categoryid}/{ingredientid}/{typeid}")
-  public ManageMenu newManageMenu(ManageMenu newMenu,
-  @PathVariable String mname,
-  @PathVariable Integer mprice,
-  @PathVariable long categoryid,
-  @PathVariable long ingredientid,
-  @PathVariable long typeid
+  @PostMapping("/ManageMenus/{m_name}/{m_price}/{cate_name}/{ingre_name}/{type_name}")
+  public ManageMenu newMenu(ManageMenu newMenu,
+
+  @PathVariable String m_name,
+  @PathVariable String m_price,
+  @PathVariable long cate_name,
+  @PathVariable long ingre_name,
+  @PathVariable long type_name
   ) {
 
-    MenuCategory selectCategory = MenuCategoryRep.findById(categoryid);
-    MenuIngredient selectIngredient = MenuIngredientRep.findById(ingredientid);
-    MenuType selectType = MenuTypeRep.findById(typeid);
+    MenuCate selectCate = CateRep.findById(cate_name);
+    MenuIngre selectIngre = IngreRep.findById(ingre_name);
+    MenuType selectType = TypeRep.findById(type_name);
 
-    newMenu.setMname(mname);
-    newMenu.setMprice(mprice);
-    newMenu.setSel_category(selectCategory);
-    newMenu.setSel_ingredient(selectIngredient);
+    newMenu.setM_name(m_name);
+    newMenu.setM_price(m_price);
+    newMenu.setSel_cate(selectCate);
+    newMenu.setSel_ingre(selectIngre);
     newMenu.setSel_type(selectType);
 
     return ManageMenuRep.save(newMenu);
