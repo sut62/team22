@@ -34,6 +34,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MemberController {
     @Autowired
     private final MemberRepository memberRepository;
+    @Autowired
+    private PrefixRepository prefixRepository;
+    @Autowired
+    private GenderRepository genderRepository;
+    @Autowired
+    private MemTypeRepository memtypeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
     
     
 
