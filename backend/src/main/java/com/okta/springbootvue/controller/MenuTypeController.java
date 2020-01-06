@@ -23,7 +23,7 @@ public class MenuTypeController {
         this.TypeRep = TypeRep;
     }
 
-    @GetMapping("/MenuTypes")
+    @GetMapping("/menuTypes")
     public Collection<MenuType> MenuTypes() {
         return TypeRep.findAll().stream().collect(Collectors.toList());
     }

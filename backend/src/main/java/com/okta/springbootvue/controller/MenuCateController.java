@@ -20,7 +20,7 @@ public class MenuCateController {
         this.CateRep = CateRep;
     }
 
-    @GetMapping("/MenuCates")
+    @GetMapping("/menuCates")
     public Collection<MenuCate> MenuCates() {
         return CateRep.findAll().stream().collect(Collectors.toList());
     }
