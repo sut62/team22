@@ -34,17 +34,17 @@ public class Payment {
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderFood.class)
     @JoinColumn(name = "ORDER_ID", insertable = true)
-    private OrderFood select_order;
+    private OrderFood selectorderfood;
 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
     @JoinColumn(name = "MEMBER_ID", insertable = true)
-    private Member select_member;
+    private Member selectmember;
     
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
     @JoinColumn(name = "EMPLOYEE_ID", insertable = true)
-    private Employee select_employee;
+    private Employee selectemployee;
 
 
     
