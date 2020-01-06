@@ -5,7 +5,7 @@
       <v-col cols = 12>
         <v-container>
           <v-layout row wrap>
-            <v-col cols = 3>
+            <v-col cols = 2>
 
               <v-text-field
               v-model="ManageMenu.MENU_NAME"
@@ -27,69 +27,67 @@
               ></v-text-field>
 
               <br>
-              <v-combobox
-              v-model="ManageMenu.CATE_ID"
+              <v-select
+              v-model="ManageMenu.cid"
               :items="MenuCate"
               label="Menu Category"
               item-text="cname"
               item-value="cid"
-              multiple
               outlined
               dense
-              ></v-combobox>
+              ></v-select>
 
               <br>
-              <v-combobox
-              v-model="ManageMenu.INGRE_ID"
+              <v-select
+              v-model="ManageMenu.id"
               :items="MenuIngre"
               label="Menu Ingredient"
               item-text="iname"
               item-value="id"
-              multiple
               outlined
               dense
-              ></v-combobox>
+              ></v-select>
 
               <br>
-              <v-combobox
-              v-model="ManageMenu.TYPE_ID"
+              <v-select
+              v-model="ManageMenu.tid"
               :items="MenuType"
               label="Menu Type"
               item-text="tname"
               item-value="tid"
-              multiple
               outlined
               dense
-              ></v-combobox>
+              ></v-select>
 
               <br>
               <v-btn small @click="saveData">Add Menu</v-btn>
               <!-- @click="saveData" -->
             </v-col>
-            <v-col cols = 7>
+            <v-col cols = 8>
               <v-card
               class="mx-auto"
-              max-width="550"
+              max-width="850"
               outlined
               >
-              <v-simple-table style = "center" >
+              <v-simple-table
+              fixed-header>
                 <template v-slot:default>
                   <thead>
                     <tr>
                       <th class="text-left">Menu name</th>
-                      <th class="text-left">Price</th>
                       <th class="text-left">Category</th>
                       <th class="text-left">Ingredient</th>
                       <th class="text-left">Type</th>
+                      <th class="text-left">Price</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="item in showtable" :key="item.name">
-                      <td class="text-center">{{ item.sel_patient.id }}</td>
-                      <td class="text-center">{{ item.sel_patient.name }}</td>
-                      <td class="text-center">{{ item.sel_cate.cname }}</td>
-                      <td class="text-center">{{ item.sel_ingre.iname }}</td>
-                      <td class="text-center">{{ item.sel_type.tname }}</td>
+                      <td class="text-left">{{ item.m_name }}</td>
+                      <td class="text-left">{{ item.sel_cate.cname }}</td>
+                      <td class="text-left">{{ item.sel_ingre.iname }}</td>
+                      <td class="text-left">{{ item.sel_type.tname }}</td>
+                      <td class="text-left">{{ item.m_price+" .-" }}</td>
                     </tr>
                   </tbody>
                 </template>
@@ -110,27 +108,30 @@ export default {
   data(){
     return{
       ManageMenu:{
+        cid:"",
+        id:"",
+        tid:"",
       },
-      MENU_NAME:[],
-      MENU_PRICE:[],
+      MENU_NAME:"",
+      MENU_PRICE:"",
       MenuCate:[],
       MenuIngre:[],
       MenuType:[],
       showtable:[]
-    }
+    };
   },
   methods:{
     saveData(){
-      http.post("/ManageMenus/"+
+      http.post("/manageMenus/"+
       this.ManageMenu.MENU_NAME
       +"/"+
       this.ManageMenu.MENU_PRICE
       +"/"+
-      this.ManageMenu.CATE_ID.cid
+      this.ManageMenu.cid
       +"/"+
-      this.ManageMenu.INGRE_ID.id
+      this.ManageMenu.id
       +"/"+
-      this.ManageMenu.TYPE_ID.tid)
+      this.ManageMenu.tid)
       .then(response => {
         console.log(response);
         alert("เพิ่มเมนูสำเร็จ")
@@ -139,36 +140,36 @@ export default {
 
       })
       .catch(e => {
-          console.log(e);
-          alert("เพิ่มเมนูไม่สำเร็จ")
-        })
+        console.log(e);
+        alert("เพิ่มเมนูไม่สำเร็จ")
+      })
       ;
       this.submitted = true;
     },
 
     getMenuCate(){
 
-      http.get("/MenuCates").then(response => {
+      http.get("/menuCates").then(response => {
         this.MenuCate = response.data;
       });
       this.submitted = true;
     },
     getMenuIngre(){
 
-      http.get("/MenuIngres").then(response =>{
+      http.get("/menuIngres").then(response =>{
         this.MenuIngre = response.data;
       });
       this.submitted = true;
     },
     getMenuType(){
-      http.get("/MenuTypes").then(response =>{
+      http.get("/menuTypes").then(response =>{
         this.MenuType = response.data;
       });
       this.submitted = true;
 
     },
     getDataTable(){
-      http.get("/ManageMenus").then(response =>{
+      http.get("/manageMenus").then(response =>{
         this.showtable = response.data;
       });
       this.submitted = true;

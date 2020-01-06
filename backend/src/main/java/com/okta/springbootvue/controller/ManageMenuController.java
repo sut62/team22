@@ -39,12 +39,12 @@ public class ManageMenuController {
     this.ManageMenuRep = ManageMenuRep;
   }
 
-  @GetMapping("/ManageMenus")
+  @GetMapping("/manageMenus")
   public Collection<ManageMenu> ManageMenus() {
     return ManageMenuRep.findAll().stream().collect(Collectors.toList());
   }
 
-  @PostMapping("/ManageMenus/{m_name}/{m_price}/{cate_name}/{ingre_name}/{type_name}")
+  @PostMapping("/manageMenus/{m_name}/{m_price}/{cate_name}/{ingre_name}/{type_name}")
   public ManageMenu newMenu(ManageMenu newMenu,
 
   @PathVariable String m_name,

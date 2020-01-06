@@ -23,7 +23,7 @@ public class MenuIngreController {
     this.IngreRep = IngreRep;
   }
 
-  @GetMapping("/MenuIngres")
+  @GetMapping("/menuIngres")
   public Collection<MenuIngre> MenuIngres() {
     return IngreRep.findAll().stream().collect(Collectors.toList());
   }
