@@ -18,20 +18,20 @@ import javax.persistence.FetchType;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="MENUTYPE")
-public class MenuType {
+@Table(name="MENUCATEGORY")
+public class MenuCate {
 
   @Id
-  @SequenceGenerator(name="type_gen",sequenceName="type_num")
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="type_gen")
+  @SequenceGenerator(name="c_gen",sequenceName="cate_num")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="c_gen")
 
-  @Column(name = "TYPE_ID", unique = true, nullable = true)
-  private @NonNull Long tid;
+  @Column(name = "CATE_ID", unique = true, nullable = true)
+  private @NonNull Long cid;
 
-  @Column(name = "TYPE_NAME")
-  private @NonNull String tname;
+  private @NonNull String cname;
 
   @OneToMany(fetch = FetchType.EAGER)
+
   private Collection<ManageMenu> create_data;
 
 }

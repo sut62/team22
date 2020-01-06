@@ -3,29 +3,26 @@ package com.okta.springbootvue.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Collection;
 import java.util.stream.Collectors;
-
-import com.okta.springbootvue.entity.MenuType;
-import com.okta.springbootvue.repository.MenuTypeRepository;
-
+import com.okta.springbootvue.entity.MenuCate;
+import com.okta.springbootvue.repository.MenuCateRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-public class MenuTypeController {
+public class MenuCateController {
 
     @Autowired
-    private final MenuTypeRepository TypeRep;
+    private final MenuCateRepository CateRep;
 
-    public MenuTypeController(MenuTypeRepository TypeRep) {
-        this.TypeRep = TypeRep;
+    public MenuCateController(MenuCateRepository CateRep) {
+        this.CateRep = CateRep;
     }
 
-    @GetMapping("/MenuTypes")
-    public Collection<MenuType> MenuTypes() {
-        return TypeRep.findAll().stream().collect(Collectors.toList());
+    @GetMapping("/MenuCates")
+    public Collection<MenuCate> MenuCates() {
+        return CateRep.findAll().stream().collect(Collectors.toList());
     }
 
 }
