@@ -2,6 +2,8 @@ package com.okta.springbootvue.entity;
 
 import lombok.*;
 
+import java.util.Date;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -18,20 +20,21 @@ import javax.persistence.FetchType;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="MENUTYPE")
-public class MenuType {
+@Table(name="MENUINGREDIENT")
+public class MenuIngre {
 
   @Id
-  @SequenceGenerator(name="type_gen",sequenceName="type_num")
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="type_gen")
+  @SequenceGenerator(name="ingre_gen",sequenceName="ingre_num")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ingre_gen")
 
-  @Column(name = "TYPE_ID", unique = true, nullable = true)
-  private @NonNull Long tid;
+  @Column(name = "INGRE_ID", unique = true, nullable = true)
+  private @NonNull Long id;
 
-  @Column(name = "TYPE_NAME")
-  private @NonNull String tname;
+  @Column(name = "INGREDIENT_NAME")
+  private @NonNull String iname;
 
   @OneToMany(fetch = FetchType.EAGER)
+
   private Collection<ManageMenu> create_data;
 
 }

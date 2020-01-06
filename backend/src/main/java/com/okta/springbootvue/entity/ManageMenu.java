@@ -16,31 +16,33 @@ import javax.persistence.FetchType;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="MANAGE_MENU")
+@Table(name="MENU")
 public class ManageMenu {
-
   @Id
-  @SequenceGenerator(name="menu_gen",sequenceName="menu_seq")
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="menu_gen")
+  @SequenceGenerator(name="mn_gen",sequenceName="menu_num")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="mn_gen")
   @Column(name = "MENU_ID", unique = true, nullable = true)
-  private @NonNull Long mid;
+  private @NonNull Long mnid;
 
   @Column(name="MENU_NAME")
-  private @NonNull String mname;
+  private @NonNull String m_name;
 
   @Column(name="MENU_PRICE")
-  private @NonNull Integer mprice;
+  private @NonNull String m_price;
 
-  @ManyToOne(fetch = FetchType.EAGER, targetEntity = MenuCategory.class)
-  @JoinColumn(name = "CATEGORY_NAME", insertable = true)
-  private MenuCategory sel_category;
+  //====================================================================
 
-  @ManyToOne(fetch = FetchType.EAGER, targetEntity = MenuIngredient.class)
-  @JoinColumn(name = "INGREDIENT", insertable = true)
-  private MenuIngredient sel_ingredient;
+  @ManyToOne(fetch = FetchType.EAGER, targetEntity = MenuCate.class)
+  @JoinColumn(name = "CATE_ID", insertable = true)
+  private MenuCate sel_cate;
+
+  @ManyToOne(fetch = FetchType.EAGER, targetEntity = MenuIngre.class)
+  @JoinColumn(name = "INGRE_ID", insertable = true)
+  private MenuIngre sel_ingre;
 
   @ManyToOne(fetch = FetchType.EAGER, targetEntity = MenuType.class)
-  @JoinColumn(name = "TYPE", insertable = true)
+  @JoinColumn(name = "TYPE_ID", insertable = true)
   private MenuType sel_type;
+
 
 }

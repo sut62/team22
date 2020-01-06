@@ -2,28 +2,24 @@ package com.okta.springbootvue.controller;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-<<<<<<< HEAD
-=======
+
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat; 
 import java.text.ParseException;
 
-import com.cpe.backend.entity.MemType;
-import com.cpe.backend.entity.Gender;
-import com.cpe.backend.entity.Prefix;
-import com.cpe.backend.entity.Employee;
-import com.cpe.backend.entity.Member;
-
-
-import com.cpe.backend.repository.MemTypeRepository;
-import com.cpe.backend.repository.GenderRepository;
-import com.cpe.backend.repository.PrefixRepository;
-import com.cpe.backend.repository.EmployeeRepository;
-import com.cpe.backend.repository.MemberRepository;
->>>>>>> 764a685cb3cdb3a783b4189aef7f1d731b6ba109
-
+import com.okta.springbootvue.entity.MemType;
+import com.okta.springbootvue.entity.Gender;
+import com.okta.springbootvue.entity.Prefix;
+import com.okta.springbootvue.entity.Employee;
 import com.okta.springbootvue.entity.Member;
+
+
+import com.okta.springbootvue.repository.MemTypeRepository;
+import com.okta.springbootvue.repository.GenderRepository;
+import com.okta.springbootvue.repository.PrefixRepository;
+import com.okta.springbootvue.repository.EmployeeRepository;
 import com.okta.springbootvue.repository.MemberRepository;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
