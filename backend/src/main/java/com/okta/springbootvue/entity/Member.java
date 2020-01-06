@@ -26,8 +26,33 @@ public class Member {
     @Column(name = "MEMBER_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
-    @Column(name="Name")
-    private @NonNull String Name;
+    private @NonNull String name;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private @NonNull Date birth;
+    
+    private @NonNull String tel;
+
+    private @NonNull String mail;
+
+    @Column(name="DATE")
+    private @NonNull Date SaveDate;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Prefix.class)
+    @JoinColumn(name = "PREFIX_ID", insertable = true)
+    private Prefix select_prefix;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
+    @JoinColumn(name = "GENDER_ID", insertable = true)
+    private Gender select_gender;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = MemType.class)
+    @JoinColumn(name = "MemType_ID", insertable = true)
+    private MemType select_memtype;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
+    @JoinColumn(name = "Employee_ID", insertable = true)
+    private Employee select_employee;
 
     
 
