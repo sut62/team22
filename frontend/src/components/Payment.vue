@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import http from "../http-common";
+import http from "../plugins/https";
 
 export default {
   name: "payment",

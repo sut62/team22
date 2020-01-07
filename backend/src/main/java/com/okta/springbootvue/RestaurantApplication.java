@@ -27,8 +27,8 @@ public class RestaurantApplication  {
 	@Bean
 	ApplicationRunner init(PrefixRepository prefixRepository, GenderRepository genderRepository, MemTypeRepository memtypeRepository,
 	AgeRepository ageRepository,Marital_StatusRepository marital_StatusRepository,PositionRepository positionRepository,
-	MenuCateRepository CateRep, MenuIngreRepository IngreRep, MenuTypeRepository TypeRep
-	
+	MenuCateRepository CateRep, MenuIngreRepository IngreRep, MenuTypeRepository TypeRep,
+	TablesRepository tablesRepository , ServicesRepository servicesRepository
 	
 	) {
 		return args -> {
@@ -85,7 +85,25 @@ public class RestaurantApplication  {
         		MenuType tn = new MenuType();
         		tn.setTname(typename);
         		TypeRep.save(tn);
-     		 });
+			  });
+			tables tb = new tables();
+			tb.setSeats(4);
+			tables tb1 = new tables();
+			tb1.setSeats(2);
+			tables tb2 = new tables();
+			tb2.setSeats(6);
+			tables tb3 = new tables();
+			tb3.setSeats(1);
+
+			tablesRepository.save(tb);
+			tablesRepository.save(tb2);
+			tablesRepository.save(tb3);
+			tablesRepository.save(tb1);
+			Stream.of("Regular","VIP").forEach(typename -> {
+        		services tn = new services();
+        		tn.setServiceName(typename);
+        		servicesRepository.save(tn);
+			  });
 			
 		};
 	}
