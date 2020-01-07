@@ -9,6 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,5 +34,5 @@ public class Age {
 
     @OneToMany(fetch = FetchType.EAGER)
     //mappedBy  = "type"
-    private Collection<Employee> employee;
+    private Set<Employee> employee;
 }

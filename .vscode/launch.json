@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-RestaurantApplication<restaurant>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.okta.springbootvue.restaurant.RestaurantApplication",
+            "projectName": "restaurant",
+            "args": ""
+        }
+    ]
+}

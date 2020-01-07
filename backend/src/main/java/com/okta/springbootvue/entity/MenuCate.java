@@ -8,6 +8,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +33,6 @@ public class MenuCate {
 
   @OneToMany(fetch = FetchType.EAGER)
 
-  private Collection<ManageMenu> create_data;
+  private Set<ManageMenu> create_data;
 
 }

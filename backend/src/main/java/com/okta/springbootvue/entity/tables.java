@@ -1,6 +1,5 @@
 package com.okta.springbootvue.entity;
 
-
 import lombok.*;
 
 import javax.persistence.Id;
@@ -14,6 +13,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +33,6 @@ public class tables {
 	private @NonNull Integer Seats;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	private Collection<reservations> reservations;
+	private Set<reservations> reservations;
 }
 
