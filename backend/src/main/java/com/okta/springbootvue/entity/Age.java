@@ -1,4 +1,4 @@
-package com.okta.springbootvue.entity;
+package com.cpe.backend.entity;
 
 import lombok.*;
 
@@ -27,7 +27,7 @@ public class Age {
     @Column(name="Age_ID",unique = true, nullable = true)
     private @NonNull Long id;
 
-    private @NonNull String Age;
+    private @NonNull Integer Age;
 
 
 
