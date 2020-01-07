@@ -32,7 +32,7 @@ public class OrderFoodController {
     @Autowired
     private TablesRepository tablesRepository;
     @Autowired
-    private MenuRepository menuRepository;
+    private ManageMenuRepository managemenuRepository;
     @Autowired
     private DishSizeRepository dishsizeRepository;
 
@@ -54,17 +54,18 @@ public class OrderFoodController {
     @PathVariable long dishsize_id) {
 
     tables tables = tablesRepository.findById(tables_id);
-    Menu menu = menuRepository.findById(menu_id);
+    Optional<ManageMenu> menu = managemenuRepository.findById(menu_id);
+    ManageMenu managemenu = menu.get();
     DishSize dishsize = dishsizeRepository.findById(dishsize_id);   
 
    
     newOrderFood.setTables(tables);
-    newOrderFood.setMenu(menu);
+    newOrderFood.setManagemenu(managemenu);
     newOrderFood.setDishnumber(dishnumber);
     newOrderFood.setDishsize(dishsize);
     
 
-    return orderfoodRepository.save(newOrderFood); //บันทึก Objcet ชื่อ Delivery
+    return orderfoodRepository.save(newOrderFood);
     
     }
 }
