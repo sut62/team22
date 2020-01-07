@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import http from "../plugins/http";
+import http from "../plugins/https";
 
 export default {
  name: "Member",
