@@ -28,7 +28,7 @@ public class RestaurantApplication  {
 	ApplicationRunner init(PrefixRepository prefixRepository, GenderRepository genderRepository, MemTypeRepository memtypeRepository,
 	AgeRepository ageRepository,Marital_StatusRepository marital_StatusRepository,PositionRepository positionRepository,
 	MenuCateRepository CateRep, MenuIngreRepository IngreRep, MenuTypeRepository TypeRep,
-	TablesRepository tablesRepository , ServicesRepository servicesRepository
+	TablesRepository tablesRepository , ServicesRepository servicesRepository , DishSizeRepository dishsizeRepository
 	
 	) {
 		return args -> {
@@ -61,8 +61,12 @@ public class RestaurantApplication  {
 				positionRepository.save(position); 
 			});
 			
-			
-
+			Stream.of("เล็ก", "กลาง","ใหญ่").forEach(size -> {
+				DishSize dishsize = new DishSize(); 
+				dishsize.setSize(size);
+				dishsizeRepository.save(dishsize); 
+			});
+		
 			Stream.of("โสด", "สมรส").forEach(name -> {
 				Marital_Status marital_Status = new Marital_Status(); 
 				marital_Status.setName(name); 
