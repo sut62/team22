@@ -18,13 +18,13 @@ public class RestaurantApplication {
 				ageRepository.save(age); 
 			});
 
-			Stream.of("ªÒÂ", "Ë­Ô§", "Í×è¹æ").forEach(name -> {
+			Stream.of("à¸Šà¸²à¸¢", "à¸«à¸à¸´à¸‡", "à¸­à¸·à¹ˆà¸™à¹†").forEach(name -> {
 				Gender gender = new Gender(); 
 				gender.setName(name);
 				genderRepository.save(gender); 
 			});
 
-			Stream.of("¾¹Ñ¡µÓààË¹è§Ë¹éÒà¤Ò¹ìàµÍÃì", "¾¹Ñ¡§Ò¹ÃéÒ¹ÍÒËÒÃ", "¾¹Ñ¡§Ò¹ÃÑºÍÍÃìà´ÍÃì").forEach(name -> {
+			Stream.of("à¸žà¸™à¸±à¸à¸•à¸³à¹€à¹€à¸«à¸™à¹ˆà¸‡à¸«à¸™à¹‰à¸²à¹€à¸„à¸²à¸™à¹Œà¹€à¸•à¸­à¸£à¹Œ", "à¸žà¸™à¸±à¸à¸‡à¸²à¸™à¸£à¹‰à¸²à¸™à¸­à¸²à¸«à¸²à¸£", "à¸žà¸™à¸±à¸à¸‡à¸²à¸™à¸£à¸±à¸šà¸­à¸­à¸£à¹Œà¹€à¸”à¸­à¸£à¹Œ").forEach(name -> {
 				Position position = new Position(); 
 				position.setName(name); 
 				positionRepository.save(position); 
@@ -32,7 +32,7 @@ public class RestaurantApplication {
 			
 			
 
-			Stream.of("âÊ´", "ÊÁÃÊ").forEach(name -> {
+			Stream.of("à¹‚à¸ªà¸”", "à¸ªà¸¡à¸£à¸ª").forEach(name -> {
 				Marital_Status marital_Status = new Marital_Status(); 
 				marital_Status.setName(name); 
 				marital_StatusRepository.save(marital_Status); 
