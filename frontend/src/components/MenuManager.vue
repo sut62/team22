@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import http from "../https";
+import http from "../plugins/https"
 export default {
   name:"ManageMenu",
   data(){
