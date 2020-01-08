@@ -4,6 +4,8 @@
       v-model.number="reservation.customer"      
       label="Customer ID"  
       prepend-icon="mdi-human-male-female"
+      :rules="[(v) => !!v || 'Item is required']"
+      required
     ></v-text-field>
 		<v-btn color="success"
       @click="customerchk"
@@ -17,6 +19,8 @@
         prepend-icon="mdi-calendar-range"
         :value="formattedDate"
         v-on="on"
+        :rules="[(v) => !!v || 'Item is required']"
+        required
       ></v-text-field>
       </template>
       <v-date-picker v-model="date" ></v-date-picker>
@@ -42,6 +46,8 @@
               prepend-icon="access_time"
               readlonly
               id="id"
+              :rules="[(v) => !!v || 'Item is required']"
+              required
             ></v-text-field>
             
           </template>
@@ -62,6 +68,8 @@
       item-value="id"
       prepend-icon="mdi-table-chair"
       return-object
+      :rules="[(v) => !!v || 'Item is required']"
+      required
     >
     </v-select>
     <v-select
@@ -71,6 +79,8 @@
       item-text="id"
       item-value="id"
       prepend-icon="mdi-seat"
+      :rules="[(v) => !!v || 'Item is required']"
+      required
      
     >
     </v-select>
@@ -81,6 +91,8 @@
       item-text="serviceName"
       item-value="id"
       prepend-icon="mdi-room-service"
+      :rules="[(v) => !!v || 'Item is required']"
+      required
     ></v-select>
     <v-btn color="success"
       @click="save"
@@ -109,6 +121,7 @@ export default {
           customer:'',
           service:'',
         },
+        reservations:[],
         services:[],
         findmember:false,
         table:[],
@@ -121,6 +134,7 @@ export default {
     seats(){
       return this.reservation.table
     },
+    
     
     
   },
@@ -138,7 +152,15 @@ export default {
     },
   
     save(){
+       
         https.post("/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats)
+        .then(()=> {
+            alert("Reservation complete")
+            
+        })
+        .catch(e =>{
+            alert("Reservation fail "+ e.name+" "+e.message)
+        })
     },
     getTables(){
        https.get("/tableses").then( doc =>{
@@ -146,6 +168,9 @@ export default {
                       this.table=doc.data
                   
                    
+      })
+      .catch(e =>{
+          alert(e.name+" "+e.message)
       })
     },
     getService(){
@@ -155,6 +180,17 @@ export default {
                   this.services=doc.data
                
                 
+      })
+      .catch( e =>{
+        alert(e.name+" "+e.message)
+      })
+    },
+    getReservations(){
+      https.get("/reservationses/"+this.reservation.table.id+"/"+this.date+"/"+this.reservation.time).then( doc => {
+        this.reservations.push(doc)
+      })
+      .catch(e => {
+        alert(e.name+" "+e.message)
       })
     },
     
@@ -170,7 +206,8 @@ export default {
       for(let nseat = 1;nseat <= mxSeat;nseat++){
         this.seat.push({id:nseat})
       }
-    }
+    },
+    
   }  
 }
 </script>

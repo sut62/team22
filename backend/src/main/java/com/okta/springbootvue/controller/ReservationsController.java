@@ -44,6 +44,15 @@ public class ReservationsController {
         return ReservationsRepository.findAll().stream().collect(Collectors.toList());
     }
 
+    @GetMapping("/reservationses/{id}/{date}/{time}")
+    public Collection<reservations> newresavationID(
+      @PathVariable Long id,
+      @PathVariable String date,
+      @PathVariable String time
+    ) {
+        return ReservationsRepository.findReserveByTableAndDateTime(id,date+"T"+time).stream().collect(Collectors.toList());
+    }
+
     @PostMapping("/reservationses/{member_id}/{table_id}/{service_id}/{reservs_date}/{reservs_time}/{seats}")
     public reservations newresavations(reservations newresavations,
   @PathVariable Long member_id,
