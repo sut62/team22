@@ -6,8 +6,8 @@ import employeereg from '../components/EmployeeREG.vue'
 import member from '../components/member.vue'
 import OrderFood from '../components/OrderFood.vue'
 import payment from '../components/Payment.vue'
-import login from '../components/Login.vue'
-import sec from '../components/Secure.vue'
+// import login from '../components/Login.vue'
+// import sec from '../components/Secure.vue'
 
 Vue.use(VueRouter)
 
@@ -46,20 +46,20 @@ const routes = [
   {
     path: '/payment',
     name: 'payment',
-    component: payment
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: login
-  },
-  {
-    path: '/sec',
-    name: 'sec',
-    component: sec
-  }
-  
- 
+    component: payment}
+  // },
+  // {
+  //   path: '/login',
+  //   name: 'login',
+  //   component: login
+  // },
+  // {
+  //   path: '/sec',
+  //   name: 'sec',
+  //   component: sec
+  // }
+
+
 ]
 
 const router = new VueRouter({
