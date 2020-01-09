@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.1",
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "core-js": "^3.4.7",
     "date-fns": "^2.8.1",
     "material-design-icons-iconfont": "^5.0.1",
