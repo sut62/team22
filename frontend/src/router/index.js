@@ -6,20 +6,14 @@ import employeereg from '../components/EmployeeREG.vue'
 import member from '../components/member.vue'
 import OrderFood from '../components/OrderFood.vue'
 import payment from '../components/Payment.vue'
-import login from '../components/Login.vue'
-import sec from '../components/Secure.vue'
+//import login from '../components/Login.vue'
+//import sec from '../components/Secure.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect:{
-      name:"login"
-    }
-  },
-  {
-    path: '/reservation',
     name: 'reservation',
     component: reservation
   },
@@ -48,7 +42,7 @@ const routes = [
     name: 'payment',
     component: payment
   },
-  {
+  /*{
     path: '/login',
     name: 'login',
     component: login
@@ -57,7 +51,7 @@ const routes = [
     path: '/sec',
     name: 'sec',
     component: sec
-  }
+  }*/
   
  
 ]
