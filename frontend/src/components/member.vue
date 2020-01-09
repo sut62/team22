@@ -92,7 +92,7 @@
       label="พนักงานที่ลงทะเบียน"
       v-model="Member.employeeID"
       :items="employee"
-      item-text="name"
+      item-text="e_name"
       item-value="id"
       prepend-icon="info"
     >
@@ -179,7 +179,7 @@ export default {
     },
     getPrefix(){
        http
-        .get("/prefixes")
+        .get("/prefixs")
         .then(response => {
           this.prefix = response.data;
           console.log(response.data);
@@ -190,7 +190,7 @@ export default {
     },
     getGender(){
        http
-        .get("/genders")
+        .get("/Gender")
         .then(response => {
           this.gender = response.data;
           console.log(response.data);
@@ -212,7 +212,7 @@ export default {
     },
     getEmployee(){
       http
-        .get("/employees")
+        .get("/Employee")
         .then(response => {
           this.employee = response.data;
           console.log(this.items);
