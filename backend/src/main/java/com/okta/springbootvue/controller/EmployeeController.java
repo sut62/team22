@@ -54,7 +54,7 @@ public class EmployeeController {
         return employeeRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/Employee/{Age_ID}/{Gender_ID}/{Position_ID}/{Marital_Status_ID}/{E_NAME}/{E_TEL}/{E_ADDRESS}/{E_BIRTH}/{E_NUM}/{E_EMID}")
+    @PostMapping("/Employee/{Age_ID}/{Gender_ID}/{Position_ID}/{Marital_Status_ID}/{E_NAME}/{E_TEL}/{E_ADDRESS}/{E_BIRTH}/{E_NUM}")
     public Employee newEmployee(Employee newEmployee,
     @PathVariable long Age_ID,
     @PathVariable long Gender_ID,
@@ -64,8 +64,7 @@ public class EmployeeController {
     @PathVariable String E_TEL,
     @PathVariable String E_ADDRESS,
     @PathVariable String E_BIRTH,
-    @PathVariable String E_NUM,
-    @PathVariable String E_EMID ) throws ParseException
+    @PathVariable String E_NUM ) throws ParseException
 
  {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -86,7 +85,7 @@ public class EmployeeController {
     newEmployee.setE_ADDRESS(E_ADDRESS);
     newEmployee.setE_BIRTH(dateFormat.parse(E_BIRTH));
     newEmployee.setE_NUM(E_NUM);
-    newEmployee.setE_EMID(E_EMID);
+    
     newEmployee.setE_REGDATE(new Date());
     
     
