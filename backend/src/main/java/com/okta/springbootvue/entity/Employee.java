@@ -44,7 +44,7 @@ public class Employee {
     
     private @NonNull String E_NUM;
 
-    private @NonNull String E_EMID;
+    
 
     private @NonNull Date E_REGDATE;
 
