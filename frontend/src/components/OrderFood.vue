@@ -23,7 +23,7 @@
           label="เลือกโต๊ะ"
           v-model="orderfood.tablenumberId"
           :items="tablenumbers"
-          item-text="number"
+          item-text="id"
           item-value="id"
           :rules="[(v) => !!v || 'ยังไม่ได้เลือกโต๊ะ']"
            solo
@@ -117,7 +117,7 @@ import http from "../plugins/https";
       /* eslint-disable no-console */
       getTableNunber() {
          http
-        .get("/TableNumber")
+        .get("/tableses")
         .then(response => {
           this.tablenumbers = response.data;
           console.log(response.data);          
