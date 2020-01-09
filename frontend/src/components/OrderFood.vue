@@ -35,8 +35,8 @@
           label="เลือกเมนูอาหาร"
           v-model="orderfood.menuId"
           :items="menus"
-          item-text="name"
-          item-value="id"
+          item-text="m_name"
+          item-value="mnid"
           :rules="[(v) => !!v || 'ยังไม่ได้เลือกอาหาร']"
           solo
         ></v-select>
@@ -101,9 +101,9 @@ import http from "../plugins/https";
             text: 'TABLE',
             align: 'left',
             sortable: false,
-            value: 'tablenumber.number',
+            value: 'tables.id',
           },
-          { text: 'MENU', value: 'menu.name' },
+          { text: 'MENU', value: 'managemenu.m_name' },
           { text: 'DishSize', value: 'dishsize.size' },
           { text: 'DishNumber', value: 'dishnumber' }
         ],
@@ -128,7 +128,7 @@ import http from "../plugins/https";
       },
        getMenu() {
          http
-        .get("/Menu")
+        .get("/manageMenus")
         .then(response => {
           this.menus = response.data;
           console.log(response.data);          
