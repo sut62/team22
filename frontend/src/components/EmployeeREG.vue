@@ -279,8 +279,7 @@ export default {
             "/" +
             this.date +
             "/" +
-            this.Employee.enum +
-            "/" + x
+            this.Employee.enum
         )
         .then(response => {
           console.log(response);
