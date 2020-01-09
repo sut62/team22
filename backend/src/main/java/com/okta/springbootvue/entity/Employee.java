@@ -33,7 +33,7 @@ public class Employee {
     @Column(name = "Employee_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
-    private @NonNull String E_NAME;
+    private @NonNull String e_name;
      
     private @NonNull String E_TEL;
 
