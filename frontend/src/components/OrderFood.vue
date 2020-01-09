@@ -199,7 +199,10 @@ import http from "../plugins/https";
         this.getMenu();
         this.getDishSize();
         this.getOrderFood();
-    }
+    },
+     created() {
+        this.getOrderFood();
+      },
   };
 </script>
 <style>
