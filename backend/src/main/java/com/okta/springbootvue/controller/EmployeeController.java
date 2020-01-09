@@ -80,7 +80,7 @@ public class EmployeeController {
     newEmployee.setPosition(position);
     newEmployee.setMarital_Status(marital_Status);
 
-    newEmployee.setE_NAME(E_NAME);
+    newEmployee.setE_name(E_NAME);
     newEmployee.setE_TEL(E_TEL);
     newEmployee.setE_ADDRESS(E_ADDRESS);
     newEmployee.setE_BIRTH(dateFormat.parse(E_BIRTH));
