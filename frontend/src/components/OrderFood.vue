@@ -176,6 +176,9 @@ import http from "../plugins/https";
       //location.reload();  
       this.submitted = true;
     },
+    clear() {
+      this.$refs.form.reset();
+    },
     getOrderFood() {
       http
         .get("/Order")
