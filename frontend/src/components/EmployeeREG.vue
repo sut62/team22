@@ -257,7 +257,10 @@ export default {
     },
     // function เมื่อกดปุ่ม submit
     saveEmployee() {
+<<<<<<< HEAD
 
+=======
+>>>>>>> issue-77
       http
         .post(
           "/Employee/" +

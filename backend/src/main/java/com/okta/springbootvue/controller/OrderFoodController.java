@@ -34,7 +34,7 @@ public class OrderFoodController {
     @Autowired
     private ManageMenuRepository managemenuRepository;
     @Autowired
-    private DishSizeRepository dishsizeRepository;
+    private OrderTypeRepository ordertypeRepository;
 
     OrderFoodController(OrderFoodRepository orderfoodRepository) {
         this.orderfoodRepository = orderfoodRepository;
@@ -46,23 +46,23 @@ public class OrderFoodController {
 
     }
     
-    @PostMapping("/Order/{tables_id}/{menu_id}/{dishnumber}/{dishsize_id}")
+    @PostMapping("/Order/{tables_id}/{menu_id}/{dishnumber}/{ordertype_id}")
     public OrderFood newOrder(OrderFood newOrderFood,
     @PathVariable long tables_id,
     @PathVariable long menu_id,
     @PathVariable long dishnumber,
-    @PathVariable long dishsize_id) {
+    @PathVariable long ordertype_id) {
 
     tables tables = tablesRepository.findById(tables_id);
     Optional<ManageMenu> menu = managemenuRepository.findById(menu_id);
     ManageMenu managemenu = menu.get();
-    DishSize dishsize = dishsizeRepository.findById(dishsize_id);   
+    OrderType ordertype = ordertypeRepository.findById(ordertype_id);   
 
    
     newOrderFood.setTables(tables);
     newOrderFood.setManagemenu(managemenu);
     newOrderFood.setDishnumber(dishnumber);
-    newOrderFood.setDishsize(dishsize);
+    newOrderFood.setOrdertype(ordertype);
     
 
     return orderfoodRepository.save(newOrderFood);

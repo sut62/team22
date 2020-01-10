@@ -53,12 +53,12 @@
 
       <v-col class="d-flex" cols="12" sm="6">
         <v-select
-          label="ขนาด"
-          v-model="orderfood.dishsizeId"
-          :items="dishsizes"
-          item-text="size"
+          label="ประเภท"
+          v-model="orderfood.ordertypesId"
+          :items="ordertypes"
+          item-text="type"
           item-value="id"
-          :rules="[(v) => !!v || 'ยังไม่ได้เลือกขนาดจาน']"
+          :rules="[(v) => !!v || 'ยังไม่ได้เลือกประเภท']"
           solo
         ></v-select>
       </v-col>
@@ -92,7 +92,7 @@ import http from "../plugins/https";
          orderfood: {
            menuId: "",
            tablenumberId: "",
-           dishsizeId: "",
+           ordertypesId: "",
            dishnumber: ""
          },
         loading: true,
@@ -104,13 +104,13 @@ import http from "../plugins/https";
             value: 'tables.id',
           },
           { text: 'MENU', value: 'managemenu.m_name' },
-          { text: 'DishSize', value: 'dishsize.size' },
+          { text: 'OrderType', value: 'ordertype.type' },
           { text: 'DishNumber', value: 'dishnumber' }
         ],
         valid : false,
         tablenumber: [],
         menus: [],
-        dishsizes: []
+        ordertypes: []
       };
     },
     methods: {
@@ -137,11 +137,11 @@ import http from "../plugins/https";
           console.log(e);
         });
       },
-       getDishSize() {
+       getOrderType() {
          http
-        .get("/DishSize")
+        .get("/OrderType")
         .then(response => {
-          this.dishsizes = response.data;
+          this.ordertypes = response.data;
           console.log(response.data);
         })
         .catch(e => {
@@ -158,13 +158,13 @@ import http from "../plugins/https";
             "/" +
             this.orderfood.dishnumber +
             "/" + 
-            this.orderfood.dishsizeId
+            this.orderfood.ordertypesId
         )
         
         .then(response => {
           this.getTableNunber();
           this.getMenu();
-          this.getDishSize();
+          this.getOrderType();
           this.getOrderFood();
           this.clear();
           console.log(response);
@@ -189,7 +189,7 @@ import http from "../plugins/https";
       refreshList() {
         this.getTableNunber();
         this.getMenu();
-        this.getDishSize();
+        this.getOrderType();
         this.getOrderFood();
       }
        /* eslint-enable no-console */
@@ -197,10 +197,14 @@ import http from "../plugins/https";
       mounted() {
         this.getTableNunber();
         this.getMenu();
-        this.getDishSize();
+        this.getOrderType();
         this.getOrderFood();
     },
+<<<<<<< HEAD
      created() {
+=======
+      created() {
+>>>>>>> issue-77
         this.getOrderFood();
       },
   };

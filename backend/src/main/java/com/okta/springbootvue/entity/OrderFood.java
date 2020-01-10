@@ -41,9 +41,9 @@ public class OrderFood {
     @JoinColumn(name = "Menu_ID", insertable = true)
     private ManageMenu managemenu;
  
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = DishSize.class)
-    @JoinColumn(name = "DishSize_ID", insertable = true)
-    private DishSize dishsize;
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderType.class)
+    @JoinColumn(name = "OrderType_ID", insertable = true)
+    private OrderType ordertype;
 
     
 }

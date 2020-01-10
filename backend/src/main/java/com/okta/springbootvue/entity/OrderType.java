@@ -16,14 +16,16 @@ import javax.persistence.Entity;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="DishSize")
-public class DishSize {
+@Table(name="OrderType")
+public class OrderType {
 	@Id
-	@SequenceGenerator(name="DishSize_seq",sequenceName="DishSize_seq")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="DishSize_seq")
-	@Column(name="DishSize_ID",unique = true, nullable = true)
+	@SequenceGenerator(name="OrderType_seq",sequenceName="OrderType_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="OrderType_seq")
+	@Column(name="OrderType_ID",unique = true, nullable = true)
 	private @NonNull Long id;
 
-	private @NonNull String size;
+	
+
+	private @NonNull String Type;
 
 }

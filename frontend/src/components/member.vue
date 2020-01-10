@@ -32,6 +32,7 @@
       :items="gender"
       item-text="name"
       item-value="id"
+      solo
       >
       </v-select>
       </v-col>
