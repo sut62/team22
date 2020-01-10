@@ -28,7 +28,7 @@ public class RestaurantApplication  {
 	ApplicationRunner init(PrefixRepository prefixRepository, GenderRepository genderRepository, MemTypeRepository memtypeRepository,
 	AgeRepository ageRepository,Marital_StatusRepository marital_StatusRepository,PositionRepository positionRepository,
 	MenuCateRepository CateRep, MenuIngreRepository IngreRep, MenuTypeRepository TypeRep,
-	TablesRepository tablesRepository , ServicesRepository servicesRepository , OrderTypeRepository ordertypeRepository
+	TablesRepository tablesRepository , ServicesRepository servicesRepository , OrderTypeRepository ordertypeRepository,MembershipRepository membershipRepository
 
 	) {
 		return args -> {
@@ -89,6 +89,12 @@ public class RestaurantApplication  {
 				MenuType tn = new MenuType();
 				tn.setTname(typename);
 				TypeRep.save(tn);
+			});
+
+			Stream.of("เป็นสมาชิก","ไม่เป็นมาชิก").forEach(MBSame -> {
+				Membership membership = new Membership();
+				membership.setNamembs(MBSame);
+				membershipRepository.save(membership);
 			});
 			tables tb = new tables();
 			tb.setSeats(4);
