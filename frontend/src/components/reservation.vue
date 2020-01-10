@@ -2,7 +2,7 @@
   <v-container class="mt-12 ml-12">
     <v-text-field
       v-model.number="reservation.customer"      
-      label="Member ID"  
+      :label="show"  
       prepend-icon="mdi-human-male-female"
       :rules="[(v) => !!v || 'Item is required']"
       required
@@ -10,6 +10,9 @@
 		<v-btn color="success"
       @click="customerchk"
     >Search</v-btn>
+    <div v-html="checkshow">
+    
+    </div>
 		<v-menu max-width="290" >
       <template v-slot:activator="{ on }">
         <v-text-field
@@ -100,6 +103,7 @@
     >SAVE 
     <v-icon>mdi-floppy</v-icon>
     </v-btn>
+    <div v-html="succes"></div>
   </v-container>
 </template>
 
@@ -115,17 +119,20 @@ export default {
         date:null,
         service:null,
         reservation:{
-          time:'',
-          table:'',
-          seats:'',
-          customer:'',
-          service:'',
+          time:null,
+          table:null,
+          seats:null,
+          customer:null,
+          service:null,
         },
         reservations:[],
         services:[],
         findmember:false,
         table:[],
         seat:[],
+        show:"Member ID",
+        checkshow:``,
+        succes:``,
   }),
   computed:{
     formattedDate(){
@@ -142,12 +149,17 @@ export default {
     customerchk(){
       https.get("/members/"+this.reservation.customer).then( doc =>{
               if(doc.data!=null){
-                alert("Member found.")
+                return this.checkshow = `<FONT color="#228B22" >
+                                         <MARQUEE>Member found.</MARQUEE> </FONT>`
               }
               else{
-                alert("Member not found.")
-                this.reservation.customer = null
+                return this.checkshow = `<FONT color="#FF0000" >
+                                         <MARQUEE>Member not found.</MARQUEE> </FONT>`
               }
+      })
+      .catch(()=> {
+            return this.checkshow = `<FONT color="#FF0000" >
+                                         <MARQUEE>Member not found.</MARQUEE> </FONT>`
       })
     },
   
@@ -155,11 +167,11 @@ export default {
        
         https.post("/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats)
         .then(()=> {
-            alert("Reservation complete")
+            return this.succes = `<FONT color="#228B22" > <p> Save success </p> <p>${"/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats}</p> </FONT>`
             
         })
         .catch(e =>{
-            alert("Reservation fail "+ e.name+" "+e.message)
+            return this.succes = `<FONT color="#FF0000" > <p> Save fail : </p> <p>${e.message} </p> </FONT>`
         })
     },
     getTables(){

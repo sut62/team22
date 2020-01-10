@@ -110,7 +110,8 @@ import http from "../plugins/https";
         valid : false,
         tablenumber: [],
         menus: [],
-        ordertypes: []
+        ordertypes: [],
+        items : []
       };
     },
     methods: {
@@ -174,6 +175,9 @@ import http from "../plugins/https";
         });
       //location.reload();  
       this.submitted = true;
+    },
+    clear() {
+      this.$refs.form.reset();
     },
     getOrderFood() {
       http
