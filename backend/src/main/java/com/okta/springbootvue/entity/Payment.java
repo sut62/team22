@@ -17,7 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-//import com.cpe.backend.entity.Employee;
+import com.okta.springbootvue.entity.*;
 
 
 @Data
@@ -39,12 +39,17 @@ public class Payment {
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
     @JoinColumn(name = "MEMBER_ID", insertable = true)
-    private Member selectmember;
+    private  Member selectmember;
     
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
     @JoinColumn(name = "EMPLOYEE_ID", insertable = true)
     private Employee selectemployee;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Membership.class)
+    @JoinColumn(name = "MEMBERSHIP_ID", insertable = true)
+    private Membership selectmembership;
+
 
 
     
