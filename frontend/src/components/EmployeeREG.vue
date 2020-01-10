@@ -258,8 +258,6 @@ export default {
     // function เมื่อกดปุ่ม submit
     saveEmployee() {
 
-      var x = Math.floor((Math.random() * 10000000) + 1);
-
       http
         .post(
           "/Employee/" +
