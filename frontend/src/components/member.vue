@@ -98,6 +98,7 @@
     >
     </v-select>
     </v-row>
+    <div v-html="show"></div>
     <br><br>
     <v-row justify="center">
     <v-btn color="success"
@@ -174,7 +175,11 @@ export default {
         })
         .catch(e => {
           console.log(e);
+<<<<<<< HEAD
           this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
+=======
+	  this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
+>>>>>>> 8624989a07b7e6bbc3dc31b1c0d9e011fbe6b6cd
         });
     },
     clear() {
