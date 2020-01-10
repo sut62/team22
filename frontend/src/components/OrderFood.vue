@@ -68,7 +68,8 @@
         <v-btn @click="saveOrderFood" :class="{ red: !valid, green: valid }" color=" white--text">SAVE</v-btn>
       </div>
     </v-form>
-    
+  <div v-html="show"></div>
+  <div v-html="fail"></div>
     <div>
     <v-data-table
       :headers="headers"
@@ -80,8 +81,6 @@
     ></v-data-table>
   </div>
 
-  <div v-html="show"></div>
-  <div v-html="fail"></div>
 
   </v-container>
 </template>
