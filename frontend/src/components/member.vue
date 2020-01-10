@@ -98,6 +98,7 @@
     >
     </v-select>
     </v-row>
+    <div v-html="show"></div>
     <br><br>
     <v-row justify="center">
     <v-btn color="success"
@@ -131,6 +132,7 @@ export default {
         prefixID: "",
         memtypeID: ""
       },
+      show:'',
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       prefix: [],
@@ -166,9 +168,8 @@ export default {
              
         )
         .then(response => {
-          alert("ลงทะเบียนสำเร็จ");
           console.log(response);
-          window.location.reload()
+          this.show = '<FONT color="#FFA07A" size="5"> <MARQUEE>Register Success</MARQUEE></FONT>'
         })
         .catch(e => {
           console.log(e);
