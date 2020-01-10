@@ -19,8 +19,8 @@
                   outlined
                   v-model="payment.orderfoodId"
                   :items="orderfoods"
-                  item-text="nameorderfood"
-                  item-value="id_orderfood"
+                  item-text="managemenu.m_name"
+                  item-value="id"
                   :rules="[(v) => !!v || 'Item is required']"
                   required
                   prepend-icon="mdi-cart"
@@ -28,31 +28,43 @@
               </v-col>
             </v-row>
 
-            <v-container fluid>
-              <v-radio-group v-model="row" row>
-                <v-radio label="เป็นสมาชิก" color="success" value="radio-1"></v-radio>
-                <v-radio label="ไม่เป็นสมาชิก" color="error" value="radio-2"></v-radio>
-              </v-radio-group>
-            </v-container>
-
-          
-
-        
             <v-row>
               <v-col cols="10">
-                <v-select
-                  label="Member"
-                  outlined
-                  v-model="payment.memberId"
-                  :items="members"
-                  item-text="namemember"
-                  item-value="id_member"
+                <v-select @change="savePayment($event)"
+                  label="Membership"
+                  outlined 
+                  v-model="payment.membershipId"
+                  :items="memberships"
+                  item-text="namembs"
+                  item-value="idmbs"
                   :rules="[(v) => !!v || 'Item is required']"
                   required
                   prepend-icon="mdi-human-male"
                 ></v-select>
               </v-col>
             </v-row>
+
+
+
+            <v-row >
+              <v-text-field
+                v-if="payment.membershipId == 1"              
+                outlined
+                label="ไอดีลูกค้า"
+                v-model="payment.memberId"
+                :rules="[(v) => !!v || 'กรุณากรอกข้อมูล']"
+                required
+              ></v-text-field>
+              <p  v-for="mem in member" :key="mem">ชื่อสมาชิก : {{mem.name}} <br/> </p>
+              
+            </v-row>
+            <v-row> <p  v-for="mem in member" :key="mem">ประเภทสมาชิก : {{mem.name}}</p></v-row>
+
+          <v-row >
+              <div class="my-2">
+                <v-btn  v-if="payment.membershipId == 1" @click="findMember" depressed large color="primary">ค้นหา</v-btn>
+              </div>
+          </v-row>
 
 
             <v-row>
@@ -62,8 +74,8 @@
                   outlined
                   v-model="payment.employeeId"
                   :items="employees"
-                  item-text="nameemployee"
-                  item-value="id_employee"
+                  item-text="e_name"
+                  item-value="id"
                   :rules="[(v) => !!v || 'Item is required']"
                   required
                   prepend-icon="mdi-human-male"
@@ -97,18 +109,21 @@
 </template>
 
 <script>
-import http from "../plugins/https";
 
+import http from "../plugins/https"
 export default {
   name: "payment",
   data() {
     return {
       payment: {
         orderfoodId: "",
+        membershipId: "",
         memberId: "",
         employeeId: ""
       },
+      member: [],
       memberCheck: false,
+      check:false,
 
       headers: [
 
@@ -116,12 +131,13 @@ export default {
             text: 'OrderFood',
             align: 'left',
             sortable: false,
-            value: 'selectorderfood.nameorderfood',
+            value: 'selectorderfood.managemenu.m_name',
           },
 
-
-        { text: "Member", value: "selectmember.namemember" },
-        { text: "Employee", value: "selectemployee.nameemployee" },
+        { text: "Price", value: "selectorderfood.managemenu.m_price" },
+        { text: "Member", value: "selectmember.name" },
+        { text: "Employee", value: "selectemployee.e_name" },
+        
         
       ],
 
@@ -129,7 +145,7 @@ export default {
 
       valid: false,
 
-      orderfoods : [] , members : [] , employees : [], memberName: ""
+      orderfoods : [] , members : [] , employees : [], memberships : [],
 
     };
       
@@ -142,7 +158,7 @@ export default {
     // ดึงข้อมูล Employee ใส่ combobox
     getOrderFoods() {
       http
-        .get("/orderfood")
+        .get("/Order")
         .then(response => {
           this.orderfoods = response.data;
           console.log(response.data);
@@ -152,9 +168,21 @@ export default {
         });
     },
     // ดึงข้อมูล member ใส่ combobox
+    getMemberships() {
+      http
+        .get("/memberships")
+        .then(response => {
+          this.memberships = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+
     getMembers() {
       http
-        .get("/member")
+        .get("/members")
         .then(response => {
           this.members = response.data;
           console.log(response.data);
@@ -166,7 +194,7 @@ export default {
     // ดึงข้อมูล RentalType ใส่ combobox
     getEmployees() {
       http
-        .get("/employee")
+        .get("/Employee")
         .then(response => {
           this.employees = response.data;
           console.log(response.data);
@@ -175,8 +203,28 @@ export default {
           console.log(e);
         });
     },
+
+    findMember() {
+      http
+        .get("/members/" + this.payment.memberId)
+        .then(response => {
+          console.log(response);
+          if (response.data != null) {
+             this.member = response.data
+          } else {
+            this.clear()
+          }          
+        })
+        .catch(e => {
+          console.log(e);
+        });
+ 
+    },
+
     // function เมื่อกดปุ่ม record
-    savePayment() {
+    savePayment(event) {
+      if(event == 2)
+      this.payment.memberId = 0;
       http
         .post(
           "/payment/" +
@@ -184,14 +232,15 @@ export default {
             "/" +
             this.payment.memberId +
             "/" +
-            this.payment.employeeId,
-           
-          
+            this.payment.employeeId +
+            "/" +
+            this.payment.memberId,
         )
         .then(response => {
           this.getOrderFoods();
-          this.getMembers();
+          this.getMemberships();
           this.getEmployees();
+          this.getMembers();
           this.getPayments();
           this.clear();
           console.log(response);
@@ -206,7 +255,7 @@ export default {
     },
     clear() {
       this.$refs.form.reset();
-      this.customerCheck = false;
+      this.memberCheck = false;
     },
     getPayments() {
       http
@@ -221,16 +270,18 @@ export default {
     },
     refreshList() {
       this.getOrderFoods();
-      this.getMembers();
+      this.getMemberships();
       this.getEmployees();
+      this.getMembers();
       this.getPayments();
     }
     /* eslint-enable no-console */
   },
   mounted() {
     this.getOrderFoods();
-    this.getMembers();
+    this.getMemberships();
     this.getEmployees();
+    this.getMembers();
     this.getPayments();
   }
 };

@@ -37,6 +37,8 @@ public class PaymentController {
     private EmployeeRepository employeeRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private MembershipRepository membershipRepository;
 
     PaymentController(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
@@ -47,20 +49,23 @@ public class PaymentController {
         return paymentRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/payment/{orderfood_id}/{member_id}/{employee_id}")
+    @PostMapping("/payment/{orderfood_id}/{member_id}/{employee_id}/{membership_id}")
     public Payment newPayment(Payment newpayment,
 
     @PathVariable long orderfood_id,
     @PathVariable long member_id,
+    @PathVariable long membership_id,
     @PathVariable long employee_id  ) {
     
 
     OrderFood od = orderfoodRepository.findById(orderfood_id);
     Member mb = memberRepository.findById(member_id);
+    Membership mbs = membershipRepository.findById(membership_id);
     Employee ep = employeeRepository.findById(employee_id);
 
     newpayment.setSelectorderfood(od);
     newpayment.setSelectmember(mb);
+    newpayment.setSelectmembership(mbs);
     newpayment.setSelectemployee(ep);
 
 
