@@ -2,7 +2,7 @@
   <v-container class="mt-12 ml-12">
     <v-text-field
       v-model.number="reservation.customer"      
-      label="Customer ID"  
+      label="Member ID"  
       prepend-icon="mdi-human-male-female"
       :rules="[(v) => !!v || 'Item is required']"
       required
@@ -142,10 +142,10 @@ export default {
     customerchk(){
       https.get("/members/"+this.reservation.customer).then( doc =>{
               if(doc.data!=null){
-                this.findmember = true
+                alert("Member found.")
               }
               else{
-                this.findmember = false
+                alert("Member not found.")
                 this.reservation.customer = null
               }
       })

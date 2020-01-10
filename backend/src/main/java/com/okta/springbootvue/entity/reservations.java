@@ -36,7 +36,7 @@ public class reservations {
 	private LocalDateTime reservedateandtime;
 	
 		@Column(name = "SEATS")
-	private Integer seats;
+	private Integer reserveseats;
 	
 		@ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
 		@JoinColumn(name = "table_id",insertable = true)
