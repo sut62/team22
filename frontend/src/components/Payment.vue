@@ -55,10 +55,10 @@
                 :rules="[(v) => !!v || 'กรุณากรอกข้อมูล']"
                 required
               ></v-text-field>
-              <p  v-for="mem in member" :key="mem">ชื่อสมาชิก : {{mem.name}} <br/> </p>
+              <p  >ชื่อสมาชิก : {{member[0]}} <br/> </p>
               
             </v-row>
-            <v-row> <p  v-for="mem in member" :key="mem">ประเภทสมาชิก : {{mem.name}}</p></v-row>
+            <v-row> <p  >ประเภทสมาชิก : {{member[0]}}</p></v-row>
 
           <v-row >
               <div class="my-2">
@@ -88,6 +88,7 @@
               <v-col cols="12">
                 <v-btn @click="savePayment" :class="{ red: !valid, green: valid }">ตกลง</v-btn>
                 <v-btn style="margin-left: 15px;" @click="clear">clear</v-btn>
+                <div v-html="show"></div>
               </v-col>
             </v-row>
             <br />
@@ -121,7 +122,10 @@ export default {
         memberId: "",
         employeeId: ""
       },
-      member: [],
+      member: [
+        
+      ],
+      show:``,
       memberCheck: false,
       check:false,
 
@@ -244,6 +248,7 @@ export default {
           this.getPayments();
           this.clear();
           console.log(response);
+          this.show = `<p>Save Success</p>`
           //window.location.reload();
           
           
