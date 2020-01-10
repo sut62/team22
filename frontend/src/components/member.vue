@@ -32,7 +32,6 @@
       :items="gender"
       item-text="name"
       item-value="id"
-      solo
       >
       </v-select>
       </v-col>
@@ -103,11 +102,12 @@
     <v-row justify="center">
     <v-btn color="success"
       @click="save"
-      
     >ลงทะเบียน 
     <v-icon>mdi-floppy</v-icon>
     </v-btn>
     </v-row>
+    <div v-html="show"></div>
+    <div v-html="fail"></div>
     <br><br><br>
     <span class="display font-weight-light white--text">*สมัครเลยวันนี้ "ลูกค้าบัตรสมาชิกVIPลดเลยทันที 10% บัตรสมาชิกนักศึกษาลดเลยทันที 5% บัตรทั่วไปลดทันที 7%"</span>
     <br>
@@ -132,6 +132,8 @@ export default {
         prefixID: "",
         memtypeID: ""
       },
+      show:'',
+      fail:'',
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       prefix: [],
@@ -167,12 +169,12 @@ export default {
              
         )
         .then(response => {
-          alert("ลงทะเบียนสำเร็จ");
           console.log(response);
-          window.location.reload()
+          this.show = '<FONT color="#FFA07A" size="5"> <MARQUEE>Register Success</MARQUEE></FONT>'
         })
         .catch(e => {
           console.log(e);
+          this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
         });
     },
     clear() {
