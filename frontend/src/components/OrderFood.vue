@@ -68,7 +68,7 @@
         <v-btn @click="saveOrderFood" :class="{ red: !valid, green: valid }" color=" white--text">SAVE</v-btn>
       </div>
     </v-form>
-
+    
     <div>
     <v-data-table
       :headers="headers"
@@ -79,6 +79,10 @@
       class="elevation-1 mt-9 food"
     ></v-data-table>
   </div>
+
+  <div v-html="show"></div>
+  <div v-html="fail"></div>
+
   </v-container>
 </template>
 
@@ -111,7 +115,9 @@ import http from "../plugins/https";
         tablenumber: [],
         menus: [],
         ordertypes: [],
-        items : []
+        items : [],
+        show :'',
+        fail :''
       };
     },
     methods: {
@@ -169,9 +175,11 @@ import http from "../plugins/https";
           this.getOrderFood();
           this.clear();
           console.log(response);
+          this.show = '<FONT color="#D50000" size="5"> <MARQUEE>Order Success</MARQUEE></FONT>'
         })
         .catch(e => {
           console.log(e);
+          this.fail = '<FONT color="#D50000" size="5"> <MARQUEE>Order Fail</MARQUEE></FONT>'
         });
       //location.reload();  
       this.submitted = true;
@@ -190,6 +198,7 @@ import http from "../plugins/https";
           console.log(e);
         });
     },
+
       refreshList() {
         this.getTableNunber();
         this.getMenu();
