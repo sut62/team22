@@ -200,11 +200,7 @@ import http from "../plugins/https";
         this.getOrderType();
         this.getOrderFood();
     },
-<<<<<<< HEAD
-     created() {
-=======
       created() {
->>>>>>> issue-77
         this.getOrderFood();
       },
   };
