@@ -61,7 +61,7 @@ public class RestaurantApplication  {
 				positionRepository.save(position);
 			});
 
-			Stream.of("ทานนี้", "ห่อกลับบ้าน").forEach(type -> {
+			Stream.of("ทานที่นี้", "ห่อกลับบ้าน").forEach(type -> {
 				OrderType ordertype = new OrderType();
 				ordertype.setType(type);
 				ordertypeRepository.save(ordertype);
