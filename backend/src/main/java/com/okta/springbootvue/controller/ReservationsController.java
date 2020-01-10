@@ -50,6 +50,7 @@ public class ReservationsController {
       @PathVariable String date,
       @PathVariable String time
     ) {
+      
         return ReservationsRepository.findReserveByTableAndDateTime(id,date+"T"+time).stream().collect(Collectors.toList());
     }
 
@@ -75,7 +76,7 @@ public class ReservationsController {
     newresavations.setReservefor(reservefor);
     newresavations.setHas(has);
     newresavations.setServiceto(serviceto);
-    newresavations.setSeats(seats);
+    newresavations.setReserveseats(seats);
     newresavations.setReservedateandtime(datetime);
     return ReservationsRepository.save(newresavations); 
   }
