@@ -201,7 +201,7 @@ export default {
     },
     getMemType(){
       http
-        .get("/memTypes")
+        .get("/memtypes")
         .then(response => {
           this.memtype = response.data;
           console.log(this.items);
