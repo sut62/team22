@@ -154,6 +154,8 @@
 
       </v-col>
     </v-row>
+    <div v-html="show"></div>
+    <div v-html="fail"></div>
     
     <v-col cols="6" sm="6" md="3" class="mt-0"></v-col>
   </div>
@@ -186,6 +188,8 @@ export default {
         positionId: "",
         marital_statusId: ""
       },
+      show:'',
+      fail:'',
       date: new Date().toISOString().substr(0, 10),
       headers: [{ text: "Employee", value: "employee.name" }],
       items: [],
@@ -280,14 +284,12 @@ export default {
         )
         .then(response => {
           console.log(response);
-          alert("ลงทะเบียนสำเร็จ")
-          location.reload();
+          this.show = '<FONT color="#FFA07A" size="5"> <MARQUEE>Register Success</MARQUEE></FONT>'
         })
         .catch(e => {
           console.log(e);
-          alert("ลงทะเบียนไม่สำเร็จ")
+          this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
         });
-      this.submitted = true;
     },
     clear() {
       this.$refs.form.reset();
@@ -311,3 +313,4 @@ export default {
   }
 };
 </script>
+
