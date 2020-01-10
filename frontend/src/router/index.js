@@ -40,33 +40,20 @@ const routes = [
   {
     path: '/payment',
     name: 'payment',
-    component: payment}
-  },
-<<<<<<< HEAD
-  {
-     path: '/login',
-     name: 'login',
-     component: login
-=======
+    component: payment
+  }
   /*{
     path: '/login',
     name: 'login',
     component: login
->>>>>>> issue-75
   },
   {
     path: '/sec',
     name: 'sec',
     component: sec
-<<<<<<< HEAD
-  }
-
-
-=======
   }*/
   
  
->>>>>>> issue-75
 ]
 
 const router = new VueRouter({
