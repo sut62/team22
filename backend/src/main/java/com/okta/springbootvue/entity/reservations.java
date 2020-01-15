@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.*;
 	@Data
@@ -35,16 +36,19 @@ public class reservations {
 	    @Column(name="RESERVATIONS_ID",unique = true, nullable = true)	
 	private  long id;
 	
-
+		
 		@ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
 		@JoinColumn(name = "MEMBER_ID")
 	private Member reservefor;
 	
-	
+		@NotNull
+		@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+		
 		@Column(name = "RESERVE_DATE_AND_TIME")
 	private LocalDateTime reservedateandtime;
 
-	
+		@NotNull
+		@Positive(message = "Seat must be positive number")
 		@Column(name = "SEATS")
 	private Integer reserveseats;
 	

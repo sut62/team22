@@ -11,118 +11,84 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDateTime;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import com.okta.springbootvue.repository.*;
 import com.okta.springbootvue.entity.*;
+import com.okta.springbootvue.DateValidator;
 
 @DataJpaTest
 class ReservationTestCase {
-	private Validator validator;
+    private Validator validator;
+    private DateValidator dateValidator;
 
 	@Autowired
     private ReservationsRepository reservationsRepository;
 
-    @Autowired
-    private TablesRepository tablesRepository;
     
     
 
 	@BeforeEach
 	public void setup(){
+        dateValidator = new DateValidator();
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        
-        // //create tables
-        // tables tab = new tables();
-        // tab.setSeats(4);
-        // tablesRepository.save(tab);
-
-        // //create services
-        // services ser = new services();
-        // ser.setServiceName("Regular");
-        // servicesRepository.save(ser);
-
-        
-        // //create members
-        // Member mem = new Member();
-        //     //create name
-        //     mem.setName("Joey");
-        //     //create birth
-        //     mem.setBirth(new Date());
-        //     //create tel
-        //     mem.setTel("0911819211");
-        //     //create mail
-        //     mem.setMail("Mail@mail.com");
-        //     //create savedate
-        //     mem.setSaveDate(new Date());
-        //     //create memtype
-        //     MemType met = new MemType();
-        //         //create name
-        //         met.setName("Student");
-        //         memTypeRepository.save(met);
-        //     //create prefix
-        //     Prefix pre = new Prefix();
-        //         //create name
-        //         pre.setName("Mrs.");
-        //         prefixRepository.save(pre);
-        //     //create gender
-        //     Gender gen = new Gender();
-        //         //create name
-        //         gen.setName("Male");
-        //         genderRepository.save(gen);
-        //     mem.setSelect_gender(gen);
-        //     mem.setSelect_memtype(met);
-        //     mem.setSelect_prefix(pre);
-        //     //create employee
-        //     Employee emp = new Employee();
-        //         //create e_name
-        //         emp.setE_name("Jashon");
-        //         //create e_tell
-        //         emp.setE_TEL("0918819211");
-        //         //create e_address
-        //         emp.setE_ADDRESS("SUT");
-        //         //create e_birth
-        //         emp.setE_BIRTH(new Date());
-        //         //create e_num
-        //         emp.setE_NUM("540");
-        //         //create e_date
-        //         emp.setE_REGDATE(new Date());
-        //         //create age
-        //         Age age = new Age();
-        //         age.setAge(15);
-        //         ageRepository.save(age);
-        //         emp.setAge(age);
-        //         emp.setGender(gen);
-        //         //create position
-        //         Position post = new Position();
-        //             //create name
-        //             post.setName("Receptionist");
-        //             positionRepository.save(post);
-
-        //         emp.setPosition(post);
-        //         //create marital_status
-        //         Marital_Status mart = new Marital_Status();
-        //         marital_StatusRepository.save(mart);
-        //             //create name
-        //             mart.setName("Single");
-        //         emp.setMarital_Status(mart);
-        //         employeeRepository.save(emp);
-        //     mem.setSelect_employee(emp);
-        //     memberRepository.save(mem);
-	}
+    }    
     
-    //Save is success
+    //save success
 	@Test
 	void B6015145_testResercationSaveSuccess() {
+        reservations res = new reservations();
+        LocalDateTime datetime = LocalDateTime.parse("2020-04-04"+"T"+"14:14:10");
+        res.setReservedateandtime(datetime);
+        res.setReserveseats(4);
         
 
+        reservationsRepository.saveAndFlush(res);
 
-	}
+       reservations rev = reservationsRepository.findById(res.getId());
+        assertEquals(datetime, rev.getReservedateandtime());
+        assertEquals(4, rev.getReserveseats());
+
+
+    }
+    
+    //Date is not LocalDateTime format
+    @Test
+    void B6015145_testDateIsNotLocaDateTimeFormat(){
+        reservations res = new reservations();
+        String date = "2020-00-04T13:12:22";
+        assertFalse(dateValidator.isThisDateValid(date));
+        
+
+        
+       
+        
+        
+    }
+    //Seat is not positive number
+    @Test
+    void B6015145_testSeatMustBePositiveNumber(){
+        reservations res = new reservations();
+        LocalDateTime datetime = LocalDateTime.parse("2020-04-04"+"T"+"14:14:10");
+        res.setReservedateandtime(datetime);
+        res.setReserveseats(-1); //negative number
+        Set<ConstraintViolation<reservations>> result = validator.validate(res);
+
+        //must has 1 error
+        assertEquals(1, result.size());
+        //error message and path must be correct
+        ConstraintViolation<reservations> vi = result.iterator().next();
+        assertEquals("Seat must be positive number", vi.getMessage());
+        assertEquals("reserveseats", vi.getPropertyPath().toString());
+
+    }
 
 }
