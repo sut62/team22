@@ -125,8 +125,8 @@ class ReservationTestCase {
         revs.setReserveseats(14);
         reservationsRepository.saveAndFlush(revs);
 
-        Optional<reservations> found = reservationsRepository.findById(revs.getId());
-        assertEquals("2020-12-04 14:00:00",found.get().getReservedateandtime());
+        reservations getres = reservationsRepository.getOne(revs.getId());
+        assertEquals("2020-12-04 14:00:00",getres.getReservedateandtime());
 
 
 	}
