@@ -3,10 +3,15 @@ package com.MillRsDevide.restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
-
 import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDateTime;
 
 import javax.validation.Validation;
@@ -16,7 +21,7 @@ import javax.validation.ValidatorFactory;
 import com.okta.springbootvue.repository.*;
 import com.okta.springbootvue.entity.*;
 
-@SpringBootTest
+@DataJpaTest
 class ReservationTestCase {
 	private Validator validator;
 
@@ -115,7 +120,10 @@ class ReservationTestCase {
         reservations revs = new reservations();
         revs.setReservedateandtime(LocalDateTime.parse("2020-12-04 14:00:00"));
         revs.setReserveseats(14);
-        reservationsRepository.save(revs);
+        reservationsRepository.saveAndFlush(revs);
+
+        reservations getres = reservationsRepository.getOne(revs.getId());
+        assertEquals("2020-12-04 14:00:00",getres.getReservedateandtime());
 	}
 
 }
