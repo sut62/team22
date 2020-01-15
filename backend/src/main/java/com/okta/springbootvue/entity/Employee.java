@@ -39,7 +39,7 @@ public class Employee {
 
     private @NonNull String E_ADDRESS;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    
     private @NonNull Date E_BIRTH;
     
     private @NonNull String E_NUM;

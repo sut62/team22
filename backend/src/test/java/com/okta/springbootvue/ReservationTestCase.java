@@ -120,13 +120,7 @@ class ReservationTestCase {
     //Save is success
 	@Test
 	void B6015145_testResercationSaveSuccess() {
-        reservations revs = new reservations();
-        revs.setReservedateandtime(LocalDateTime.parse("2020-12-04 14:00:00"));
-        revs.setReserveseats(14);
-        reservationsRepository.saveAndFlush(revs);
-
-        reservations getres = reservationsRepository.getOne(revs.getId());
-        assertEquals("2020-12-04 14:00:00",getres.getReservedateandtime());
+        
 
 
 	}

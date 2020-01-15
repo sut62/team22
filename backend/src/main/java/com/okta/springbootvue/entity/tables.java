@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.NotNull;
 
 import java.util.Set;
 
@@ -31,11 +32,9 @@ public class tables {
 	@Column(name="TABLES_ID",unique = true, nullable = true)
 	private Long id;
 
-	@Pattern(regexp = "\\d+",message = "Must not be ZERO or Character")
-	@Min(value = 1 , message = "Seats can not be EMPTY!")
-	@Positive(message = "Cant not be NEGATIVE!")
-	@Column(name = "SEATS",unique = false,nullable = false)
-	private @NonNull Integer Seats;
+	
+	@Column(name = "SEAT",unique = false,nullable = false)
+	private Integer Seats;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<reservations> reservations;

@@ -40,16 +40,11 @@ public class reservations {
 		@JoinColumn(name = "MEMBER_ID")
 	private Member reservefor;
 	
-	@Pattern(regexp = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}",message = "Pattern is not MATCHED")
-	@NotNull(message = "LOCALDATETIME is NULL/EMPTY")
-	@Future(message="DATE and TIME can not be PAST!")
+	
 		@Column(name = "RESERVE_DATE_AND_TIME")
 	private LocalDateTime reservedateandtime;
 
-	@Pattern(regexp = "\\d+",message = "Can not be CHARACTER or ZERO")
-	@NotNull(message = "RESERVESEATS is NULL/EMPTY")
-	@Min(value = 1 , message = "Seats can not be EMPTY!")
-	@Positive(message = "Cant not be NEGATIVE!")
+	
 		@Column(name = "SEATS")
 	private Integer reserveseats;
 	
