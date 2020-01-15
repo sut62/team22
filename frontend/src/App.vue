@@ -17,7 +17,7 @@
           </v-navigation-drawer>
         </v-card>
       </v-col>
-      <v-col>
+      <v-col :cols="8">
         <v-content>
           <router-view/>
         </v-content>  

@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - RestaurantApplicationTests",
+            "request": "launch",
+            "mainClass": "com.MillRsDevide.restaurant.RestaurantApplicationTests",
+            "projectName": "restaurant"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-RestaurantApplication<restaurant>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
