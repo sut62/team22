@@ -17,7 +17,7 @@ import com.okta.springbootvue.repository.*;
 import com.okta.springbootvue.entity.*;
 
 @SpringBootTest
-class RestaurantApplicationTests {
+class ReservationTestCase {
 	private Validator validator;
 
 	@Autowired
