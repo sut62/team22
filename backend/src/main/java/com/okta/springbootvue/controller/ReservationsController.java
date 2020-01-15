@@ -51,7 +51,7 @@ public class ReservationsController {
       @PathVariable String time
     ) {
       
-        return ReservationsRepository.findReserveByTableAndDateTime(id,date+"T"+time).stream().collect(Collectors.toList());
+        return ReservationsRepository.findReserveByTableAndDateTime(id,date+" "+time).stream().collect(Collectors.toList());
     }
 
     @PostMapping("/reservationses/{member_id}/{table_id}/{service_id}/{reservs_date}/{reservs_time}/{seats}")

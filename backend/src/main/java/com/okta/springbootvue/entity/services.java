@@ -11,8 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,8 +30,12 @@ public class services {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICES_ID_SEQ")
 	@Column(name="SERVICES_ID",unique = true, nullable = true)
 	private Long id;
+
+	@NotNull(message = "SERVICES is NULL")
+	@NotBlank(message = "Can not be Blank")
+	@Pattern(regexp = "\\w+",message = "Must be Character")
 	@Column(name = "SERVICE_NAME",unique = false,nullable = false)
-	private @NonNull String ServiceName;
+	private  String ServiceName;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<reservations> reservations;

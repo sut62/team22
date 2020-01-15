@@ -14,6 +14,6 @@ public
 interface ReservationsRepository extends JpaRepository<reservations, Long> {
 	reservations findById(long id);
 
-	@Query(value = "SELECT * FROM RESERVATIONS as r where r.tables_id = :tableid AND r.RESERVE_DATE_AND_TIME = :datetime ",nativeQuery = true)
+	@Query(value = "SELECT * FROM RESERVATIONS as r where r.table_id = :tableid AND r.RESERVE_DATE_AND_TIME = :datetime ",nativeQuery = true)
 	Collection<reservations> findReserveByTableAndDateTime(@Param("tableid") long tableid,@Param("datetime") String datetime );
 }
