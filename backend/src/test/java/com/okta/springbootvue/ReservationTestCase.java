@@ -119,13 +119,15 @@ class ReservationTestCase {
     
     //Save is success
 	@Test
-	void B6015145_tablestest() {
-        tables tab = new tables();
-        tab.setSeats(5);
+	void B6015145_testResercationSaveSuccess() {
+        reservations revs = new reservations();
+        revs.setReservedateandtime(LocalDateTime.parse("2020-12-04 14:00:00"));
+        revs.setReserveseats(14);
+        reservationsRepository.saveAndFlush(revs);
 
-        tablesRepository.saveAndFlush(tab);
-        tables gettab = tablesRepository.getOne(tab.getId());
-        assertEquals("5",gettab.getSeats());
+        Optional<reservations> found = reservationsRepository.findById(revs.getId());
+        assertEquals("2020-12-04 14:00:00",found.get().getReservedateandtime());
+
 
 	}
 

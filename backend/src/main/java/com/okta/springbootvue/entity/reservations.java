@@ -35,7 +35,7 @@ public class reservations {
 	    @Column(name="RESERVATIONS_ID",unique = true, nullable = true)	
 	private  long id;
 	
-	@NotNull(message = "MEMBER is NULL/EMPTY")
+
 		@ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
 		@JoinColumn(name = "MEMBER_ID")
 	private Member reservefor;
@@ -53,12 +53,12 @@ public class reservations {
 		@Column(name = "SEATS")
 	private Integer reserveseats;
 	
-	@NotNull(message = "TABLES is NULL/EMPTY")
+	
 		@ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
 		@JoinColumn(name = "table_id",insertable = true)
 	private tables has;
 		
-	@NotNull(message = "SERVICES is NULL/EMPTY")
+	
 		@ManyToOne(fetch = FetchType.EAGER,targetEntity = services.class)
 		@JoinColumn(name = "service_ID",insertable = true)
 	private services serviceto;	
