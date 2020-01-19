@@ -43,7 +43,7 @@ public class reservations {
 	
 		@NotNull
 		@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-		
+		@Future(message = "Must not be present or past")
 		@Column(name = "RESERVE_DATE_AND_TIME")
 	private LocalDateTime reservedateandtime;
 
