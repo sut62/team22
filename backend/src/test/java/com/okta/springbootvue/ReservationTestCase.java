@@ -60,19 +60,6 @@ class ReservationTestCase {
 
     }
     
-    //Date is not LocalDateTime format
-    @Test
-    void B6015145_testDateIsNotLocaDateTimeFormat(){
-        reservations res = new reservations();
-        String date = "2020-00-04T13:12:22";
-        assertFalse(dateValidator.isThisDateValid(date));
-        
-
-        
-       
-        
-        
-    }
     //Seat is not positive number
     @Test
     void B6015145_testSeatMustBePositiveNumber(){
@@ -89,6 +76,38 @@ class ReservationTestCase {
         assertEquals("Seat must be positive number", vi.getMessage());
         assertEquals("reserveseats", vi.getPropertyPath().toString());
 
+    }
+    //Seat must not be null
+    @Test
+    void B6015145_testSeatMustNotBeNull(){
+        reservations res = new reservations();
+        LocalDateTime datetime = LocalDateTime.parse("2020-04-04"+"T"+"14:14:10");
+        res.setReservedateandtime(datetime);
+        res.setReserveseats(null);//null 
+        Set<ConstraintViolation<reservations>> result = validator.validate(res);
+
+        //must has 1 error
+        assertEquals(1, result.size());
+        //error message and path must be correct
+        ConstraintViolation<reservations> vi = result.iterator().next();
+        assertEquals("must not be null", vi.getMessage());
+        assertEquals("reserveseats", vi.getPropertyPath().toString());
+    }
+    //TimeandDate must not be present or past
+    @Test
+    void B6015145_testLocalTimeDateMustNotBePresentOrPast(){
+        reservations res = new reservations();
+        LocalDateTime datetime = LocalDateTime.parse("2010-04-04"+"T"+"14:14:10");
+        res.setReservedateandtime(datetime);
+        res.setReserveseats(5);
+        Set<ConstraintViolation<reservations>> result = validator.validate(res);
+
+        //must has 1 error
+        assertEquals(1, result.size());
+        //error message and path must be correct
+        ConstraintViolation<reservations> vi = result.iterator().next();
+        assertEquals("Must not be present or past", vi.getMessage());
+        assertEquals("reservedateandtime", vi.getPropertyPath().toString());
     }
 
 }
