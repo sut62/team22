@@ -5,12 +5,17 @@
       <v-col cols = 12>
         <v-container>
           <v-layout row wrap>
-            <v-col cols = 2>
-
+            <v-card class="mx-auto"
+            outlined>
+            <v-col cols = 12>
+              <div class="text-center">
+                <p class="font-weight-bold">จัดการเมนูอาหาร</p>
+              </div>
               <v-text-field
               v-model="ManageMenu.MENU_NAME"
-              label="Menu Name"
+              label="เมนูอาหาร"
               :rules="[(v) => !!v || 'Item is required']"
+              hint="ชื่อเมนูอาหารไม่เกิน 30 ตัวอักษร"
               required
               outlined
               dense
@@ -18,86 +23,94 @@
 
               <v-text-field
               v-model="ManageMenu.MENU_PRICE"
-              type="number"
               :rules="[(v) => !!v || 'Item is required']"
-              label="Menu Price"
+              hint="ราคาอาหารไม่เกิน 4 หลัก"
+              label="ราคาอาหาร"
               required
               outlined
               dense
+              suffix="฿"
               ></v-text-field>
-
               <br>
               <v-select
               v-model="ManageMenu.cid"
               :items="MenuCate"
-              label="Menu Category"
+              label="ประเภทอาหาร"
               item-text="cname"
               item-value="cid"
               outlined
               dense
               ></v-select>
 
-              <br>
               <v-select
               v-model="ManageMenu.id"
               :items="MenuIngre"
-              label="Menu Ingredient"
+              label="ส่วนประกอบหลัก"
               item-text="iname"
               item-value="id"
               outlined
               dense
               ></v-select>
 
-              <br>
               <v-select
               v-model="ManageMenu.tid"
               :items="MenuType"
-              label="Menu Type"
+              label="การปรุงอาหาร"
               item-text="tname"
               item-value="tid"
               outlined
               dense
               ></v-select>
 
-              <br>
-              <v-btn small @click="saveData">Add Menu</v-btn>
-              <!-- @click="saveData" -->
+              <div class="text-center">
+                <v-btn
+                small
+                @click="saveData"
+                tile
+                color="success"
+                >Add Menu</v-btn>
+                <br>
+              </div>
+
             </v-col>
-            <v-col cols = 8>
-              <v-card
-              class="mx-auto"
-              max-width="850"
-              outlined
-              >
-              <v-simple-table
-              fixed-header>
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th class="text-left">Menu name</th>
-                      <th class="text-left">Category</th>
-                      <th class="text-left">Ingredient</th>
-                      <th class="text-left">Type</th>
-                      <th class="text-left">Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="item in showtable" :key="item.name">
-                      <td class="text-left">{{ item.m_name }}</td>
-                      <td class="text-left">{{ item.sel_cate.cname }}</td>
-                      <td class="text-left">{{ item.sel_ingre.iname }}</td>
-                      <td class="text-left">{{ item.sel_type.tname }}</td>
-                      <td class="text-left">{{ item.m_price+" .-" }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </v-card>
-          </v-col>
-        </v-layout>
-      </v-container>
-    </v-col>
-  </div>
+          </v-card>
+          <v-card
+          class="mx-auto"
+          max-width="1000"
+          outlined>
+          <v-col cols = 12>
+
+            <v-simple-table
+            fixed-header>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">ชื่อเมนู</th>
+                  <th class="text-left">ประเภทอาหาร</th>
+                  <th class="text-left">ส่วนประกอบหลัก</th>
+                  <th class="text-left">การปรุงอาหาร</th>
+                  <th class="text-left">ราคา</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in showtable" :key="item.name">
+                  <td class="text-left">{{ item.m_name }}</td>
+                  <td class="text-left">{{ item.sel_cate.cname }}</td>
+                  <td class="text-left">{{ item.sel_ingre.iname }}</td>
+                  <td class="text-left">{{ item.sel_type.tname }}</td>
+                  <td class="text-left">{{ item.m_price+" ฿" }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+
+        </v-col>
+      </v-card>
+    </v-layout>
+  </v-container>
+</v-col>
+
+</div>
 </div>
 </template>
 

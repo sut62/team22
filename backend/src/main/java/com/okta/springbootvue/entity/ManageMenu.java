@@ -13,22 +13,30 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @Data
 @Entity
 @NoArgsConstructor
 @Table(name="MENU")
 public class ManageMenu {
+
   @Id
   @SequenceGenerator(name="mn_gen",sequenceName="menu_num")
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="mn_gen")
   @Column(name = "MENU_ID", unique = true, nullable = true)
   private @NonNull Long mnid;
 
+  @NotNull
+  @Pattern(regexp = "\\D{1,30}")
   @Column(name="MENU_NAME")
-  private @NonNull String m_name;
+  private String m_name;
 
+  @NotNull
+  @Pattern(regexp = "\\d{1,4}")
   @Column(name="MENU_PRICE")
-  private @NonNull String m_price;
+  private String m_price;
 
   //====================================================================
 
