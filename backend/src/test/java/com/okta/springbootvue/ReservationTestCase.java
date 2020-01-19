@@ -174,6 +174,9 @@ class ReservationTestCase {
         assertEquals("Must not be present or past", vi.getMessage());
         assertEquals("reservedateandtime", vi.getPropertyPath().toString());
     }
+<<<<<<< HEAD
+>>>>>>> 37da935e842e5c3b694f0ff1b9a7d33a08c6a959
+=======
 >>>>>>> 37da935e842e5c3b694f0ff1b9a7d33a08c6a959
 
 }
