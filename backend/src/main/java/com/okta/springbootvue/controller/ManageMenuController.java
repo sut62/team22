@@ -48,7 +48,7 @@ public class ManageMenuController {
   public ManageMenu newMenu(ManageMenu newMenu,
 
   @PathVariable String m_name,
-  @PathVariable Integer m_price,
+  @PathVariable String m_price,
   @PathVariable long cate_name,
   @PathVariable long ingre_name,
   @PathVariable long type_name

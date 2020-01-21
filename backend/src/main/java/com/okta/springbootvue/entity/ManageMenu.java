@@ -36,7 +36,7 @@ public class ManageMenu {
   @NotNull
   @Pattern(regexp = "\\d{1,4}")
   @Column(name="MENU_PRICE")
-  private Integer m_price;
+  private String m_price;
 
   //====================================================================
 
