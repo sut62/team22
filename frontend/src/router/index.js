@@ -6,52 +6,69 @@ import employeereg from '../components/EmployeeREG.vue'
 import member from '../components/member.vue'
 import OrderFood from '../components/OrderFood.vue'
 import payment from '../components/Payment.vue'
-//import login from '../components/Login.vue'
-//import sec from '../components/Secure.vue'
+import login from '../components/login.vue'
+import db from 'firebase'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/login',
+    name: 'login',
+    component: login,
+    meta:{
+      requireGuest: true
+    }
+  },
+  {
     path: '/',
     name: 'reservation',
-    component: reservation
+    component: reservation,
+    meta:{
+      requireAuth: true
+    }
   },
   {
     path: '/menumng',
     name: 'menumanager',
-    component: menumanager
+    component: menumanager,
+    meta:{
+      requireAuth: true
+    }
   },
   {
     path: '/employeereg',
     name: 'employeereg',
-    component: employeereg
+    component: employeereg,
+    meta:{
+      requireAuth: true
+    }
   },
    {
     path: '/member',
     name: 'member',
-    component: member
+    component: member,
+    meta:{
+      requireAuth: true
+    }
   },
   {
     path: '/OrderFood',
     name: 'OrderFood',
-    component: OrderFood
+    component: OrderFood,
+    meta:{
+      requireAuth: true
+    }
   },
   {
     path: '/payment',
     name: 'payment',
-    component: payment
-  }
-  /*{
-    path: '/login',
-    name: 'login',
-    component: login
+    component: payment,
+    meta:{
+      requireAuth: true
+    }
   },
-  {
-    path: '/sec',
-    name: 'sec',
-    component: sec
-  }*/
+  
   
  
 ]
@@ -59,5 +76,40 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+router.beforeEach((to,from,next) => {
+  if(to.matched.some(rec => rec.meta.requireAuth)){
+    if(!db.auth().currentUser){
+      next({
+        path: '/login',
+        query:{
+          redirect: to.fullPath
+        }
+      })
+    }
+    
+    else{
+       next();
+    }
+    
+  }
+  else if(to.matched.some(rec => rec.meta.requireGuest)){
+      if(db.auth().currentUser){
+        next({
+          path:'/login',
+          query:{
+            redirect: to.fullPath
+          }
+        })
+      }
+      else{
+        next()
+      }
+  }
+  else{
+    next()
+  }
+})
+
+
 
 export default router

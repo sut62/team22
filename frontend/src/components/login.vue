@@ -59,11 +59,28 @@
 </template>
 
 <script>
+import db from 'firebase'
   export default {
     date() {
         return{
             email:'',
             pass:'',
+        }
+        
+    },
+    methods:{
+        login(){
+            db.auth().signInWithEmailAndPassword(this.email,this.pass)
+            .then(  
+                user => {
+                    alert(`Succesfully login for ${user.user.email}`)
+                    this.$router.push('/')
+                    
+                },
+                err =>{
+                    alert(err.massage)
+                }
+            )
         }
     }
   }
