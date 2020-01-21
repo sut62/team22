@@ -50,7 +50,7 @@ public class OrderFoodController {
     public OrderFood newOrder(OrderFood newOrderFood,
     @PathVariable long tables_id,
     @PathVariable long menu_id,
-    @PathVariable long dishnumber,
+    @PathVariable Integer dishnumber,
     @PathVariable long ordertype_id) {
 
     tables tables = tablesRepository.findById(tables_id);
