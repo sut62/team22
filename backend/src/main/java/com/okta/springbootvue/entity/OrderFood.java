@@ -11,9 +11,8 @@ import javax.persistence.ManyToOne;
 
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-//import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-//import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,11 +30,10 @@ public class OrderFood {
     private @NonNull Long id;
 
    
-    //@Pattern(regexp = "\\d{1}-\\d{1000}")
-    //@Min(1)
+    
     @NotNull(message = "must not be null")
     @Positive(message = "must be positive number")
-    //@Digits(fraction = 0)
+    @Max(value = 100,message = "must not be more 100")
     @Column(name="DishNumber")
     private  Integer dishnumber;
 
