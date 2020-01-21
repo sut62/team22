@@ -1,6 +1,7 @@
 <template>
-  <v-container class="mt-12 ml-12">
-    <v-text-field
+  <v-container class="mt-12 ml-12" style="background-color: white;">
+    <h2>จองโต๊ะอาหาร</h2>
+    <v-text-field 
       v-model.number="reservation.customer"      
       :label="show"  
       prepend-icon="mdi-human-male-female"
@@ -9,7 +10,9 @@
     ></v-text-field>
 		<v-btn color="success"
       @click="customerchk"
-    >Search</v-btn>
+    >Search
+    <v-icon>mdi-magnify</v-icon>
+    </v-btn>
     
 
 		<v-menu max-width="290" >
@@ -69,6 +72,7 @@
         </v-menu>
      </v-row>
     <v-select
+
       label="Select Table"
       v-model="reservation.table"
       :items="table"
@@ -81,6 +85,7 @@
     >
     </v-select>
     <v-select
+      
       label="Select Number of Seats"
       v-model="reservation.seats"
       :items="seat"
@@ -93,6 +98,7 @@
     >
     </v-select>
     <v-select
+            
       :items="services"
       v-model="reservation.service"
       label="Select Service"
@@ -102,13 +108,26 @@
       :rules="[(v) => !!v || 'Item is required']"
       required
     ></v-select>
-    <v-btn color="success"
+    
+    <v-btn color="success" class="mx-2"
+      @click="getReservations"
+      
+    >RESERVATION CHECK 
+    <v-icon>mdi-check</v-icon>
+    </v-btn>
+    <v-btn v-if="showsave" color="success"
       @click="save"
       
     >SAVE 
     <v-icon>mdi-floppy</v-icon>
-    </v-btn>
     
+    </v-btn>
+     <v-alert class="my-2" v-if="findmember == 'found'" color="green">Member Found</v-alert>
+     <v-alert class="my-2" v-else-if="findmember == 'notfound'" type="error">Member Not Found</v-alert>
+     
+    <v-alert class="my-2" v-if="dupe" type="error">This time and date is already reserved</v-alert>
+     <v-alert class="my-2" v-if=" savechk == 'save'" color="green">{{errmsg}}</v-alert>
+     <v-alert class="my-2" v-else-if="savechk == 'notsave'" type="error">{{errmsg}}</v-alert>
   </v-container>
 </template>
 
@@ -132,10 +151,15 @@ export default {
         },
         reservations:[],
         services:[],
-        findmember:false,
+        findmember:'',
         table:[],
         seat:[],
         show:"Member ID",
+        savechk:'',
+        errmsg:``,
+        dupe:false,
+        showsave:false,
+
   }),
   computed:{
     formattedDate(){
@@ -153,42 +177,45 @@ export default {
     customerchk(){
       https.get("/members/"+this.reservation.customer).then( doc =>{
               if(doc.data!=null){
-               alert("Member found")
+               this.findmember='found'
               }
               else{
-                alert("Member not found")
+                this.findmember='notfound'
               }
       })
       .catch(()=> {
-            alert("Member not found")
+            this.findmember='notfound'
       })
     },
   
     save(){
-        if(this.getReservations()){
+        if(!this.dupe){
           https.post("/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats)
         .then(doc => {
-            alert(`The reservation is saved : ${doc.status}`)
+           this.errmsg=`The reservation is saved status : ${doc.status}`
+           this.savechk='save'
             
         })
         .catch(e =>{
-            alert(`The reservation is not saved : ${e.message}`)
+            this.errmsg=`The reservation is not saved : ${e.message}`
+            this.savechk='notsave'
         })
         }
         else{
-          alert("Data duplicated!")
+          this.errmsg=`Your data is duplicated!`
+          this.savechk='notsave'
         }
        
     },
     getTables(){
        https.get("/tableses").then( doc =>{
-
         this.table=doc.data
-                  
-                   
+        
+          
       })
       .catch(e =>{
           alert(e.name+" "+e.message)
+          
       })
     },
     getService(){
@@ -205,12 +232,8 @@ export default {
     },
     getReservations(){
       https.get("/reservationses/"+this.reservation.table.id+"/"+this.date+"/"+this.reservation.time).then( doc => {
-        if(doc.data != null){ //found
-          return 0
-        }
-        else{
-          return 1
-        }
+        this.dupe=doc.data
+        this.showsave=!doc.data
       })
       .catch(e => {
         alert(e.name+" "+e.message)

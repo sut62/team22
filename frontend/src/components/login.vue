@@ -14,7 +14,7 @@
             sm="8"
             md="4"
           >
-            <v-card class="elevation-12">
+            <v-card class="elevation-12" dark>
               <v-toolbar
                 color="primary"
                 dark
@@ -48,7 +48,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn @click="login" color="primary">Login</v-btn>
+                <v-btn @click="login" dark>Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>

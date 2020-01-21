@@ -45,23 +45,29 @@ public class ReservationsController {
     }
 
     @GetMapping("/reservationses/{id}/{date}/{time}")
-    public Collection<reservations> newresavationID(
+    public Boolean checkDuplicateReservation(
       @PathVariable Long id,
       @PathVariable String date,
       @PathVariable String time
     ) {
-      
-        return ReservationsRepository.findReserveByTableAndDateTime(id,date+" "+time).stream().collect(Collectors.toList());
+        Collection<reservations> getres = ReservationsRepository.findReserveByTableAndDateTime(id,date+" "+time).stream().collect(Collectors.toList());
+        if(getres.isEmpty()){
+          return false ;
+        }
+        else{
+          return true;
+        }
+        
     }
 
     @PostMapping("/reservationses/{member_id}/{table_id}/{service_id}/{reservs_date}/{reservs_time}/{seats}")
     public reservations newresavations(reservations newresavations,
-  @PathVariable Long member_id,
-  @PathVariable Long table_id,
-  @PathVariable Long service_id,
-  @PathVariable String reservs_date,
-  @PathVariable String reservs_time,
-  @PathVariable Integer seats
+    @PathVariable Long member_id,
+    @PathVariable Long table_id,
+    @PathVariable Long service_id,
+    @PathVariable String reservs_date,
+    @PathVariable String reservs_time,
+    @PathVariable Integer seats
   
   ) {
     Optional<Member> optreservefor = MemberRepository.findById(member_id);
