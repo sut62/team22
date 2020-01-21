@@ -108,7 +108,7 @@ import http from "../plugins/https";
           },
           { text: 'MENU', value: 'managemenu.m_name' },
           { text: 'OrderType', value: 'ordertype.type' },
-          { text: 'DishNumber', value: 'dishnumber' }
+          { text: 'DishNumber', value: 'dishnumber'}
         ],
         valid : false,
         tablenumber: [],
