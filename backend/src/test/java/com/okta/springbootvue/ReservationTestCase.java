@@ -4,14 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
-import java.util.Optional;
+
+
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 import java.time.LocalDateTime;
 
@@ -22,12 +21,12 @@ import javax.validation.ValidatorFactory;
 
 import com.okta.springbootvue.repository.*;
 import com.okta.springbootvue.entity.*;
-import com.okta.springbootvue.DateValidator;
+
 
 @DataJpaTest
 class ReservationTestCase {
     private Validator validator;
-    private DateValidator dateValidator;
+   
 
 	@Autowired
     private ReservationsRepository reservationsRepository;
@@ -37,7 +36,7 @@ class ReservationTestCase {
 
 	@BeforeEach
 	public void setup(){
-        dateValidator = new DateValidator();
+        
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }    
