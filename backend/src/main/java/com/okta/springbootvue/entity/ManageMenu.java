@@ -30,7 +30,7 @@ public class ManageMenu {
 
   @NotNull
   @Pattern(regexp = "\\D{1,30}")
-  @Column(name="MENU_NAME")
+  @Column(name="MENU_NAME",unique=true)
   private String m_name;
 
   @NotNull
