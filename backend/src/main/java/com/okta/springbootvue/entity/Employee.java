@@ -11,6 +11,8 @@ import javax.validation.constraints.Pattern;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -31,25 +33,26 @@ public class Employee {
     @SequenceGenerator(name="Employee_seq",sequenceName="Employee_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="Employee_seq")
     @Column(name = "Employee_ID", unique = true, nullable = true)
-    private @NotNull Long id;
+    private @NonNull Long id;
 
     @Pattern(regexp = "\\D{1,50}")
-    private @NotNull String e_name;
+    private String e_name;
     
     @Pattern(regexp = "\\d{10}")
-    private @NotNull String E_TEL;
+    private String E_TEL;
 
     private @NotNull String E_ADDRESS;
 
+    @Past
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private @NotNull Date E_BIRTH;
+    private Date E_BIRTH;
     
     @Pattern(regexp = "\\d{13}")
-    private @NotNull String E_NUM;
+    private String E_NUM;
 
     
 
-    private @NotNull Date E_REGDATE;
+    private Date E_REGDATE;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Age.class)
     @JoinColumn(name = "Age_ID", insertable = true)
