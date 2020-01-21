@@ -75,6 +75,21 @@ public class OrderFoodTestCase {
         assertEquals("dishnumber", v.getPropertyPath().toString());
 
     }
+    
+    @Test
+    void B6014292_testOrderFoodMaxNumberCase(){
+        OrderFood  orderfood = new OrderFood();
+        orderfood.setDishnumber(1000);
+
+        Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
+
+        assertEquals(1, result.size());
+
+        ConstraintViolation<OrderFood> v = result.iterator().next();
+        assertEquals("must not be more 100", v.getMessage());
+        assertEquals("dishnumber", v.getPropertyPath().toString());
+
+    }
 
     
 }
