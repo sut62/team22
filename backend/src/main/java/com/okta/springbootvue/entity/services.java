@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import java.util.List;
@@ -31,9 +30,8 @@ public class services {
 	@Column(name="SERVICES_ID",unique = true, nullable = true)
 	private Long id;
 
-	@NotNull(message = "SERVICES is NULL")
-	@NotBlank(message = "Can not be Blank")
-	@Pattern(regexp = "\\w+",message = "Must be Character")
+	@NotBlank(message = "SERVICES can not be null or blank")
+	@Pattern(regexp = "\\D+",message = "Must be Character")
 	@Column(name = "SERVICE_NAME",unique = false,nullable = false)
 	private  String ServiceName;
 	

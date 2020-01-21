@@ -11,9 +11,10 @@ import javax.persistence.ManyToOne;
 
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-
-
+//import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -29,8 +30,14 @@ public class OrderFood {
     @Column(name = "OrderFood_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
+   
+    //@Pattern(regexp = "\\d{1}-\\d{1000}")
+    //@Min(1)
+    @NotNull(message = "must not be null")
+    @Positive(message = "must be positive number")
+    //@Digits(fraction = 0)
     @Column(name="DishNumber")
-    private @NonNull Long dishnumber;
+    private  Integer dishnumber;
 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)

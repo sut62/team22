@@ -117,6 +117,44 @@ public class ManageMenuTestCases {
   }
 
   @Test
+<<<<<<< HEAD
+=======
+  void B6027315_menuNameMustBeUnique() {
+      // สร้าง person object
+      ManageMenu mn1 = new ManageMenu();
+      mn1.setM_name("Tom Yum Kung");
+      mn1 = ManageMenuRep.saveAndFlush(mn1);
+
+      // คาดหวังว่า DataIntegrityViolationException จะถูก throw
+      assertThrows(DataIntegrityViolationException.class, () -> {
+          // สร้าง person object ตัวที่ 2
+          ManageMenu mn2 = new ManageMenu();
+          mn2.setM_name("Tom Yum Kung");
+          mn2 = ManageMenuRep.saveAndFlush(mn2);
+      });
+  }
+
+  // ===== For Menu Price Text Field =====
+
+  @Test //Add Menu Failed by null data in textfield
+  void B6027315_menuPriceAddMenuFailedTest() {
+    ManageMenu mn1 = new ManageMenu();
+    mn1.setM_name("Tom Yum Kung");
+    mn1.setM_price(null);
+
+    Set<ConstraintViolation<ManageMenu>> result = validator.validate(mn1);
+
+    // result ต้องมี error 1 ค่าเท่านั้น
+    assertEquals(1, result.size());
+
+    // error message ตรงชนิด และถูก field
+    ConstraintViolation<ManageMenu> v = result.iterator().next();
+    assertEquals("must not be null", v.getMessage());
+    assertEquals("m_price", v.getPropertyPath().toString());
+  }
+
+  @Test
+>>>>>>> 415535401878cdc34485477dd88c1a301d1108de
   void B6027315_menuPriceIsOnlyNumber1To4Digits() {
     ManageMenu mn1 = new ManageMenu();
     mn1.setM_name("Tom Yum Kung");
