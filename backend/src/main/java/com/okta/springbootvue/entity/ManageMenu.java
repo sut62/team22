@@ -30,13 +30,13 @@ public class ManageMenu {
 
   @NotNull
   @Pattern(regexp = "\\D{1,30}")
-  @Column(name="MENU_NAME")
+  @Column(name="MENU_NAME",unique=true)
   private String m_name;
 
   @NotNull
   @Pattern(regexp = "\\d{1,4}")
   @Column(name="MENU_PRICE")
-  private String m_price;
+  private Integer m_price;
 
   //====================================================================
 
