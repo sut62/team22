@@ -24,7 +24,7 @@
               <v-text-field
               v-model="ManageMenu.MENU_PRICE"
               :rules="[(v) => !!v || 'Item is required']"
-              hint="ราคาอาหารไม่เกิน 4 หลัก"
+              hint="ราคาอาหารเป็นตัวเลขเท่านั้น"
               label="ราคาอาหาร"
               required
               outlined
@@ -62,52 +62,129 @@
               dense
               ></v-select>
 
+
               <div class="text-center">
                 <v-btn
-                small
                 @click="saveData"
                 tile
-                color="success"
-                >Add Menu</v-btn>
-                <br>
+                color="success">เพิ่มเมนูอาหาร</v-btn>
               </div>
 
-            </v-col>
-          </v-card>
-          <v-card
-          class="mx-auto"
-          max-width="1000"
-          outlined>
-          <v-col cols = 12>
+              <v-snackbar
+              v-model="snackbar"
+              time=5000
+              top
+              :color="cl"
+              >
+              {{ status }}
+              <v-btn
 
-            <v-simple-table
-            fixed-header>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">ชื่อเมนู</th>
-                  <th class="text-left">ประเภทอาหาร</th>
-                  <th class="text-left">ส่วนประกอบหลัก</th>
-                  <th class="text-left">การปรุงอาหาร</th>
-                  <th class="text-left">ราคา</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in showtable" :key="item.name">
-                  <td class="text-left">{{ item.m_name }}</td>
-                  <td class="text-left">{{ item.sel_cate.cname }}</td>
-                  <td class="text-left">{{ item.sel_ingre.iname }}</td>
-                  <td class="text-left">{{ item.sel_type.tname }}</td>
-                  <td class="text-left">{{ item.m_price+" ฿" }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+              text
+              @click="snackbar = false"
+              >
+              ปิด
+            </v-btn></v-snackbar>
+            <br>
 
-        </v-col>
-      </v-card>
-    </v-layout>
-  </v-container>
+          </v-col>
+        </v-card>
+        <v-card
+        class="mx-auto"
+        max-width="1000"
+        outlined>
+        <v-col cols = 12>
+
+          <v-simple-table
+          fixed-header>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">ชื่อเมนู</th>
+                <th class="text-left">ประเภทอาหาร</th>
+                <th class="text-left">ส่วนประกอบหลัก</th>
+                <th class="text-left">การปรุงอาหาร</th>
+                <th class="text-left">ราคา</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in showtable" :key="item.name">
+                <td class="text-left">{{ item.m_name }}</td>
+                <td class="text-left">{{ item.sel_cate.cname }}</td>
+                <td class="text-left">{{ item.sel_ingre.iname }}</td>
+                <td class="text-left">{{ item.sel_type.tname }}</td>
+                <td class="text-left">{{ item.m_price+" ฿" }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+
+      </v-col>
+
+      <br>
+      <v-col cols = 12>
+        <v-autocomplete
+        v-model="ManageMenu.mnid"
+        :items="showtable"
+        label="ค้นหาเมนูอาหาร"
+        item-text="m_name"
+        item-value="mnid"
+        outlined
+        dense
+        clear-icon
+        ></v-autocomplete>
+        <div class="text-center">
+
+          <div class="text-center">
+            <v-dialog
+            v-model="dialog"
+            width="500"
+            >
+            <template v-slot:activator="{ on }">
+              <v-btn
+              color="error"
+              tile
+              dark
+              v-on="on"
+              >
+              ลบเมนูอาหาร
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title
+            class="headline grey lighten-2"
+            primary-title
+            >
+            ต้องการลบเมนูอาหารใช่หรือไม่?
+          </v-card-title>
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            color="error"
+            tile
+            @click="removeData"
+            >
+            ใช่
+          </v-btn>
+          <v-btn
+          color="primary"
+          tile
+          @click="dialog = false"
+          >
+          ไม่
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</div>
+</div>
+</v-col>
+</v-card>
+</v-layout>
+</v-container>
+
 </v-col>
 
 </div>
@@ -120,7 +197,12 @@ export default {
   name:"ManageMenu",
   data(){
     return{
+      snackbar: false,
+      status:"",
+      cl:"",
+      dialog: false,
       ManageMenu:{
+        mnid:"",
         cid:"",
         id:"",
         tid:"",
@@ -134,6 +216,19 @@ export default {
     };
   },
   methods:{
+    removeData(){
+      http.delete("/manageMenus/"+this.ManageMenu.mnid).then(response =>{
+        console.log(response);
+        // this.showtable = response.data;
+        // location.reload();
+        this.dialog=false
+        this.snackbar=true
+        this.status="ลบเมนูสำเร็จ!"
+        this.cl="success"
+
+      });
+      this.submitted = true;
+    },
     saveData(){
       http.post("/manageMenus/"+
       this.ManageMenu.MENU_NAME
@@ -147,14 +242,18 @@ export default {
       this.ManageMenu.tid)
       .then(response => {
         console.log(response);
-        alert("เพิ่มเมนูสำเร็จ")
-        location.reload();
+        this.snackbar=true
+        this.status="เพิ่มเมนูสำเร็จ!"
+        this.cl="success"
         this.getDataTable();
 
       })
       .catch(e => {
         console.log(e);
-        alert("เพิ่มเมนูไม่สำเร็จ")
+        // alert("เพิ่มเมนูไม่สำเร็จ")
+        this.snackbar=true
+        this.cl="error"
+        this.status="เพิ่มเมนูไม่สำเร็จ!"
       })
       ;
       this.submitted = true;
@@ -181,6 +280,7 @@ export default {
       this.submitted = true;
 
     },
+
     getDataTable(){
       http.get("/manageMenus").then(response =>{
         this.showtable = response.data;
@@ -193,6 +293,7 @@ export default {
     this.getMenuIngre();
     this.getMenuType();
     this.getDataTable();
+    this.removeData();
   }
 }
 </script>
