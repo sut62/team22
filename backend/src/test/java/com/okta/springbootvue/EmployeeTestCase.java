@@ -42,7 +42,7 @@ class EmployeeTestCase {
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     validator = factory.getValidator();
   }
-  @Test //Add Menu Success
+  @Test 
   
   void B6010799_addEmployeeSuccessTest() throws ParseException{
       
@@ -50,9 +50,9 @@ class EmployeeTestCase {
     String date = "1999-11-10";
     Date ten = new Date();
     Employee employee = new Employee();
-    employee.setE_name("นาย พลภัทร น้ำทอง");
+    employee.setE_name("Phonlaphat Namthong");
     employee.setE_TEL("0879267920");
-    employee.setE_ADDRESS("90 หมู่ 4 ต.แสวงหา อ.แสวงหา จ.อ่างทอง");
+    employee.setE_ADDRESS("Angthong");
     employee.setE_BIRTH(dateFormat.parse(date));
     employee.setE_NUM("1179900377114");
     employee.setE_REGDATE(ten);
@@ -60,38 +60,17 @@ class EmployeeTestCase {
     employee = employeeRepository.saveAndFlush(employee);
 
     Optional<Employee> found = employeeRepository.findById(employee.getId());
-    assertEquals("นาย พลภัทร น้ำทอง", found.get().getE_name());
+    assertEquals("Phonlaphat Namthong", found.get().getE_name());
     assertEquals("0879267920", found.get().getE_TEL());
-    assertEquals("90 หมู่ 4 ต.แสวงหา อ.แสวงหา จ.อ่างทอง", found.get().getE_ADDRESS());
+    assertEquals("Angthong", found.get().getE_ADDRESS());
     assertEquals(dateFormat.parse(date), found.get().getE_BIRTH());
     assertEquals("1179900377114", found.get().getE_NUM());
     assertEquals(ten, found.get().getE_REGDATE());
   }
 
-  @Test //Add Menu Success
   
-  void B6010799_EmployeenameNotBeNull() throws ParseException{
-      
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    String date = "1999-11-10";
-    Date ten = new Date();
-    Employee employee = new Employee();
-    employee.setE_name(null);
-    employee.setE_TEL("0879267920");
-    employee.setE_ADDRESS("90 หมู่ 4 ต.แสวงหา อ.แสวงหา จ.อ่างทอง");
-    employee.setE_BIRTH(dateFormat.parse(date));
-    employee.setE_NUM("1179900377114");
-    employee.setE_REGDATE(ten);
-    Set<ConstraintViolation<Employee>> result = validator.validate(employee);
 
-    assertEquals(1, result.size());
-
-    ConstraintViolation<Employee> vi = result.iterator().next();
-    assertEquals("must not be null", vi.getMessage());
-    assertEquals("e_name", vi.getPropertyPath().toString());
-  }
-
-  @Test //Add Menu Success
+  @Test 
   
   void B6010799_EmployeeTelMustBe10Digit() throws ParseException{
       
@@ -99,9 +78,9 @@ class EmployeeTestCase {
     String date = "1999-11-10";
     Date ten = new Date();
     Employee employee = new Employee();
-    employee.setE_name("นาย พลภัทร น้ำทอง");
+    employee.setE_name("Phonlaphat Namthong");
     employee.setE_TEL("000005151515151515");
-    employee.setE_ADDRESS("90 หมู่ 4 ต.แสวงหา อ.แสวงหา จ.อ่างทอง");
+    employee.setE_ADDRESS("Angthong");
     employee.setE_BIRTH(dateFormat.parse(date));
     employee.setE_NUM("1179900377114");
     employee.setE_REGDATE(ten);
@@ -115,7 +94,7 @@ class EmployeeTestCase {
     assertEquals("E_TEL", vi.getPropertyPath().toString());
   }
 
-  @Test //Add Menu Success
+  @Test
   
   void B6010799_EmployeeNumMustBe13Digit() throws ParseException{
       
@@ -123,9 +102,9 @@ class EmployeeTestCase {
     String date = "1999-11-10";
     Date ten = new Date();
     Employee employee = new Employee();
-    employee.setE_name("นาย พลภัทร น้ำทอง");
+    employee.setE_name("Phonlaphat Namthong");
     employee.setE_TEL("0879267920");
-    employee.setE_ADDRESS("90 หมู่ 4 ต.แสวงหา อ.แสวงหา จ.อ่างทอง");
+    employee.setE_ADDRESS("Angthong");
     employee.setE_BIRTH(dateFormat.parse(date));
     employee.setE_NUM("117");
     employee.setE_REGDATE(ten);
@@ -139,7 +118,7 @@ class EmployeeTestCase {
     assertEquals("E_NUM", vi.getPropertyPath().toString());
   }
 
-  @Test //Add Menu Success
+  @Test 
   
   void B6010799_EmployeeNameMustBetween10and50() throws ParseException{
       
@@ -149,7 +128,7 @@ class EmployeeTestCase {
     Employee employee = new Employee();
     employee.setE_name("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ");
     employee.setE_TEL("0879267920");
-    employee.setE_ADDRESS("90 หมู่ 4 ต.แสวงหา อ.แสวงหา จ.อ่างทอง");
+    employee.setE_ADDRESS("Angthong");
     employee.setE_BIRTH(dateFormat.parse(date));
     employee.setE_NUM("1179900377114");
     employee.setE_REGDATE(ten);
@@ -163,7 +142,7 @@ class EmployeeTestCase {
     assertEquals("e_name", vi.getPropertyPath().toString());
   }
 
-  @Test //Add Menu Success
+  @Test
   
   void B6010799_EmployeeADDRESSNotBeNull() throws ParseException{
       
@@ -171,7 +150,7 @@ class EmployeeTestCase {
     String date = "1999-11-10";
     Date ten = new Date();
     Employee employee = new Employee();
-    employee.setE_name("นาย พลภัทร น้ำทอง");
+    employee.setE_name("Phonlaphat Namthong");
     employee.setE_TEL("0879267920");
     employee.setE_ADDRESS(null);
     employee.setE_BIRTH(dateFormat.parse(date));
@@ -185,6 +164,30 @@ class EmployeeTestCase {
 
     assertEquals("must not be null", vi.getMessage());
     assertEquals("E_ADDRESS", vi.getPropertyPath().toString());
+  }
+
+  @Test
+  
+  void B6010799_EmployeeBirthNotPresentOrFuture() throws ParseException{
+      
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String date = "2050-11-10";
+    Date ten = new Date();
+    Employee employee = new Employee();
+    employee.setE_name("Phonlaphat Namthong");
+    employee.setE_TEL("0879267920");
+    employee.setE_ADDRESS("ANGTHONG");
+    employee.setE_BIRTH(dateFormat.parse(date));
+    employee.setE_NUM("1179900377114");
+    employee.setE_REGDATE(ten);
+    Set<ConstraintViolation<Employee>> result = validator.validate(employee);
+
+    assertEquals(1, result.size());
+
+    ConstraintViolation<Employee> vi = result.iterator().next();
+
+    assertEquals("must be a past date", vi.getMessage());
+    assertEquals("E_BIRTH", vi.getPropertyPath().toString());
   }
 
   

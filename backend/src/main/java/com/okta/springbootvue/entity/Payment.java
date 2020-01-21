@@ -11,7 +11,9 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +33,12 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PAYMENT_SEQ")
     @Column(name = "PAYMENT_ID", unique = true, nullable = true)
     private @NonNull Long id;
+    
+    @Max(value = 100,message = "must not be more 100")
+    @NotNull(message = "must not be null")
+    @Positive(message = "must be positive number")
+    @Column(name = "Status")
+    private Integer statusname; 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderFood.class)
     @JoinColumn(name = "ORDER_ID", insertable = true)
