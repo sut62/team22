@@ -7,7 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -31,14 +35,22 @@ public class Member {
     @Column(name = "MEMBER_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
-    private @NonNull String name;
+    @NotNull
+    @Size(min = 10, max = 30)
+    private String name;
 
+    @NotNull
+    @Past
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private @NonNull Date birth;
+    private Date birth;
     
-    private @NonNull String tel;
+    @NotNull
+    @Pattern(regexp = "\\d{10}")
+    private String tel;
 
-    private @NonNull String mail;
+    @NotNull
+    @Email
+    private String mail;
 
     @Column(name="DATE")
     private @NonNull Date SaveDate;
