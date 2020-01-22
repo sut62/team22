@@ -1,7 +1,7 @@
 package com.okta.springbootvue.entity;
 
 import lombok.*;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -13,8 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
+
 
 @Data
 @Entity
@@ -28,15 +28,16 @@ public class ManageMenu {
   @Column(name = "MENU_ID", unique = true, nullable = true)
   private @NonNull Long mnid;
 
-  @NotNull
-  @Pattern(regexp = "\\D{1,30}")
-  @Column(name="MENU_NAME",unique=true)
+  @NotNull(message = "must not be null")
+  @Pattern(regexp = ".{1,30}",message = "must match \".{1,30}\"")
+  @Column(name="MENU_NAME")
   private String m_name;
 
-  @NotNull
-  @Pattern(regexp = "\\d{1,4}")
+  @NotNull(message = "must not be null")
+  @Positive(message = "must be positive number")
+  @Max(value=100000,message = "must less than equal 100000")
   @Column(name="MENU_PRICE")
-  private String m_price;
+  private Integer m_price;
 
   //====================================================================
 
