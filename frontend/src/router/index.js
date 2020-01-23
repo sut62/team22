@@ -6,6 +6,7 @@ import employeereg from '../components/EmployeeREG.vue'
 import member from '../components/member.vue'
 import OrderFood from '../components/OrderFood.vue'
 import payment from '../components/Payment.vue'
+import receipt from '../components/Receipt.vue'
 import login from '../components/login.vue'
 import db from 'firebase'
 
@@ -64,6 +65,14 @@ const routes = [
     path: '/payment',
     name: 'payment',
     component: payment,
+    meta:{
+      requireAuth: true
+    }
+  },
+  {
+    path: '/receipt',
+    name: 'receipt',
+    component: receipt,
     meta:{
       requireAuth: true
     }
