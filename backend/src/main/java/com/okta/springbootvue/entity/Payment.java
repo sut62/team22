@@ -37,7 +37,7 @@ public class Payment {
     @Max(value = 100,message = "must not be more 100")
     @NotNull(message = "must not be null")
     @Positive(message = "must be positive number")
-    @Column(name = "Status")
+    @Column(name = "Money")
     private Integer statusname; 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderFood.class)
