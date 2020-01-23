@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify';
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+<<<<<<< HEAD
 import firebase from 'firebase/app';
 import nav from '@/components/sidebar.vue'
 import appbar from '@/components/appbar.vue'
@@ -23,3 +24,13 @@ firebase.auth().onAuthStateChanged(() => {
   }
 });
 
+=======
+import VueSimpleAlert from "vue-simple-alert";
+Vue.config.productionTip = false
+Vue.use(VueSimpleAlert);
+new Vue({
+  router,
+  vuetify,
+  render: h => h(App)
+}).$mount('#app')
+>>>>>>> issue-114

@@ -78,7 +78,102 @@
       :options.sync="options"
       :loading="loading"
       class="elevation-1 mt-9 food"
-    ></v-data-table>
+    >
+      
+    
+    <template v-slot:item.action="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="dialog = true"
+      >
+        edit
+      </v-icon>
+
+      <v-dialog
+      v-model="dialog"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">Edit</v-card-title>
+
+        <v-card-text>
+          <v-col cols="12" sm="12" md="12">
+               <v-card-title>number</v-card-title>
+                    <v-text-field v-model="orderfood.status" label="Dessert name"></v-text-field>
+                    <v-text-field v-model="orderfood.status" label="Dessert name"></v-text-field>
+            </v-col>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="red"
+            text
+            @click="dialog = false"
+            
+          >
+            Disagree
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="editnumber"
+          >
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+     <v-icon
+        small
+        class="mr-2"
+        @click="dialogremove = true"
+      >
+        delete
+      </v-icon>
+
+    <v-dialog
+      v-model="dialogremove"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">Edit</v-card-title>
+
+        <v-card-text>
+          <v-col cols="12" sm="12" md="12">
+               <v-card-title>number</v-card-title>
+                    <v-text-field v-model="orderfood.id" label="Dessert name"></v-text-field>
+            </v-col>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="red"
+            text
+            @click="dialogremove = false"
+          >
+            Disagree
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="removeorder"
+          >
+            ลบ
+          </v-btn>
+      </v-card-actions>
+      </v-card>
+    </v-dialog>
+    </template>
+    
+    </v-data-table>
   </div>
 
 
@@ -86,29 +181,37 @@
 </template>
 
 <script>
+
 import http from "../plugins/https";
 
   export default {
+    
     name: "orderfood",
+    
     data () {
       return {
          orderfood: {
+           id: "",
            menuId: "",
            tablenumberId: "",
            ordertypesId: "",
-           dishnumber: ""
+           dishnumber: "",
          },
         loading: true,
         headers: [
           {
-            text: 'TABLE',
+            text: 'ID',
             align: 'left',
             sortable: false,
-            value: 'tables.id',
+            value: 'id',
           },
+          { text: 'TABLE', value: 'tables.id' },
           { text: 'MENU', value: 'managemenu.m_name' },
           { text: 'OrderType', value: 'ordertype.type' },
-          { text: 'DishNumber', value: 'dishnumber'}
+          { text: 'DishNumber', value: 'dishnumber'},
+          { text: 'Status', value: 'status'},
+          { text: 'Actions', value: 'action', sortable: false },
+          
         ],
         valid : false,
         tablenumber: [],
@@ -116,10 +219,14 @@ import http from "../plugins/https";
         ordertypes: [],
         items : [],
         show :'',
-        fail :''
+        fail :'',
+        dialog: false,
+        dialogremove: false,
+        status : "จัดเตรียมอาหาร"
       };
     },
     methods: {
+      
       /* eslint-disable no-console */
       getTableNunber() {
          http
@@ -164,7 +271,9 @@ import http from "../plugins/https";
             "/" +
             this.orderfood.dishnumber +
             "/" + 
-            this.orderfood.ordertypesId
+            this.orderfood.ordertypesId +
+            "/" +
+            this.status
         )
         
         .then(response => {
@@ -185,6 +294,41 @@ import http from "../plugins/https";
     },
     clear() {
       this.$refs.form.reset();
+    },
+    editnumber(){
+       http
+         .put(
+           "/Order/" +
+            this.orderfood.status
+         )
+        .then(response => {
+          this.getOrderFood();
+          this.clear();
+          this.dialog=false
+          console.log(response);      
+        })
+        .catch(e => {
+          console.log(e);
+        });
+        this.submitted = true;
+    },
+
+    removeorder(){
+      http
+        .delete("/Order/" + this.orderfood.id)
+        .then(response => {
+          this.getTableNunber();
+          this.getMenu();
+          this.getOrderType();
+          this.getOrderFood();
+          this.clear();
+          this.dialog=false
+          console.log(response);      
+        })
+        .catch(e => {
+          console.log(e);
+        });
+        this.submitted = true;
     },
     getOrderFood() {
       http
