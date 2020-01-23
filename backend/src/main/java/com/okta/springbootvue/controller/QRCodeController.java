@@ -1,34 +1,39 @@
 package com.okta.springbootvue.controller;
 
-import org.apache.commons.io.IOUtils;
+
+import java.util.concurrent.TimeUnit;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
+import reactor.core.publisher.Mono;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
+import com.okta.springbootvue.services.QRCodeService;
 
-@CrossOrigin(origins = "http://localhost:8080")
-@RestController
+@Controller
 public class QRCodeController {
-    
-    @GetMapping(value = "/getimage",produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getImageWithMediaType() throws IOException {
-        
-        InputStream in = getClass()
-          .getResourceAsStream("BsC.PNG");
-        if( in == null){
-          throw new FileNotFoundException("readFilesInBytes: File " + "file"
-          + " does not exist");
-        }
-        return IOUtils.toByteArray(in);
-    }
+
+  @Autowired
+  private QRCodeService qrCodeService;
+
+	@GetMapping(value = "/image/{text}", produces = MediaType.IMAGE_JPEG_VALUE)
+  public Mono<ResponseEntity<byte[]>> getQRCode(
+    @PathVariable String text
+    ) {
+		return qrCodeService.generateQRCode(text, 256, 256).map(imageBuff ->  
+			ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES)).body(imageBuff)
+		);
+	}
+  
 
 }
