@@ -122,6 +122,9 @@
     <v-icon>mdi-floppy</v-icon>
     
     </v-btn>
+    <v-btn @click="getImg">
+      GET
+    </v-btn>
      <v-alert class="my-2" v-if="findmember == 'found'" color="green">Member Found</v-alert>
      <v-alert class="my-2" v-else-if="findmember == 'notfound'" type="error">Member Not Found</v-alert>
      
@@ -159,6 +162,7 @@ export default {
         errmsg:``,
         dupe:false,
         showsave:false,
+        imge:null,
 
   }),
   computed:{
@@ -239,6 +243,13 @@ export default {
         alert(e.name+" "+e.message)
       })
     },
+    getImg(){
+      https.get("/getimage").then( doc => {
+        this.imge = doc.data
+      }
+
+      )
+    }
     
   },
   mounted(){
