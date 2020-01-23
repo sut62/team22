@@ -82,6 +82,7 @@
       return-object
       :rules="[(v) => !!v || 'Item is required']"
       required
+      
     >
     </v-select>
     <v-select
@@ -94,7 +95,7 @@
       prepend-icon="mdi-seat"
       :rules="[(v) => !!v || 'Item is required']"
       required
-     
+      return-object
     >
     </v-select>
     <v-select
@@ -107,6 +108,7 @@
       prepend-icon="mdi-room-service"
       :rules="[(v) => !!v || 'Item is required']"
       required
+      return-object
     ></v-select>
     
     <v-btn color="success" class="mx-2"
@@ -122,15 +124,14 @@
     <v-icon>mdi-floppy</v-icon>
     
     </v-btn>
-    <v-btn @click="getImg">
-      GET
-    </v-btn>
+    <img  ma-5 :src="imge">
      <v-alert class="my-2" v-if="findmember == 'found'" color="green">Member Found</v-alert>
      <v-alert class="my-2" v-else-if="findmember == 'notfound'" type="error">Member Not Found</v-alert>
      
     <v-alert class="my-2" v-if="dupe" type="error">This time and date is already reserved</v-alert>
      <v-alert class="my-2" v-if=" savechk == 'save'" color="green">{{errmsg}}</v-alert>
      <v-alert class="my-2" v-else-if="savechk == 'notsave'" type="error">{{errmsg}}</v-alert>
+     
   </v-container>
 </template>
 
@@ -163,7 +164,8 @@ export default {
         dupe:false,
         showsave:false,
         imge:null,
-
+        openimg:false,
+        memr:null
   }),
   computed:{
     formattedDate(){
@@ -179,7 +181,7 @@ export default {
   methods:{
     allowmins : m => m%30 === 0 ,
     customerchk(){
-      https.get("/members/"+this.reservation.customer).then( doc =>{
+      https.get("/members/"+this.reservation.tel).then( doc =>{
               if(doc.data!=null){
                this.findmember='found'
               }
@@ -194,11 +196,11 @@ export default {
   
     save(){
         if(!this.dupe){
-          https.post("/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats)
+          https.post("/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service.id+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats.id)
         .then(doc => {
            this.errmsg=`The reservation is saved status : ${doc.status}`
            this.savechk='save'
-            
+           this.getImg()
         })
         .catch(e =>{
             this.errmsg=`The reservation is not saved : ${e.message}`
@@ -244,8 +246,11 @@ export default {
       })
     },
     getImg(){
-      https.get("/getimage").then( doc => {
-        this.imge = doc.data
+      var text = "Table: "+this.reservation.table.id+" Number of Seats: "+this.reservation.seats.id+" "+"Reservation Date : "+this.date+" "+this.reservation.time+" "+"Service: "+this.reservation.service.serviceName
+      https.get("/image/"+text).then( doc => {
+        console.log(doc.data.content)
+        this.imge = "http://localhost:9000/image/Table:%20"+this.reservation.table.id+"%20Number%20of%20Seats:%20"+this.reservation.seats.id+"%20Reservation%20Date%20:%20"+this.date+"%20"+this.reservation.time+"%20Service:%20"+this.reservation.service.serviceName
+        
       }
 
       )
