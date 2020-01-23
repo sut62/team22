@@ -49,13 +49,14 @@ public class PaymentController {
         return paymentRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/payment/{orderfood_id}/{member_id}/{employee_id}/{membership_id}")
+    @PostMapping("/payment/{orderfood_id}/{member_id}/{employee_id}/{membership_id}/{statusname}")
     public Payment newPayment(Payment newpayment,
 
     @PathVariable long orderfood_id,
     @PathVariable long member_id,
     @PathVariable long membership_id,
-    @PathVariable long employee_id  ) {
+    @PathVariable long employee_id,
+    @PathVariable Integer statusname  ) {
     
 
     OrderFood od = orderfoodRepository.findById(orderfood_id);
@@ -67,6 +68,7 @@ public class PaymentController {
     newpayment.setSelectmember(mb);
     newpayment.setSelectmembership(mbs);
     newpayment.setSelectemployee(ep);
+    newpayment.setStatusname(statusname);
 
 
     return paymentRepository.save(newpayment); 

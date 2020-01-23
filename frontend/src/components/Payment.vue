@@ -55,10 +55,12 @@
                 :rules="[(v) => !!v || 'กรุณากรอกข้อมูล']"
                 required
               ></v-text-field>
-              <p  >ชื่อสมาชิก : {{member[0]}} <br/> </p>
-              
+              <p  > ชื่อสมาชิก : {{member[0]}} <br/> </p>
+             </v-row>
+             
+            <v-row>
+               <p  >ประเภทสมาชิก : {{member[0]}}</p>
             </v-row>
-            <v-row> <p  >ประเภทสมาชิก : {{member[0]}}</p></v-row>
 
           <v-row >
               <div class="my-2">
@@ -82,6 +84,12 @@
                 ></v-select>
               </v-col>
             </v-row>
+
+            <v-text-field
+              v-model="payment.statusname"      
+              label="เงิน"  
+              prepend-icon="mdi-dialpad"
+            ></v-text-field>
 
 
             <v-row justify="center">
@@ -120,6 +128,7 @@ export default {
         orderfoodId: "",
         membershipId: "",
         memberId: "",
+        statusname: "",
         employeeId: ""
       },
       member: [
@@ -209,9 +218,7 @@ export default {
     },
 
     findMember() {
-      http
-        .get("/members/" + this.payment.memberId)
-        .then(response => {
+      http.get("/members/" + this.payment.memberId).then(response => {
           console.log(response);
           if (response.data != null) {
              this.member = response.data
@@ -238,7 +245,9 @@ export default {
             "/" +
             this.payment.employeeId +
             "/" +
-            this.payment.memberId,
+            this.payment.memberId +
+            "/" +
+            this.payment.statusname ,
         )
         .then(response => {
           this.getOrderFoods();
