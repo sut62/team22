@@ -54,12 +54,12 @@ public class MemberController {
     public Collection<Member> Members() {
         return memberRepository.findAll().stream().collect(Collectors.toList());
     }
-    @GetMapping("/members/{id}")
-    public Optional<Member> Members(@PathVariable Long id) {
-        Optional<Member> member = memberRepository.findById(id);
+    @GetMapping("/members/{tel}")
+    public Optional<Member> Members(@PathVariable String tel) {
+        Optional<Member> member = memberRepository.findByTel(tel);
         return member;
     }
-
+    
     @PostMapping("/members/{prefix_id}/{name}/{gender_id}/{birth}/{tel}/{mail}/{memtype_id}/{employee_id}")
     public Member newMember(Member newMember,
     @PathVariable long prefix_id,

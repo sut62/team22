@@ -98,7 +98,6 @@
     >
     </v-select>
     </v-row>
-    <div v-html="show"></div>
     <br><br>
     <v-row justify="center">
     <v-btn color="success"
@@ -106,6 +105,41 @@
     >ลงทะเบียน 
     <v-icon>mdi-floppy</v-icon>
     </v-btn>
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <template v-slot:activator="{ on }">
+        <v-btn color="success" dark v-on="on">ค้นหาลูกค้า<v-icon>mdi-magnify</v-icon></v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span class="headline">Member Profile</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-text-field
+                outlined
+                label="เบอร์โทรศัพท์"
+                v-model="Member.tel"
+                :rules="[(v) => !!v || 'Item is required']"
+                required
+              ></v-text-field>
+            </v-row>  
+              <p v-if="Check != ''">ชื่อลูกค้า : {{memberName}}</p>
+              <p v-if="Check != ''">เบอร์โทรศัพท์ : {{memberTel}}</p>
+              <p v-if="Check != ''">อีเมล : {{memberMail}}</p>
+              <p v-if="Check != ''">วันเกิด : {{memberBirth[0]}}</p>
+              <p v-if="Check != ''">ประเภทสมาชิก : {{memtypes}}</p>
+            
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="search">search</v-btn>
+          <v-btn color="blue darken-1" text @click="Member.tel=null">clear</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     </v-row>
     <div v-html="show"></div>
     <div v-html="fail"></div>
@@ -119,6 +153,7 @@
 
 <script>
 import http from "../plugins/https";
+
 
 export default {
  name: "Member",
@@ -142,7 +177,10 @@ export default {
       gender: [],
       memtype: [],
       items: [],
-      valid: false
+      valid: false,
+      dialog: false,
+      Check: false,
+      memtypes: null
     };
   },
   
@@ -178,8 +216,24 @@ export default {
           this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
         });
     },
-    clear() {
-      this.$refs.form.reset();
+    search(){
+        http
+        .get("/members/" + this.Member.tel)
+        .then(response => {
+          console.log(response);
+          if (response.data != null) {
+            this.memberName = response.data.name;
+            this.memberTel = response.data.tel;
+            this.memberMail = response.data.mail;
+            var birth = response.data.birth.split("T");
+            this.memberBirth = birth;
+            this.memtypes = response.data.select_memtype.name;
+            this.Check = response.status;
+          }        
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     getPrefix(){
        http
