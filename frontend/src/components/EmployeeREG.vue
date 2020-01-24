@@ -149,13 +149,66 @@
 
     <v-row justify="center">
       <v-col cols="6" sm="6" md="6" class="mt-0 white">
-
-        <v-btn @click="saveEmployee" block color="secondary" dark>save</v-btn>
+          <v-row justify="center">
+        <v-btn
+          color="red lighten-2"
+          dark
+          v-on="on"
+          @click="saveEmployee"
+        >
+          บันทึก
+        </v-btn>
+        
+     </v-row>
+    <v-row justify="center">
+      <div v-html="fail"></div>
+      </v-row>
 
       </v-col>
+      
     </v-row>
-    <div v-html="show"></div>
-    <div v-html="fail"></div>
+    
+    
+    <div v-if="show">
+      <div class="text-center">
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+     
+
+      <v-card>
+        <v-card-title
+          class="headline grey lighten-2"
+          primary-title
+        >
+          YOUR QRcode
+        </v-card-title>
+
+        <v-card-text>
+          <v-row justify="center">
+          <img  ma-5 :src="imge">
+          </v-row>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="clear"
+          >
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+
+    </div>
+    
     
     <v-col cols="6" sm="6" md="3" class="mt-0"></v-col>
   </div>
@@ -168,7 +221,6 @@
 <script>
 
 import http from "../plugins/https";
-
 
 
 
@@ -188,7 +240,9 @@ export default {
         positionId: "",
         marital_statusId: ""
       },
-      show:'',
+      dialog:false,
+      imge:null,
+      show:false,
       fail:'',
       date: new Date().toISOString().substr(0, 10),
       headers: [{ text: "Employee", value: "employee.name" }],
@@ -224,6 +278,16 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    getImg(){
+      var text = this.Employee.enum;
+      http.get("/image/"+text).then( doc => {
+        console.log(doc.data.content)
+        this.imge = "http://localhost:9000/image/"+this.Employee.enum;
+        
+      }
+
+      )
     },
     getGenders() {
       http
@@ -284,7 +348,11 @@ export default {
         )
         .then(response => {
           console.log(response);
-          this.show = '<FONT color="#FFA07A" size="5"> <MARQUEE>Register Success</MARQUEE></FONT>'
+          this.getImg()
+          this.dialog=true
+          this.show = true
+          this.fail = ''
+          
         })
         .catch(e => {
           console.log(e);
@@ -292,8 +360,7 @@ export default {
         });
     },
     clear() {
-      this.$refs.form.reset();
-      this.customerCheck = false;
+      window.location.reload()
     },
     refreshList() {
       this.getAges();
