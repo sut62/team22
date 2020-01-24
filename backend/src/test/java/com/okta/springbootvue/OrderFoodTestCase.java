@@ -37,18 +37,18 @@ public class OrderFoodTestCase {
     @Test
     void B6014292_testOrderFoodSaveSuccess() {
         OrderFood  orderfood = new OrderFood();
-        orderfood.setDishnumber(1);
+        orderfood.setDishquantity(1);
 
         orderfood = orderfoodRepository.saveAndFlush(orderfood);
 
         Optional<OrderFood>  found = orderfoodRepository.findById(orderfood.getId());
-        assertEquals(1, found.get().getDishnumber());
+        assertEquals(1, found.get().getDishquantity());
     }
 
     @Test
     void B6014292_testOrderFoodPositiveNumberCase(){
         OrderFood  orderfood = new OrderFood();
-        orderfood.setDishnumber(-1);
+        orderfood.setDishquantity(-1);
 
         Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
 
@@ -56,7 +56,7 @@ public class OrderFoodTestCase {
 
         ConstraintViolation<OrderFood> v = result.iterator().next();
         assertEquals("must be positive number", v.getMessage());
-        assertEquals("dishnumber", v.getPropertyPath().toString());
+        assertEquals("dishquantity", v.getPropertyPath().toString());
 
     }
 
@@ -64,7 +64,7 @@ public class OrderFoodTestCase {
     @Test
     void B6014292_testOrderFoodDataNullCase(){
         OrderFood  orderfood = new OrderFood();
-        orderfood.setDishnumber(null);
+        orderfood.setDishquantity(null);
 
         Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
 
@@ -72,14 +72,14 @@ public class OrderFoodTestCase {
 
         ConstraintViolation<OrderFood> v = result.iterator().next();
         assertEquals("must not be null", v.getMessage());
-        assertEquals("dishnumber", v.getPropertyPath().toString());
+        assertEquals("dishquantity", v.getPropertyPath().toString());
 
     }
     
     @Test
     void B6014292_testOrderFoodMaxNumberCase(){
         OrderFood  orderfood = new OrderFood();
-        orderfood.setDishnumber(1000);
+        orderfood.setDishquantity(1000);
 
         Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
 
@@ -87,24 +87,23 @@ public class OrderFoodTestCase {
 
         ConstraintViolation<OrderFood> v = result.iterator().next();
         assertEquals("must not be more 100", v.getMessage());
-        assertEquals("dishnumber", v.getPropertyPath().toString());
+        assertEquals("dishquantity", v.getPropertyPath().toString());
 
     }
 
     @Test
-    void B6014292_testOrderFoodMaxNumberCase(){
-        OrderFood  orderfood = new OrderFood();
-        orderfood.setDishnumber(1000);
+    void B6014292_testOrderStatusNullCase(){
+        OrderStatus orderstatus = new OrderStatus();
+        orderstatus.setStatus(null);
 
-        Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
+        Set<ConstraintViolation<OrderStatus>> result = validator.validate(orderstatus);
 
         assertEquals(1, result.size());
 
-        ConstraintViolation<OrderFood> v = result.iterator().next();
-        assertEquals("must not be more 100", v.getMessage());
-        assertEquals("dishnumber", v.getPropertyPath().toString());
+        ConstraintViolation<OrderStatus> v = result.iterator().next();
+        assertEquals("must not be status null", v.getMessage());
+        assertEquals("status", v.getPropertyPath().toString());
 
     }
-
     
 }
