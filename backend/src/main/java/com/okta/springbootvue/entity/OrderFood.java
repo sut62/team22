@@ -29,15 +29,12 @@ public class OrderFood {
     @Column(name = "OrderFood_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
-   
-    
     @NotNull(message = "must not be null")
     @Positive(message = "must be positive number")
     @Max(value = 100,message = "must not be more 100")
-    @Column(name="DishNumber")
-    private  Integer dishnumber;
-
-
+    @Column(name="Dishquantity")
+    private Integer dishquantity;
+ 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
     @JoinColumn(name = "tables_ID", insertable = true)
     private tables tables;
@@ -49,6 +46,11 @@ public class OrderFood {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderType.class)
     @JoinColumn(name = "OrderType_ID", insertable = true)
     private OrderType ordertype;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderStatus.class)
+    @JoinColumn(name = "OrderStatus_ID", insertable = true)
+    private OrderStatus orderstatus;
+
 
     
 }

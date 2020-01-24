@@ -15,6 +15,9 @@ configurations {
 }
 
 repositories {
+	flatDir {
+       dirs 'libs'
+   }
 	mavenCentral()
 }
 
@@ -22,7 +25,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+	implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+	implementation name: 'commons-io-2.6'
+	implementation name: 'reactor-core-3.1.1.RELEASE'
+	implementation name: 'zxing'
+	implementation name: 'core-java6-3.2.0'
+	implementation name: 'javase-java6-3.2.0'
 	compileOnly 'org.projectlombok:lombok'
+	// https://mvnrepository.com/artifact/com.google.zxing/core
+	compile group: 'com.google.zxing', name: 'core', version: '3.3.3'
+
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

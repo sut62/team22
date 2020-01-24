@@ -68,8 +68,21 @@
         <v-btn @click="saveOrderFood" :class="{ red: !valid, green: valid }" color=" white--text">SAVE</v-btn>
       </div>
     </v-form>
-  <div v-html="show"></div>
-  <div v-html="fail"></div>
+
+    <v-snackbar
+      v-model="snackbar"
+      top
+    >
+      {{ text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+    
     <div>
     <v-data-table
       :headers="headers"
@@ -78,7 +91,108 @@
       :options.sync="options"
       :loading="loading"
       class="elevation-1 mt-9 food"
-    ></v-data-table>
+    >
+      
+    <template v-slot:item.action>
+      <v-icon
+        small
+        class="mr-2"
+        @click="dialog = true"
+      >
+        edit
+      </v-icon>
+
+      <v-dialog
+      v-model="dialog"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">Edit</v-card-title>
+
+        <v-card-text>
+          <v-col cols="12" sm="12" md="12">
+                  <v-text-field v-model="orderfood.id" label="ID"></v-text-field>
+
+                   <v-select
+                    
+                    label="Status"
+                    v-model="orderfood.status"
+                    :items="orderstatus"
+                    item-text="status"
+                    item-value="id"
+                    :rules="[(v) => !!v || 'ยังไม่ได้เลือกstatus']"
+                    solo
+        ></v-select>
+            </v-col>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="red"
+            text
+            @click="dialog = false"     
+          >
+            ยกเลิก
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="editstatus"
+          >
+            ยืนยัน
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+     <v-icon
+        small
+        class="mr-2"
+        @click="dialogremove = true"
+      >
+        delete
+      </v-icon>
+
+    <v-dialog
+      v-model="dialogremove"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">Delete</v-card-title>
+
+        <v-card-text>
+          <v-col cols="12" sm="12" md="12">
+                  <v-text-field v-model="orderfood.id" label="ID"></v-text-field>
+            </v-col>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="red"
+            text
+            @click="dialogremove = false"
+          >
+            ยกเลิก
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="removeorder"
+          >
+            ลบ
+          </v-btn>
+      </v-card-actions>
+      </v-card>
+    </v-dialog>
+    </template>
+    
+    </v-data-table>
   </div>
 
 
@@ -86,40 +200,53 @@
 </template>
 
 <script>
+
 import http from "../plugins/https";
 
   export default {
+    
     name: "orderfood",
+    
     data () {
       return {
          orderfood: {
+           id: "",
            menuId: "",
            tablenumberId: "",
            ordertypesId: "",
-           dishnumber: ""
+           dishnumber: "",
+           status: ""
          },
         loading: true,
         headers: [
           {
-            text: 'TABLE',
+            text: 'ID',
             align: 'left',
             sortable: false,
-            value: 'tables.id',
+            value: 'id',
           },
+          { text: 'TABLE', value: 'tables.id' },
           { text: 'MENU', value: 'managemenu.m_name' },
           { text: 'OrderType', value: 'ordertype.type' },
-          { text: 'DishNumber', value: 'dishnumber'}
+          { text: 'DishNumber', value: 'dishquantity'},
+          { text: 'Status', value: 'orderstatus.status'},
+          { text: 'Actions', value: 'action', sortable: false },
+          
         ],
         valid : false,
         tablenumber: [],
         menus: [],
         ordertypes: [],
         items : [],
-        show :'',
-        fail :''
+        dialog: false,
+        dialogremove: false,
+        status : [],
+        snackbar: false,
+        text: ''
       };
     },
     methods: {
+      
       /* eslint-disable no-console */
       getTableNunber() {
          http
@@ -154,6 +281,17 @@ import http from "../plugins/https";
           console.log(e);
         });
       },
+       getOrderStatus() {
+         http
+        .get("/OrderStatus")
+        .then(response => {
+          this.orderstatus = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      },
       saveOrderFood() {
       http
         .post(
@@ -164,7 +302,9 @@ import http from "../plugins/https";
             "/" +
             this.orderfood.dishnumber +
             "/" + 
-            this.orderfood.ordertypesId
+            this.orderfood.ordertypesId +
+            "/" +
+            1
         )
         
         .then(response => {
@@ -173,19 +313,57 @@ import http from "../plugins/https";
           this.getOrderType();
           this.getOrderFood();
           this.clear();
-          console.log(response);
-          this.show = '<FONT color="#D50000" size="5"> <MARQUEE>Order Success</MARQUEE></FONT>'
+          this.snackbar = true
+          this.text = "บักทึกสำเร็จ"
+          console.log(response);  
         })
         .catch(e => {
+          this.snackbar = true
+          this.text = "บันทึกไม่สำเร็จ"
           console.log(e);
-          this.fail = '<FONT color="#D50000" size="5"> <MARQUEE>Order Fail</MARQUEE></FONT>'
         });
-      //location.reload();  
       this.submitted = true;
     },
     clear() {
       this.$refs.form.reset();
     },
+    editstatus(){
+       http
+         .put(
+           "/Order/" +
+            this.orderfood.id +
+            "/" +
+            this.orderfood.status
+         )
+        .then(response => {
+          this.getTableNunber();
+          this.getMenu();
+          this.getOrderType();
+          this.getOrderFood();
+          this.clear();
+          this.dialog=false
+          console.log(response);      
+        })
+        .catch(e => {
+          console.log(e);
+        });
+        this.submitted = true;
+    },
+    removeorder(){
+      http
+        .delete("/Order/" + this.orderfood.id)
+        .then(response => {
+          this.getOrderFood();
+          this.clear();
+          this.dialogremove = false
+          console.log(response);      
+        })
+        .catch(e => {
+          console.log(e);
+        });
+        this.submitted = true;
+    },
+
     getOrderFood() {
       http
         .get("/Order")
@@ -203,6 +381,9 @@ import http from "../plugins/https";
         this.getMenu();
         this.getOrderType();
         this.getOrderFood();
+        this.getOrderStatus();
+        this.editstatus();
+        this.removeorder();
       }
        /* eslint-enable no-console */
     },
@@ -211,10 +392,10 @@ import http from "../plugins/https";
         this.getMenu();
         this.getOrderType();
         this.getOrderFood();
+        this.getOrderStatus();
+        this.editstatus()
+        this.removeorder();
     },
-      created() {
-        this.getOrderFood();
-      },
   };
 </script>
 <style>
