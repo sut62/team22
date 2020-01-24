@@ -401,7 +401,7 @@ import http from "../plugins/https";
 <style>
 /* Helper classes */
 .food {
-  background-color: #FFFBE6 !important;
+  background-color: #D7CCC8 !important;
 }
 .food--text {
   color: #356859 !important;
