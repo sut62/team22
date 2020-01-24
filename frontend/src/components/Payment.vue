@@ -30,7 +30,7 @@
 
             <v-row>
               <v-col cols="10">
-                <v-select @change="savePayment($event)"
+                <v-select 
                   label="Membership"
                   outlined 
                   v-model="payment.membershipId"
@@ -46,23 +46,25 @@
 
 
 
-            <v-row >
-              <v-text-field
-                v-if="payment.membershipId == 1"              
-                outlined
-                label="ไอดีลูกค้า"
-                v-model="payment.memberId"
-                :rules="[(v) => !!v || 'กรุณากรอกข้อมูล']"
-                required
-              ></v-text-field>
-              <p  > ชื่อสมาชิก : {{member[0]}} <br/> </p>
-             </v-row>
-             
-            <v-row>
-               <p  >ประเภทสมาชิก : {{member[0]}}</p>
-            </v-row>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-text-field
+                    v-if="payment.membershipId == 1"
+                    outlined
+                    label="เบอร์โทรศัพท์"
+                    v-model="payment.tel"
+                    :rules="[(v) => !!v || 'tel is required']"
+                    required
+                  ></v-text-field>
+                </v-row>  
+                  <p v-if="Check != ''">ชื่อลูกค้า : {{members.name}}</p>
+                  <p v-if="Check != ''">ประเภทสมาชิก : {{members.select_memtype.name}}</p>
+              </v-container>
+            </v-card-text>
 
           <v-row >
+            <v-spacer></v-spacer>
               <div class="my-2">
                 <v-btn  v-if="payment.membershipId == 1" @click="findMember" depressed large color="primary">ค้นหา</v-btn>
               </div>
@@ -126,14 +128,14 @@ export default {
     return {
       payment: {
         orderfoodId: "",
+        tel: "",
+        name:"",
         membershipId: "",
-        memberId: "",
+        memberId: 0,
         statusname: "",
         employeeId: ""
       },
-      member: [
-        
-      ],
+      
       show:``,
       memberCheck: false,
       check:false,
@@ -158,7 +160,15 @@ export default {
 
       valid: false,
 
-      orderfoods : [] , members : [] , employees : [], memberships : [],
+      orderfoods : [] , members : {
+        name:null,
+        select_memtype:{
+          name:null
+        }
+
+      }
+
+      , employees : [], memberships : [],
 
     };
       
@@ -193,17 +203,6 @@ export default {
         });
     },
 
-    getMembers() {
-      http
-        .get("/members")
-        .then(response => {
-          this.members = response.data;
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
     // ดึงข้อมูล RentalType ใส่ combobox
     getEmployees() {
       http
@@ -218,11 +217,13 @@ export default {
     },
 
     findMember() {
-      http.get("/members/" + this.payment.memberId).then(response => {
+      http.get("/members/" + this.payment.tel).then(response => {
           console.log(response);
           if (response.data != null) {
-             this.member = response.data
-          } else {
+            this.members= response.data;
+            this.payment.memberId=response.data.id;
+            this.Check = response.status;
+          }      else {
             this.clear()
           }          
         })
@@ -233,10 +234,9 @@ export default {
     },
 
     // function เมื่อกดปุ่ม record
-    savePayment(event) {
-      if(event == 2)
-      this.payment.memberId = 0;
-      http
+    savePayment() {
+      
+        http
         .post(
           "/payment/" +
             this.payment.orderfoodId +
@@ -245,26 +245,29 @@ export default {
             "/" +
             this.payment.employeeId +
             "/" +
-            this.payment.memberId +
+            this.payment.membershipId +
             "/" +
             this.payment.statusname ,
         )
         .then(response => {
-          this.getOrderFoods();
-          this.getMemberships();
-          this.getEmployees();
-          this.getMembers();
+          
           this.getPayments();
           this.clear();
           console.log(response);
-          this.show = `<p>Save Success</p>`
+          this.show = '<FONT color="#FFA07A" size="5"> <MARQUEE>Register Success</MARQUEE></FONT>'
           //window.location.reload();
           
           
         })
         .catch(e => {
           console.log(e);
+          this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
+
         });
+        
+
+      
+      
       //this.submitted = true;
     },
     clear() {
@@ -286,7 +289,7 @@ export default {
       this.getOrderFoods();
       this.getMemberships();
       this.getEmployees();
-      this.getMembers();
+    
       this.getPayments();
     }
     /* eslint-enable no-console */
@@ -295,7 +298,7 @@ export default {
     this.getOrderFoods();
     this.getMemberships();
     this.getEmployees();
-    this.getMembers();
+
     this.getPayments();
   }
 };
