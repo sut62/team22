@@ -6,12 +6,15 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import firebase from 'firebase/app';
 import nav from '@/components/sidebar.vue'
 import appbar from '@/components/appbar.vue'
+import card from '@/components/memberfind.vue'
 import 'firebase/firestore'
 
 import './plugins/firebaseInnit'
 Vue.config.productionTip = false
 Vue.component('navbar',nav)
 Vue.component('appbar',appbar)
+Vue.component('card',card)
+
 let app='';
 firebase.auth().onAuthStateChanged(() => {
   if(!app){
