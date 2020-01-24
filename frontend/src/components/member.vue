@@ -112,7 +112,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Member Profile</span>
+          <span class="headline">Member Profile</span><v-icon>mdi-account-multiple</v-icon>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -125,11 +125,11 @@
                 required
               ></v-text-field>
             </v-row>  
-              <p v-if="Check != ''">ชื่อลูกค้า : {{memberName}}</p>
-              <p v-if="Check != ''">เบอร์โทรศัพท์ : {{memberTel}}</p>
-              <p v-if="Check != ''">อีเมล : {{memberMail}}</p>
-              <p v-if="Check != ''">วันเกิด(ป-ด-ว) : {{memberBirth[0]}}</p>
-              <p v-if="Check != ''">ประเภทสมาชิก : {{memtypes}}</p>
+              <p v-if="Check != ''">ชื่อลูกค้า<v-icon>mdi-account</v-icon> : {{memberName}}</p>
+              <p v-if="Check != ''">เบอร์โทรศัพท์<v-icon>mdi-cellphone</v-icon> : {{memberTel}}</p>
+              <p v-if="Check != ''">อีเมล<v-icon>mdi-mail</v-icon> : {{memberMail}}</p>
+              <p v-if="Check != ''">วันเกิด(ป-ด-ว)<v-icon>mdi-calendar-text</v-icon> : {{memberBirth[0]}}</p>
+              <p v-if="Check != ''">ประเภทสมาชิก<v-icon>mdi-emoticon-cool</v-icon> : {{memtypes}}</p>
             
           </v-container>
         </v-card-text>
