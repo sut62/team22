@@ -100,11 +100,12 @@
     </v-row>
     <br><br>
     <v-row justify="center">
-    <v-btn color="success"
+    <v-btn style="left: -8px" color="success" 
       @click="save"
     >ลงทะเบียน 
     <v-icon>mdi-floppy</v-icon>
     </v-btn>
+
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn color="success" dark v-on="on">ค้นหาลูกค้า<v-icon>mdi-magnify</v-icon></v-btn>
@@ -127,7 +128,7 @@
               <p v-if="Check != ''">ชื่อลูกค้า : {{memberName}}</p>
               <p v-if="Check != ''">เบอร์โทรศัพท์ : {{memberTel}}</p>
               <p v-if="Check != ''">อีเมล : {{memberMail}}</p>
-              <p v-if="Check != ''">วันเกิด : {{memberBirth[0]}}</p>
+              <p v-if="Check != ''">วันเกิด(ป-ด-ว) : {{memberBirth[0]}}</p>
               <p v-if="Check != ''">ประเภทสมาชิก : {{memtypes}}</p>
             
           </v-container>
@@ -140,15 +141,31 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-btn style="right: -8px" color="success"
+      @click="clear"
+    >clear 
+    <v-icon>mdi-close-circle</v-icon>
+    </v-btn>
     </v-row>
-    <div v-html="show"></div>
-    <div v-html="fail"></div>
+    <v-alert v-if ="alert == 'success'"
+      dense
+      text
+      type="success"
+    >
+      <strong>บันทึกข้อมูลสำเร็จ</strong>
+    </v-alert>
+    <v-alert v-else-if="alert == 'fail'"
+      dense
+      text
+      type="error"
+    >
+      <strong>บันทึกข้อมูลไม่สำเร็จ กรุณาตรวจสอบความถูกต้องอีกครั้ง</strong>
+    </v-alert>
     <br><br><br>
     <span class="display font-weight-light white--text">*สมัครเลยวันนี้ "ลูกค้าบัตรสมาชิกVIPลดเลยทันที 10% บัตรสมาชิกนักศึกษาลดเลยทันที 5% บัตรทั่วไปลดทันที 7%"</span>
     <br>
     <span class="display font-weight-light white--text">*นักศึกษาเพียงแสดงบัตร สมัครฟรี!! บัตรVIPมีค่าสมัครเพียง 200 บาท บัตรทั่วไปมีค่าสมัคร 100 บาท"</span>
   </v-container>
-  
 </template>
 
 <script>
@@ -168,8 +185,6 @@ export default {
         prefixID: "",
         memtypeID: ""
       },
-      show:'',
-      fail:'',
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       prefix: [],
@@ -180,7 +195,8 @@ export default {
       valid: false,
       dialog: false,
       Check: false,
-      memtypes: null
+      memtypes: null,
+      alert:''
     };
   },
   
@@ -209,12 +225,15 @@ export default {
         )
         .then(response => {
           console.log(response);
-          this.show = '<FONT color="#FFA07A" size="5"> <MARQUEE>Register Success</MARQUEE></FONT>'
+          this.alert='success'
         })
         .catch(e => {
           console.log(e);
-          this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
+          this.alert='fail'
         });
+    },
+    clear() {
+      window.location.reload();
     },
     search(){
         http
