@@ -44,6 +44,8 @@ public class OrderFoodController {
     private ManageMenuRepository managemenuRepository;
     @Autowired
     private OrderTypeRepository ordertypeRepository;
+    @Autowired
+    private OrderStatusRepository orderstatusRepository;
 
     OrderFoodController(OrderFoodRepository orderfoodRepository) {
         this.orderfoodRepository = orderfoodRepository;
@@ -56,9 +58,10 @@ public class OrderFoodController {
     }
 
     @PutMapping("/Order/{id}/{status}")
-    public void updateOrderfood(@PathVariable long id,@PathVariable String status) {
+    public void updateOrderfood(@PathVariable long id,@PathVariable long status) {
     OrderFood orderid = orderfoodRepository.findById(id);
-    orderid.setStatus(status);
+    OrderStatus status_id = orderstatusRepository.findById(status); 
+    orderid.setOrderstatus(status_id);
 
     orderfoodRepository.save(orderid);
     }
@@ -68,27 +71,28 @@ public class OrderFoodController {
     orderfoodRepository.deleteById(id);
     }
 
-    @PostMapping("/Order/{tables_id}/{menu_id}/{dishnumber}/{ordertype_id}/{status}")
+    @PostMapping("/Order/{tables_id}/{menu_id}/{dishquantity}/{ordertype_id}/{status_id}")
     public OrderFood newOrder(OrderFood newOrderFood,
     @PathVariable long tables_id,
     @PathVariable long menu_id,
-    @PathVariable Integer dishnumber,
+    @PathVariable Integer dishquantity,
     @PathVariable long ordertype_id,
-    @PathVariable String status) {
+    @PathVariable long status_id ) {
 
     
 
     tables tables = tablesRepository.findById(tables_id);
     Optional<ManageMenu> menu = managemenuRepository.findById(menu_id);
     ManageMenu managemenu = menu.get();
-    OrderType ordertype = ordertypeRepository.findById(ordertype_id);   
+    OrderType ordertype = ordertypeRepository.findById(ordertype_id);
+    OrderStatus status = orderstatusRepository.findById(status_id); 
 
    
     newOrderFood.setTables(tables);
     newOrderFood.setManagemenu(managemenu);
-    newOrderFood.setDishnumber(dishnumber);
+    newOrderFood.setDishquantity(dishquantity);
     newOrderFood.setOrdertype(ordertype);
-    newOrderFood.setStatus(status);
+    newOrderFood.setOrderstatus(status);
     
     
 

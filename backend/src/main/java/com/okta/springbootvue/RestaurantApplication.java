@@ -28,7 +28,8 @@ public class RestaurantApplication  {
 	ApplicationRunner init(PrefixRepository prefixRepository, GenderRepository genderRepository, MemTypeRepository memtypeRepository,
 	AgeRepository ageRepository,Marital_StatusRepository marital_StatusRepository,PositionRepository positionRepository,
 	MenuCateRepository CateRep, MenuIngreRepository IngreRep, MenuTypeRepository TypeRep,
-	TablesRepository tablesRepository , ServicesRepository servicesRepository , OrderTypeRepository ordertypeRepository,MembershipRepository membershipRepository
+	TablesRepository tablesRepository , ServicesRepository servicesRepository , OrderTypeRepository ordertypeRepository,MembershipRepository membershipRepository,
+	OrderStatusRepository orderstatusRepository
 
 	) {
 		return args -> {
@@ -66,6 +67,13 @@ public class RestaurantApplication  {
 				ordertype.setType(type);
 				ordertypeRepository.save(ordertype);
 			});
+
+			Stream.of("กำลังจัดเตรียมอาหาร", "เสิร์ฟอาหารเรียบร้อย").forEach(status -> {
+				OrderStatus orderstatus = new OrderStatus();
+				orderstatus.setStatus(status);
+				orderstatusRepository.save(orderstatus);
+			});
+
 
 			Stream.of("โสด", "สมรส").forEach(name -> {
 				Marital_Status marital_Status = new Marital_Status();
