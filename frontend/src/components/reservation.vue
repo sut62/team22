@@ -2,18 +2,47 @@
   <v-container class="mt-12 ml-12" style="background-color: white;">
     <h2>จองโต๊ะอาหาร</h2>
     <v-text-field 
-      v-model.number="reservation.customer"      
-      :label="show"  
+      v-model="reservation.tel"      
+      label="Enter Member Telephone number"  
       prepend-icon="mdi-human-male-female"
       :rules="[(v) => !!v || 'Item is required']"
       required
     ></v-text-field>
-		<v-btn color="success"
-      @click="customerchk"
-    >Search
-    <v-icon>mdi-magnify</v-icon>
-    </v-btn>
-    
+	
+    <v-dialog
+      v-model="dialog"
+      persistent max-width="600px"
+    >
+      <template v-slot:activator="{ on }">
+          <v-btn color="success"
+            @click="customerchk"
+            v-on=on
+            >Search
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+          
+      </template>
+      <v-card>
+        <v-card-title>
+          <span class="headline">Member Profile</span><v-icon>mdi-account-multiple</v-icon>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+              <p v-if="Check != 'notfound'">ชื่อลูกค้า<v-icon>mdi-account</v-icon> : {{member.name}}</p>
+              <p v-if="Check != 'notfound'">เบอร์โทรศัพท์<v-icon>mdi-cellphone</v-icon> : {{member.tel}}</p>
+              <p v-if="Check != 'notfound'">อีเมล<v-icon>mdi-mail</v-icon> : {{member.mail}}</p>
+              <p v-if="Check != 'notfound'">วันเกิด(ป-ด-ว)<v-icon>mdi-calendar-text</v-icon> : {{member.birth.substring(0,10)}}</p>
+              <p v-if="Check != 'notfound'">ประเภทสมาชิก<v-icon>mdi-emoticon-cool</v-icon> : {{member.select_memtype.name}}</p>
+            
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialog = false">close</v-btn>
+        </v-card-actions>
+      </v-card>
+      
+    </v-dialog>
 
 		<v-menu max-width="290" >
       <template v-slot:activator="{ on }">
@@ -150,7 +179,7 @@ export default {
           time:null,
           table:null,
           seats:null,
-          customer:null,
+          tel:'',
           service:null,
         },
         reservations:[],
@@ -158,13 +187,22 @@ export default {
         findmember:'',
         table:[],
         seat:[],
-        show:"Member ID",
         savechk:'',
         errmsg:``,
         dupe:false,
         showsave:false,
         imge:null,
         openimg:false,
+        dialog: false,
+        member:{
+          name:'',
+          tel:'',
+          mail:'',
+          birth:'',
+          select_memtype:{
+            name:'',
+          }
+        },
   }),
   computed:{
     formattedDate(){
@@ -182,6 +220,8 @@ export default {
     customerchk(){
       https.get("/members/"+this.reservation.tel).then( doc =>{
               if(doc.data!=null){
+                this.member=doc.data
+
                this.findmember='found'
               }
               else{
