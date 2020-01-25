@@ -342,7 +342,9 @@ import http from "../plugins/https";
           this.getOrderFood();
           this.clear();
           this.dialog=false
-          console.log(response);      
+          console.log(response);
+          this.snackbar = true
+          this.text = "เปลี่ยนสถานะสำเร็จ" 
         })
         .catch(e => {
           console.log(e);
@@ -356,7 +358,9 @@ import http from "../plugins/https";
           this.getOrderFood();
           this.clear();
           this.dialogremove = false
-          console.log(response);      
+          console.log(response);
+          this.snackbar = true
+          this.text = "ลบออเดอร์สำเร็จ"
         })
         .catch(e => {
           console.log(e);
