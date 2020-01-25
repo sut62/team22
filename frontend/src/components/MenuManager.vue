@@ -219,7 +219,7 @@ export default {
     removeData(){
       http.delete("/manageMenus/"+this.ManageMenu.mnid).then(response =>{
         console.log(response);
-        // this.showtable = response.data;
+        this.showtable = response.data;
         // location.reload();
         this.dialog=false
         this.snackbar=true
@@ -242,6 +242,8 @@ export default {
       this.ManageMenu.tid)
       .then(response => {
         console.log(response);
+        location.reload();
+        this.showtable = response.data;
         this.snackbar=true
         this.status="เพิ่มเมนูสำเร็จ!"
         this.cl="success"

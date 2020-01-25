@@ -95,6 +95,8 @@ public class ManageMenuTestCases {
   //     // สร้าง person object
   //     ManageMenu managemenu = new ManageMenu();
   //     managemenu.setM_name("Tom Yum Kung");
+  //     managemenu.setM_price(12);
+  //
   //     managemenu = ManageMenuRep.saveAndFlush(managemenu);
   //
   //     // คาดหวังว่า DataIntegrityViolationException จะถูก throw
@@ -104,6 +106,7 @@ public class ManageMenuTestCases {
   //         mn2.setM_name("Tom Yum Kung");
   //         mn2 = ManageMenuRep.saveAndFlush(mn2);
   //     });
+  //
   //     Set<ConstraintViolation<ManageMenu>> result = validator.validate(managemenu);
   //
   //     ConstraintViolation<ManageMenu> v = result.iterator().next();
