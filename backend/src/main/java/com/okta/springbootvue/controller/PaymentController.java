@@ -25,7 +25,6 @@ import java.util.Set;
 import com.okta.springbootvue.entity.*;
 import com.okta.springbootvue.repository.*;
 import com.okta.springbootvue.controller.dto.OrderList;
-import com.okta.springbootvue.controller.dto.message;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -50,12 +49,6 @@ public class PaymentController {
     @GetMapping("/payment")
     public Collection<Payment> Payments() {
         return paymentRepository.findAll().stream().collect(Collectors.toList());
-    }
-    @GetMapping("/getMapping")
-    public Payment GetMappss(@RequestBody message mess){
-        System.out.println("\n"+mess.getPayments()+" "+mess.getPayments()+"\n");
-        return paymentRepository.save(mess.getPayments());
-
     }
     @PostMapping("/Savepayment")
     public void savePayment(@RequestBody OrderList orderList){
