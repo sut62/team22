@@ -37,34 +37,27 @@ public class PaymentTestCase {
     @Test
     void B6010669_testPaymentSaveSuccess() {
         Payment  payment = new Payment();
-        payment.setStatusname(1);
+        payment.setMoney(1);
+        payment.setTotal(29);
+        payment.setChange(25);
+        paymnet.set(new Date());
 
         payment = paymentRepository.saveAndFlush(payment);
 
         Optional<Payment>  found = paymentRepository.findById(payment.getId());
-        assertEquals(1, found.get().getStatusname());
-    }
-
-    @Test
-    void B6010669_testPaymentpositivenumberCase(){
-        Payment  payment = new Payment();
-        payment.setStatusname(-1);
-
-        Set<ConstraintViolation<Payment>> result = validator.validate(payment);
-
-        assertEquals(1, result.size());
-
-        ConstraintViolation<Payment> v = result.iterator().next();
-        assertEquals("must be positive number", v.getMessage());
-        assertEquals("statusname", v.getPropertyPath().toString());
-
+        assertEquals(1, found.get().getMoney());
     }
 
     
+
+    
     @Test
-    void B6010669_testPaymentDataNullCase(){
+    void B6010669_testPaymentDataMoneyNullCase(){
         Payment  payment = new Payment();
-        payment.setStatusname(null);
+        payment.setMoney(null);
+        payment.setTotal(29);
+        payment.setChange(25);
+        paymnet.set(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
@@ -72,24 +65,46 @@ public class PaymentTestCase {
 
         ConstraintViolation<Payment> v = result.iterator().next();
         assertEquals("must not be null", v.getMessage());
-        assertEquals("statusname", v.getPropertyPath().toString());
+        assertEquals("Money", v.getPropertyPath().toString());
 
     }
-    
     @Test
-    void B6010669_testPaymentMaxNumberCase(){
+    void B6010669_testPaymentDataTotalNullCase(){
         Payment  payment = new Payment();
-        payment.setStatusname(1000);
+        payment.setMoney(29);
+        payment.setTotal(null);
+        payment.setChange(25);
+        paymnet.set(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
         assertEquals(1, result.size());
 
         ConstraintViolation<Payment> v = result.iterator().next();
-        assertEquals("must not be more 100", v.getMessage());
-        assertEquals("statusname", v.getPropertyPath().toString());
-
+        assertEquals("must not be null", v.getMessage());
+        assertEquals("Total", v.getPropertyPath().toString());
+        
     }
+    @Test
+    void B6010669_testPaymentDataChangeNullCase(){
+        Payment  payment = new Payment();
+        payment.setMoney(25);
+        payment.setTotal(29);
+        payment.setChange(null);
+        paymnet.set(new Date());
+
+        Set<ConstraintViolation<Payment>> result = validator.validate(payment);
+
+        assertEquals(1, result.size());
+
+        ConstraintViolation<Payment> v = result.iterator().next();
+        assertEquals("must not be null", v.getMessage());
+        assertEquals("Change", v.getPropertyPath().toString());
+        
+    }
+   
+    
+    
 
     
 }
