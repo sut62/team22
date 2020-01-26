@@ -9,4 +9,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public
 interface OrderTypeRepository extends JpaRepository<OrderType, Long> {
 	OrderType findById(long id);
+
+	
 }

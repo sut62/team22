@@ -40,5 +40,8 @@ public class tables {
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<reservations> reservations;
+
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<Payment> payment;
 }
 

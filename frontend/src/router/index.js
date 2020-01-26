@@ -70,9 +70,10 @@ const routes = [
     }
   },
   {
-    path: '/receipt',
+    path: '/receipt/:change/:money/:table/:total/:dish/:memtype/:orders',
     name: 'receipt',
     component: receipt,
+    props:true,
     meta:{
       requireAuth: true
     }

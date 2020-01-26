@@ -20,9 +20,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.net.URLDecoder;
+import java.util.Set;
 
 import com.okta.springbootvue.entity.*;
 import com.okta.springbootvue.repository.*;
+import com.okta.springbootvue.controller.dto.OrderList;
+import com.okta.springbootvue.controller.dto.message;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -32,7 +35,7 @@ public class PaymentController {
     @Autowired
     private final PaymentRepository paymentRepository;
     @Autowired
-    private OrderFoodRepository orderfoodRepository;
+    private TablesRepository tablesRepository;
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
@@ -48,30 +51,50 @@ public class PaymentController {
     public Collection<Payment> Payments() {
         return paymentRepository.findAll().stream().collect(Collectors.toList());
     }
+    @GetMapping("/getMapping")
+    public Payment GetMappss(@RequestBody message mess){
+        System.out.println("\n"+mess.getPayments()+" "+mess.getPayments()+"\n");
+        return paymentRepository.save(mess.getPayments());
 
-    @PostMapping("/payment/{orderfood_id}/{member_id}/{employee_id}/{membership_id}/{statusname}")
-    public Payment newPayment(Payment newpayment,
-
-    @PathVariable long orderfood_id,
-    @PathVariable long member_id,
-    @PathVariable long membership_id,
-    @PathVariable long employee_id,
-    @PathVariable Integer statusname  ) {
-    
-
-    OrderFood od = orderfoodRepository.findById(orderfood_id);
-    Member mb = memberRepository.findById(member_id);
-    Membership mbs = membershipRepository.findById(membership_id);
-    Employee ep = employeeRepository.findById(employee_id);
-
-    newpayment.setSelectorderfood(od);
-    newpayment.setSelectmember(mb);
-    newpayment.setSelectmembership(mbs);
-    newpayment.setSelectemployee(ep);
-    newpayment.setStatusname(statusname);
-
-
-    return paymentRepository.save(newpayment); 
-    
     }
+    @PostMapping("/Savepayment")
+    public void savePayment(@RequestBody OrderList orderList){
+        Payment payment = new Payment();
+        System.out.println("\n"+orderList.getMoney()+" "+orderList.getTable()+"\n");
+        if(orderList.getMember()!=0){
+            Optional<Member> mem = memberRepository.findById(orderList.getMember());
+            Member membs = mem.get();
+            payment.setSelectmember(membs);
+        }
+        else{
+        Member mem= memberRepository.findById((long)0);
+        payment.setSelectmember(mem);
+        }
+        
+        Optional<Membership> mems = membershipRepository.findById(orderList.getMemberships());
+            Membership memss = mems.get();
+        Optional<Employee> emp = employeeRepository.findById(orderList.getEmployee());
+        Employee emps = emp.get();
+        System.out.println("\n"+emps+"\n");
+        
+        
+        
+        
+        Optional<tables> sor = tablesRepository.findById(orderList.getTable());
+        tables or = sor.get();
+        System.out.println("\n"+or+"\n");
+        
+        payment.setSelecttable(or);
+        payment.setSelectemployee(emps);
+        payment.setSelectmembership(memss);
+        payment.setMoney(orderList.getMoney());
+        payment.setChange(orderList.getChange());
+        payment.setTotal(orderList.getTotal());
+        payment.setCreateDate(new Date());
+        paymentRepository.save(payment);
+        
+                
+    }
+
+    
 }
