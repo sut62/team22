@@ -7,66 +7,117 @@
       </v-flex>
     </v-layout>
 
+<v-card
+        class="mx-auto"
+        max-width="1000"
+        outlined>
+  <v-col cols = 12>
+     <v-simple-table
+          fixed-header>
+	<div class="text-uppercase text-bold"></div>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                <label class="form-checkbox">
+                    <input :disabled="confirm" type="checkbox" v-model="selectAll" @click="select">
+                    <i class="form-icon"></i>
+                </label>
+            </th>
+            <th >โต๊ะ</th>
+            <th>เมนู</th>
+            <th>จำนวน</th>
+            <th>สถานะ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="i in orderfoods" v-bind:key= "i">
+            <td>
+                <label class="form-checkbox">
+                    <input :disabled="confirm" type="checkbox" :value="i.id" v-model="selected" return-object>
+                    <i class="form-icon"></i>
+                </label>
+            </td>
+            <td>{{i.tables.id}}</td>
+            <td>{{i.managemenu.m_name}}</td>
+            <td>{{i.dishquantity}}</td>
+            <td>{{i.orderstatus.status}}</td>
+        </tr>
+    </tbody>
+</table>
+     </v-simple-table>
+  </v-col>
+</v-card>
+
+ 
+    
+  <v-row justify="center">
+    <v-btn @click="conFirm" color = "success">
+       ยืนยัน
+     </v-btn>
+     <v-btn @click="confirm = false" color ="red">
+       ยกเลิก
+     </v-btn>
+  </v-row>
     <v-row justify="center">
       <v-col cols="4">
         <v-form v-model="valid" ref="form">
-
-          
+            
+            
             <v-row>
               <v-col cols="10">
-                <v-select
-                  label="OrderFood"
-                  outlined
-                  v-model="payment.orderfoodId"
-                  :items="orderfoods"
-                  item-text="managemenu.m_name"
-                  item-value="id"
-                  :rules="[(v) => !!v || 'Item is required']"
-                  required
-                  prepend-icon="mdi-cart"
-                ></v-select>
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col cols="10">
+                
                 <v-select 
                   label="Membership"
                   outlined 
-                  v-model="payment.membershipId"
+                  v-model="Payment.Selectmembership"
                   :items="memberships"
                   item-text="namembs"
                   item-value="idmbs"
                   :rules="[(v) => !!v || 'Item is required']"
                   required
                   prepend-icon="mdi-human-male"
+                  return-object
                 ></v-select>
               </v-col>
             </v-row>
 
+          <v-snackbar
+      v-model="snackbar"
+      top
+    >
+      {{ text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
 
 
             <v-card-text>
               <v-container>
                 <v-row>
                   <v-text-field
-                    v-if="payment.membershipId == 1"
+                    v-if="Payment.Selectmembership.idmbs == 1"
                     outlined
                     label="เบอร์โทรศัพท์"
-                    v-model="payment.tel"
+                    v-model="tel"
                     :rules="[(v) => !!v || 'tel is required']"
                     required
                   ></v-text-field>
                 </v-row>  
-                  <p v-if="Check != ''">ชื่อลูกค้า : {{members.name}}</p>
-                  <p v-if="Check != ''">ประเภทสมาชิก : {{members.select_memtype.name}}</p>
+                  <p v-if="Check != ''">ชื่อลูกค้า : {{Payment.Selectmember.name}}</p>
+                  <p v-if="Check != ''">ประเภทสมาชิก : {{Payment.Selectmember.select_memtype.name}}</p>
               </v-container>
             </v-card-text>
 
           <v-row >
             <v-spacer></v-spacer>
               <div class="my-2">
-                <v-btn  v-if="payment.membershipId == 1" @click="findMember" depressed large color="primary">ค้นหา</v-btn>
+                <v-btn  v-if="Payment.Selectmembership.idmbs == 1" @click="findMember" depressed large color="primary">ค้นหา</v-btn>
               </div>
           </v-row>
 
@@ -76,29 +127,47 @@
                 <v-select
                   label="Employee"
                   outlined
-                  v-model="payment.employeeId"
+                  v-model="Payment.Selectemployee"
                   :items="employees"
                   item-text="e_name"
                   item-value="id"
                   :rules="[(v) => !!v || 'Item is required']"
                   required
+                  return-object
                   prepend-icon="mdi-human-male"
                 ></v-select>
               </v-col>
             </v-row>
+            <v-row >
+              <div>
+                <v-text-field
+              label="ต้องจ่าย"
+              prepend-icon="mdi-currency-usd"
+              :value="price"
+              dense
+              readonly
+            
+              >
 
-            <v-text-field
-              v-model="payment.statusname"      
+
+              </v-text-field>
+              <v-text-field
+              v-model.number="Payment.Money"      
               label="เงิน"  
+              
               prepend-icon="mdi-dialpad"
-            ></v-text-field>
+              ></v-text-field>
+              </div>
+              
+            </v-row>
+            
 
 
             <v-row justify="center">
               <v-col cols="12">
                 <v-btn @click="savePayment" :class="{ red: !valid, green: valid }">ตกลง</v-btn>
                 <v-btn style="margin-left: 15px;" @click="clear">clear</v-btn>
-                <div v-html="show"></div>
+                
               </v-col>
             </v-row>
             <br />
@@ -106,16 +175,10 @@
         </v-form>
       </v-col>
     </v-row>
-  
 
-    <v-row justify="center">
-      <v-col cols="8">
-        <v-data-table :headers="headers" :items="items" :items-per-page="5" class="elevation-1">
-        </v-data-table>
-      </v-col>
-    </v-row>
 
   </v-container>
+
 
 </template>
 
@@ -126,64 +189,76 @@ export default {
   name: "payment",
   data() {
     return {
-      payment: {
-        orderfoodId: "",
-        tel: "",
-        name:"",
-        membershipId: "",
-        memberId: 0,
-        statusname: "",
-        employeeId: ""
+      Payment: {
+        Selecttable: "",
+        Selectmembership: "",
+        Selectmember : {
+        name:null,
+        select_memtype:{
+          name:null
+        },
+        
+
       },
+        Total:0,
+        Change:0,
+        Money:0,
+        Selectemployee: ""
+      },
+      tel: "",
+      name:"",
       
       show:``,
       memberCheck: false,
       check:false,
-
-      headers: [
-
-        {
-            text: 'OrderFood',
-            align: 'left',
-            sortable: false,
-            value: 'selectorderfood.managemenu.m_name',
-          },
-
-        { text: "Price", value: "selectorderfood.managemenu.m_price" },
-        { text: "Member", value: "selectmember.name" },
-        { text: "Employee", value: "selectemployee.e_name" },
-        
-        
-      ],
+		selected: [],
+    selectAll: false,
+    confirm:false,
+    price:0,
 
       items: [],
-
+      fooditems: [],
       valid: false,
+      snackbar: false,
+      text: '',
+      nomem: '',
+      
 
-      orderfoods : [] , members : {
-        name:null,
-        select_memtype:{
-          name:null
-        }
-
-      }
+      orderfoods : []
 
       , employees : [], memberships : [],
+      totaldish:0
 
     };
       
   },
-
-    
   methods: {
     /* eslint-disable no-console */
 
     // ดึงข้อมูล Employee ใส่ combobox
+    conFirm(){
+          this.confirm = true
+          let i = 1
+          let sum = 0
+          for(i in this.selected){
+
+            sum +=this.orderfoods[i].dishquantity*this.orderfoods[i].managemenu.m_price
+            this.totaldish +=this.orderfoods[i].dishquantity
+            this.Payment.Selecttable=this.orderfoods[i].tables.id
+            
+            
+          }
+           
+          this.price = sum
+    },
+    
     getOrderFoods() {
       http
         .get("/Order")
         .then(response => {
           this.orderfoods = response.data;
+          
+          
           console.log(response.data);
         })
         .catch(e => {
@@ -217,14 +292,16 @@ export default {
     },
 
     findMember() {
-      http.get("/members/" + this.payment.tel).then(response => {
+      http.get("/members/" + this.tel).then(response => {
           console.log(response);
           if (response.data != null) {
-            this.members= response.data;
-            this.payment.memberId=response.data.id;
+            this.Payment.Selectmember= response.data;
+          
             this.Check = response.status;
           }      else {
             this.clear()
+            this.snackbar = true
+            this.text = "บันทึกสำเร็จ"
           }          
         })
         .catch(e => {
@@ -235,38 +312,185 @@ export default {
 
     // function เมื่อกดปุ่ม record
     savePayment() {
+
+        var mon = this.Payment.Money
+        
       
-        http
+        if(this.Payment.Selectmember.select_memtype.name == "บัตรนักเรียน/นักศึกษา"){
+          this.Payment.Total = this.price-this.price*0.05 //5%
+          this.Payment.Change = this.Payment.Money - this.Payment.Total
+          var tot = this.Payment.Total
+            http
         .post(
-          "/payment/" +
-            this.payment.orderfoodId +
-            "/" +
-            this.payment.memberId +
-            "/" +
-            this.payment.employeeId +
-            "/" +
-            this.payment.membershipId +
-            "/" +
-            this.payment.statusname ,
+          "/Savepayment",
+            {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
+              "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id,
+              "selecttable":this.Payment.Selecttable
+              }
+          
         )
         .then(response => {
+          this.snackbar= true;
+          this.text = "บันทึกสำเร็จ";
           
           this.getPayments();
           this.clear();
+          this.$router.push({
+              name:'receipt',params:{
+                change:this.Payment.Change,
+                money:mon,
+                table:this.Payment.Selecttable,
+                total:tot,
+                dish:this.totaldish,
+                oders:this.selected,
+                memtype:this.Payment.Selectmember.select_memtype.name
+
+              }
+          })
           console.log(response);
-          this.show = '<FONT color="#FFA07A" size="5"> <MARQUEE>Register Success</MARQUEE></FONT>'
+          
           //window.location.reload();
           
           
         })
         .catch(e => {
           console.log(e);
-          this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
+          
 
         });
-        
+        }
+        else if(this.Payment.Selectmember.select_memtype.name == "ทั่วไป"){
+          this.Payment.Total = this.price-this.price*0.07 //7%
+          this.Payment.Change = this.Payment.Money - this.Payment.Total
+          tot = this.Payment.Total
+            http
+        .post(
+          "/Savepayment",
+            {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
+              
+              "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id
+              ,"selecttable":this.Payment.Selecttable
+              }
+        )
+        .then(response => {
+          this.snackbar= true;
+          this.text = "บันทึกสำเร็จ"
+          
+          this.getPayments();
+          this.clear();
+          console.log(response);
+          this.$router.push({
+              name:'receipt',params:{
+                change:this.Payment.Change,
+                money:mon,
+                table:this.Payment.Selecttable,
+                total:tot,
+                dish:this.totaldish,
+                oders:this.selected,
+                
+                memtype:this.Payment.Selectmember.select_memtype.name
 
-      
+              }
+          })
+          
+          //window.location.reload();
+          
+          
+        })
+        .catch(e => {
+          console.log(e);
+        });
+        }
+        else if(this.Payment.Selectmember.select_memtype.name == "VIP"){
+          
+          
+          this.Payment.Total = this.price-this.price*0.10 //10%
+          this.Payment.Change = this.Payment.Money - this.Payment.Total
+          tot = this.Payment.Total
+         
+            http
+        .post(
+          "/Savepayment",
+            {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
+              "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id
+              ,"selecttable":this.Payment.Selecttable
+              }
+          
+        )
+        .then(response => {
+          this.snackbar= true;
+          this.text = "บันทึกสำเร็จ"
+          
+          this.getPayments();
+          this.clear();
+          console.log(response);
+          this.$router.push({
+              name:'receipt',params:{
+                change:this.Payment.Change,
+                money:mon,
+                table:this.Payment.selecttable,
+                total:tot,
+                dish:this.totaldish,
+                oders:this.Selected,
+                memtype:this.Payment.Selectmember.select_memtype.name
+
+              }
+          })
+          
+          //window.location.reload();
+          
+          
+        })
+        .catch(e => {
+          console.log(e);
+
+        });
+        }
+
+        else{
+          this.Payment.Total = this.price
+          this.Payment.Change = this.Payment.Money - this.Payment.Total
+          tot = this.Payment.Total
+          
+
+          http
+          .post(
+          "/Savepayment",
+            {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
+              "selectmemberships": this.Payment.Selectmembership.idmbs,"selectmember": 0
+              ,"selecttable":this.Payment.Selecttable
+              }
+          
+        )
+        .then(response => {
+          this.snackbar= true;
+          this.text = "บันทึกสำเร็จ"
+          
+          this.getPayments();
+          this.clear();
+          console.log(response);
+          this.$router.push({
+              name:'receipt',params:{
+                change:this.Payment.Change,
+                money:mon,
+                table:this.Payment.selecttable,
+                total:tot,
+                dish:this.totaldish,
+                oders:this.Selected,
+                memtype:"none"
+
+              }
+          })
+          
+          //window.location.reload();
+          
+          
+        })
+        .catch(e => {
+          console.log(e);
+
+        });
+        }
       
       //this.submitted = true;
     },
@@ -285,6 +509,31 @@ export default {
           console.log(e);
         });
     },
+    getOrderFood() {
+      http
+        .get("/Order")
+        .then(response => {
+          this.fooditems = response.data;
+          
+          console.log(this.items);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+  select() {
+      this.selected = {};
+      
+			if (!this.selectAll) {
+				for (let i in this.orderfoods) {
+          //this.select = this.orderfoods[i].dishquantity
+          
+            console.log(this.orderfoods[i])
+          
+          
+				}
+			}
+		},
     refreshList() {
       this.getOrderFoods();
       this.getMemberships();
@@ -298,8 +547,11 @@ export default {
     this.getOrderFoods();
     this.getMemberships();
     this.getEmployees();
-
+    this.getOrderFood()
     this.getPayments();
   }
 };
 </script>
+<style scoped>
+ 
+</style>
