@@ -40,8 +40,8 @@ public class PaymentTestCase {
         Payment  payment = new Payment();
         payment.setMoney(1);
         payment.setTotal(29);
-        payment.setChange(25);
-        paymnet.set(new Date());
+        payment.setChange((double)25);
+        paymnet.setCreateDate(new Date());
 
         payment = paymentRepository.saveAndFlush(payment);
 
@@ -56,9 +56,9 @@ public class PaymentTestCase {
     void B6010669_testPaymentDataMoneyNullCase(){
         Payment  payment = new Payment();
         payment.setMoney(null);
-        payment.setTotal((float)29);
+        payment.setTotal((double)29);
         payment.setChange(25);
-        paymnet.set(new Date());
+        paymnet.setCreateDate(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
@@ -74,8 +74,8 @@ public class PaymentTestCase {
         Payment  payment = new Payment();
         payment.setMoney(29);
         payment.setTotal(null);
-        payment.setChange((float)25);
-        paymnet.set(new Date());
+        payment.setChange((double)25);
+        paymnet.setCreateDate(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
@@ -90,9 +90,9 @@ public class PaymentTestCase {
     void B6010669_testPaymentDataChangeNullCase(){
         Payment  payment = new Payment();
         payment.setMoney(25);
-        payment.setTotal((float)29);
+        payment.setTotal((double)29);
         payment.setChange(null);
-        paymnet.set(new Date());
+        paymnet.setCreateDate(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
