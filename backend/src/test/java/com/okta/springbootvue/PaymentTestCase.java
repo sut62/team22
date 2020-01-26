@@ -12,6 +12,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -55,7 +56,7 @@ public class PaymentTestCase {
     void B6010669_testPaymentDataMoneyNullCase(){
         Payment  payment = new Payment();
         payment.setMoney(null);
-        payment.setTotal(29);
+        payment.setTotal((float)29);
         payment.setChange(25);
         paymnet.set(new Date());
 
@@ -73,7 +74,7 @@ public class PaymentTestCase {
         Payment  payment = new Payment();
         payment.setMoney(29);
         payment.setTotal(null);
-        payment.setChange(25);
+        payment.setChange((float)25);
         paymnet.set(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
@@ -89,7 +90,7 @@ public class PaymentTestCase {
     void B6010669_testPaymentDataChangeNullCase(){
         Payment  payment = new Payment();
         payment.setMoney(25);
-        payment.setTotal(29);
+        payment.setTotal((float)29);
         payment.setChange(null);
         paymnet.set(new Date());
 
