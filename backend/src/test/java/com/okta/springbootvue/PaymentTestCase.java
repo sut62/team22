@@ -39,9 +39,9 @@ public class PaymentTestCase {
     void B6010669_testPaymentSaveSuccess() {
         Payment  payment = new Payment();
         payment.setMoney(1);
-        payment.setTotal(29);
-        payment.setChange((double)25);
-        paymnet.setCreateDate(new Date());
+        payment.setTotal((double)29);
+        payment.setChange(25);
+        payment.setCreateDate(new Date());
 
         payment = paymentRepository.saveAndFlush(payment);
 
@@ -58,7 +58,7 @@ public class PaymentTestCase {
         payment.setMoney(null);
         payment.setTotal((double)29);
         payment.setChange(25);
-        paymnet.setCreateDate(new Date());
+        payment.setCreateDate(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
@@ -74,8 +74,8 @@ public class PaymentTestCase {
         Payment  payment = new Payment();
         payment.setMoney(29);
         payment.setTotal(null);
-        payment.setChange((double)25);
-        paymnet.setCreateDate(new Date());
+        payment.setChange(25);
+        payment.setCreateDate(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
@@ -92,7 +92,7 @@ public class PaymentTestCase {
         payment.setMoney(25);
         payment.setTotal((double)29);
         payment.setChange(null);
-        paymnet.setCreateDate(new Date());
+        payment.setCreateDate(new Date());
 
         Set<ConstraintViolation<Payment>> result = validator.validate(payment);
 
