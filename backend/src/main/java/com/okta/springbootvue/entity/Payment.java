@@ -44,14 +44,14 @@ public class Payment {
     @Column(name = "Money")
     private Integer Money;
 
-    
-    @NotNull(message = "Must not be null")
+    @Min(value = 0,message = "must not below 0")
+    @NotNull(message = "must not be null")
     @Positive(message = "must be positive number")
     @Column(name = "Change")
     private Integer Change;
 
-    
-    @NotNull(message = "Must not be null")
+    @Min(value = 0,message = "must not below 0")
+    @NotNull(message = "must not be null")
     @Positive(message = "must be positive number")
     @Column(name = "Total")
     private Double Total;
