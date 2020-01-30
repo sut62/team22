@@ -17,13 +17,15 @@
                 :rules="[(v) => !!v || 'Item is required']"
                 required
               ></v-text-field>
-            </v-row>  
+            </v-row>
+             <v-alert v-model="al1" class="my-2" color="green">Member Found</v-alert>
+             <v-alert v-model="al2" class="my-2" color="red">Member Not Found</v-alert>
+
               <p v-if="Check != ''">ชื่อลูกค้า<v-icon>mdi-account</v-icon> : {{memberName}}</p>
               <p v-if="Check != ''">เบอร์โทรศัพท์<v-icon>mdi-cellphone</v-icon> : {{memberTel}}</p>
               <p v-if="Check != ''">อีเมล<v-icon>mdi-mail</v-icon> : {{memberMail}}</p>
               <p v-if="Check != ''">วันเกิด(ป-ด-ว)<v-icon>mdi-calendar-text</v-icon> : {{memberBirth[0]}}</p>
               <p v-if="Check != ''">ประเภทสมาชิก<v-icon>mdi-emoticon-cool</v-icon> : {{memtypes}}</p>
-            
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -54,6 +56,9 @@ export default {
       },
         dialog: false,
         Check: false,
+        al1 : false,
+        al2 : false,
+        aa: false
         }
     },
     
@@ -71,9 +76,17 @@ export default {
             this.memberBirth = birth;
             this.memtypes = response.data.select_memtype.name;
             this.Check = response.status;
-          }        
+            this.al1 = true;
+            this.al2 = false;
+          } 
+          else{
+            this.Check = '';
+            this.al1 = false;
+            this.al2 = true;
+          }      
         })
         .catch(e => {
+          this.al2 = true;
           console.log(e);
         });
     }

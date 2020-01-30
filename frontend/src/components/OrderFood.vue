@@ -90,7 +90,7 @@
       :items-per-page="5"
       :options.sync="options"
       :loading="loading"
-      class="elevation-1 mt-9 food"
+      class="elevation-1 mt-9"
     >
       
     <template v-slot:item.action>
@@ -228,9 +228,9 @@ import http from "../plugins/https";
           { text: 'TABLE', value: 'tables.id' },
           { text: 'MENU', value: 'managemenu.m_name' },
           { text: 'OrderType', value: 'ordertype.type' },
-          { text: 'DishNumber', value: 'dishquantity'},
+          { text: 'DishQuantity', value: 'dishquantity'},
           { text: 'Status', value: 'orderstatus.status'},
-          { text: 'Actions', value: 'action', sortable: false },
+          { text: 'SwitchStatus/Delete', value: 'action', sortable: false },
           
         ],
         valid : false,
@@ -342,7 +342,9 @@ import http from "../plugins/https";
           this.getOrderFood();
           this.clear();
           this.dialog=false
-          console.log(response);      
+          console.log(response);
+          this.snackbar = true
+          this.text = "เปลี่ยนสถานะสำเร็จ" 
         })
         .catch(e => {
           console.log(e);
@@ -356,7 +358,9 @@ import http from "../plugins/https";
           this.getOrderFood();
           this.clear();
           this.dialogremove = false
-          console.log(response);      
+          console.log(response);
+          this.snackbar = true
+          this.text = "ลบออเดอร์สำเร็จ"
         })
         .catch(e => {
           console.log(e);
@@ -401,9 +405,9 @@ import http from "../plugins/https";
 <style>
 /* Helper classes */
 .food {
-  background-color: #D7CCC8 !important;
+  background-color: #424242 !important;
 }
 .food--text {
-  color: #356859 !important;
+  color: rgb(255, 255, 255) !important;
 }
 </style>

@@ -7,24 +7,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-import com.okta.springbootvue.entity.*;
+import java.util.Date;
+import java.util.List;
+
 
 
 @Data
 @Entity
 @NoArgsConstructor
+@ToString
 @Table(name="PAYMENT")
 public class Payment {
 
@@ -34,15 +38,32 @@ public class Payment {
     @Column(name = "PAYMENT_ID", unique = true, nullable = true)
     private @NonNull Long id;
     
-    @Max(value = 100,message = "must not be more 100")
+    @Min(value = 0,message = "must not below 0")
     @NotNull(message = "must not be null")
     @Positive(message = "must be positive number")
     @Column(name = "Money")
-    private Integer statusname; 
+    private Integer Money;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderFood.class)
-    @JoinColumn(name = "ORDER_ID", insertable = true)
-    private OrderFood selectorderfood;
+    @Min(value = 0,message = "must not below 0")
+    @NotNull(message = "must not be null")
+    @Positive(message = "must be positive number")
+    @Column(name = "Change")
+    private Integer Change;
+
+    @Min(value = 0,message = "must not below 0")
+    @NotNull(message = "must not be null")
+    @Positive(message = "must be positive number")
+    @Column(name = "Total")
+    private Double Total;
+
+
+    @PastOrPresent(message = "must not be past")
+    @Column(name = "CreateDate")
+    private Date CreateDate;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
+    @JoinColumn(name = "TABLE_ID", insertable = true)
+    private tables selecttable;
 
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
@@ -58,6 +79,7 @@ public class Payment {
     @JoinColumn(name = "MEMBERSHIP_ID", insertable = true)
     private Membership selectmembership;
 
+   
 
 
     

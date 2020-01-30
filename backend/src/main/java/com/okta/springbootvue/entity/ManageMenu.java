@@ -19,7 +19,10 @@ import javax.validation.constraints.*;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="MENU")
+@Table(name="MENU",
+uniqueConstraints = {
+  @UniqueConstraint(columnNames = "MENU_NAME")
+})
 public class ManageMenu {
 
   @Id

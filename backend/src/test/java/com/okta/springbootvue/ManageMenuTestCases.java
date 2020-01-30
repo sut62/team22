@@ -36,32 +36,34 @@ public class ManageMenuTestCases {
 
   // ==================== Main Test ====================
 
-  // ---------- AddMenuSuccess ----------
+  // --------- AddMenuSuccess ----------
 
   @Test
-  void B6027315_AddMenuSuccessTest() {
-    ManageMenu managemenu = new ManageMenu();
-    managemenu.setM_name("Tom Yum Kung");
-    managemenu.setM_price(12);
+  void B6027315_testSuccessByRecievingAllData() {
+    ManageMenu menu1 = new ManageMenu();
+    menu1.setM_name("Tom Yum Kung");
+    menu1.setM_price(12);
 
-    managemenu = ManageMenuRep.saveAndFlush(managemenu);
+    menu1 = ManageMenuRep.saveAndFlush(menu1);
 
-    Optional<ManageMenu> found = ManageMenuRep.findById(managemenu.getMnid());
+    Optional<ManageMenu> found = ManageMenuRep.findById(menu1.getMnid());
     assertEquals("Tom Yum Kung", found.get().getM_name());
     assertEquals(12, found.get().getM_price());
   }
+
+  // ==================== FAILED CASES ====================
 
   // ==================== Menu Name ====================
 
   // ---------- AddMenuFailed by Name is null ----------
 
   @Test
-  void B6027315_AddMenuFailedTest() {
-    ManageMenu managemenu = new ManageMenu();
-    managemenu.setM_name(null);
-    managemenu.setM_price(12);
+  void B6027315_testFailedByNameIsNull() {
+    ManageMenu menu1 = new ManageMenu();
+    menu1.setM_name(null);
+    menu1.setM_price(12);
 
-    Set<ConstraintViolation<ManageMenu>> result = validator.validate(managemenu);
+    Set<ConstraintViolation<ManageMenu>> result = validator.validate(menu1);
 
     // result ต้องมี error 1 ค่าเท่านั้น
     assertEquals(1, result.size());
@@ -74,12 +76,12 @@ public class ManageMenuTestCases {
   // ---------- Menu Name Max Min Size ----------
 
   @Test
-  void B6027315_MenuNameSizeMaxIs30MinIs1() {
-    ManageMenu managemenu = new ManageMenu();
-    managemenu.setM_name("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGH");
-    managemenu.setM_price(12);
+  void B6027315_testFailedByNameIsLongerThan30() {
+    ManageMenu menu1 = new ManageMenu();
+    menu1.setM_name("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGH");
+    menu1.setM_price(12);
 
-    Set<ConstraintViolation<ManageMenu>> result = validator.validate(managemenu);
+    Set<ConstraintViolation<ManageMenu>> result = validator.validate(menu1);
 
     assertEquals(1, result.size());
 
@@ -90,39 +92,36 @@ public class ManageMenuTestCases {
 
   // ---------- Menu Name Must be unique ----------
 
-  // @Test
-  // void B6027315_menuNameMustBeUnique() {
-  //     // สร้าง person object
-  //     ManageMenu managemenu = new ManageMenu();
-  //     managemenu.setM_name("Tom Yum Kung");
-  //     managemenu = ManageMenuRep.saveAndFlush(managemenu);
-  //
-  //     // คาดหวังว่า DataIntegrityViolationException จะถูก throw
-  //     assertThrows(DataIntegrityViolationException.class, () -> {
-  //         // สร้าง person object ตัวที่ 2
-  //         ManageMenu mn2 = new ManageMenu();
-  //         mn2.setM_name("Tom Yum Kung");
-  //         mn2 = ManageMenuRep.saveAndFlush(mn2);
-  //     });
-  //     Set<ConstraintViolation<ManageMenu>> result = validator.validate(managemenu);
-  //
-  //     ConstraintViolation<ManageMenu> v = result.iterator().next();
-  //     assertEquals("must be unique", v.getMessage());
-  //     assertEquals("m_name", v.getPropertyPath().toString());
-  // }
+  @Test
+  void B6027315_testFailedByNameIsUnique() {
+    // สร้าง person object
+    ManageMenu menu1 = new ManageMenu();
+    menu1.setM_name("Tom Yum Kung");
+    menu1.setM_price(12);
+    menu1 = ManageMenuRep.saveAndFlush(menu1);
 
+    // คาดหวังว่า DataIntegrityViolationException จะถูก throw
+    assertThrows(DataIntegrityViolationException.class, () -> {
+      // สร้าง person object ตัวที่ 2
+      ManageMenu menu2 = new ManageMenu();
+      menu2.setM_name("Tom Yum Kung");
+      menu2.setM_price(12);
+      menu2 = ManageMenuRep.saveAndFlush(menu2);
+    });
+
+  }
 
   // ==================== Menu Price ====================
 
   // ---------- Add Menu Failed by Price is null ----------
 
   @Test
-  void B6027315_MenuPriceNotNullTest() {
-    ManageMenu managemenu = new ManageMenu();
-    managemenu.setM_name("Tom Yum Kung");
-    managemenu.setM_price(null);
+  void B6027315_testFailedByPriceIsNull() {
+    ManageMenu menu1 = new ManageMenu();
+    menu1.setM_name("Tom Yum Kung");
+    menu1.setM_price(null);
 
-    Set<ConstraintViolation<ManageMenu>> result = validator.validate(managemenu);
+    Set<ConstraintViolation<ManageMenu>> result = validator.validate(menu1);
 
     assertEquals(1, result.size());
     // error message ตรงชนิด และถูก field
@@ -134,12 +133,12 @@ public class ManageMenuTestCases {
   // ---------- Add Menu Failed by Price more than 100000 ----------
 
   @Test
-  void B6027315_MenuPriceIsMoreThan100000() {
-    ManageMenu managemenu = new ManageMenu();
-    managemenu.setM_name("Tom Yum Kung");
-    managemenu.setM_price(123456);
+  void B6027315_testFailedByPriceIsMoreThan100000() {
+    ManageMenu menu1 = new ManageMenu();
+    menu1.setM_name("Tom Yum Kung");
+    menu1.setM_price(123456);
 
-    Set<ConstraintViolation<ManageMenu>> result = validator.validate(managemenu);
+    Set<ConstraintViolation<ManageMenu>> result = validator.validate(menu1);
 
     assertEquals(1, result.size());
     // error message ตรงชนิด และถูก field
@@ -151,12 +150,12 @@ public class ManageMenuTestCases {
   // ---------- Add Menu Failed by Input Negative number ----------
 
   @Test
-  void B6027315_MenuPriceIsNegativeNumber() {
-    ManageMenu managemenu = new ManageMenu();
-    managemenu.setM_name("Tom Yum Kung");
-    managemenu.setM_price(-123);
+  void B6027315_testFailedByPriceIsNegativeNumber() {
+    ManageMenu menu1 = new ManageMenu();
+    menu1.setM_name("Tom Yum Kung");
+    menu1.setM_price(-123);
 
-    Set<ConstraintViolation<ManageMenu>> result = validator.validate(managemenu);
+    Set<ConstraintViolation<ManageMenu>> result = validator.validate(menu1);
 
     assertEquals(1, result.size());
     // error message ตรงชนิด และถูก field
@@ -164,4 +163,5 @@ public class ManageMenuTestCases {
     assertEquals("must be positive number", v.getMessage());
     assertEquals("m_price", v.getPropertyPath().toString());
   }
+
 }
