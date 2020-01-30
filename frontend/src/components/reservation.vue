@@ -236,7 +236,7 @@ export default {
     save(){
         
         if(!this.dupe){
-          https.post("/reservationses/"+this.reservation.customer+"/"+this.reservation.table.id+"/"+this.reservation.service.id+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats.id)
+          https.post("/reservationses/"+this.member.id+"/"+this.reservation.table.id+"/"+this.reservation.service.id+"/"+this.date+"/"+this.reservation.time+"/"+this.reservation.seats.id)
         .then(doc => {
            this.errmsg=`The reservation is saved status : ${doc.status}`
            this.savechk='save'
@@ -286,10 +286,10 @@ export default {
       })
     },
     getImg(){
-      var text = "Table: "+this.reservation.table.id+" Number of Seats: "+this.reservation.seats.id+" "+"Reservation Date : "+this.date+" "+this.reservation.time+" "+"Service: "+this.reservation.service.serviceName
+      var text = "Customer Name: "+this.member.name+"Table: "+this.reservation.table.id+" Number of Seats: "+this.reservation.seats.id+" "+"Reservation Date : "+this.date+" "+this.reservation.time+" "+"Service: "+this.reservation.service.serviceName
       https.get("/image/"+text).then( () => {
         
-        this.imge = "http://localhost:9000/image/Table:%20"+this.reservation.table.id+"%20Number%20of%20Seats:%20"+this.reservation.seats.id+"%20Reservation%20Date%20:%20"+this.date+"%20"+this.reservation.time+"%20Service:%20"+this.reservation.service.serviceName
+        this.imge = "http://localhost:9000/image/"+"Customer%20Name:%20"+this.member.name+"Table:%20"+this.reservation.table.id+"%20Number%20of%20Seats:%20"+this.reservation.seats.id+"%20Reservation%20Date%20:%20"+this.date+"%20"+this.reservation.time+"%20Service:%20"+this.reservation.service.serviceName
         
       }
 
