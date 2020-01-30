@@ -148,21 +148,39 @@
     </v-row>
 
     <v-row justify="center">
+      
+      
       <v-col cols="6" sm="6" md="6" class="mt-0 white">
           <v-row justify="center">
+
+            <v-btn
+      class=""
+      :loading="loading"
+      :disabled="loading"
+      color="secondary"
+      @click="check13digit"
+    >
+      Check Number
+        </v-btn>
+      <v-col cols="6" sm="6" md="3"  class="mt-0 white">
+        <div v-html="check"></div>
+      </v-col>
         <v-btn
-          color="red lighten-2"
+          v-if="showsave"
+          color="secondary"
           dark
+          
           v-on="on"
           @click="saveEmployee"
         >
           บันทึก
         </v-btn>
+        <v-col cols="6" sm="6" md="3"  class="mt-0 white">
+        <div v-html="fail"></div>
+      </v-col>
         
      </v-row>
-    <v-row justify="center">
-      <div v-html="fail"></div>
-      </v-row>
+    
 
       </v-col>
       
@@ -240,9 +258,11 @@ export default {
         positionId: "",
         marital_statusId: ""
       },
+      showsave:false,
       dialog:false,
       imge:null,
       show:false,
+      check:'',
       fail:'',
       date: new Date().toISOString().substr(0, 10),
       headers: [{ text: "Employee", value: "employee.name" }],
@@ -323,6 +343,22 @@ export default {
           console.log(e);
         });
     },
+    check13digit(){
+        this.showsave = false;
+        this.check = ''
+        var text = this.Employee.enum;
+        if(text.length==13){
+          this.showsave = true;
+          this.check = '<FONT color="#3EFF99" size="4"> <p>Correct</p></FONT>'
+        }
+        else if(text.length!=13){
+          this.check = '<FONT color="#FF0000" size="4"> <p>Wrong</p></FONT>'
+        }
+        this.fail = ''
+        
+      
+      
+    },
     // function เมื่อกดปุ่ม submit
     saveEmployee() {
       http
@@ -356,7 +392,7 @@ export default {
         })
         .catch(e => {
           console.log(e);
-          this.fail = '<FONT color="#FF0000" size="5"> <p>Register Fail</p></FONT>'
+          this.fail = '<FONT color="#FF0000" size="4"> <p>Register Fail</p></FONT>'
         });
     },
     clear() {
