@@ -107,7 +107,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in showtable" :key="item.name">
+              <tr v-for="item in MenuList" :key="item.name">
                 <td class="text-left">{{ item.m_name }}</td>
                 <td class="text-left">{{ item.sel_cate.cname }}</td>
                 <td class="text-left">{{ item.sel_ingre.iname }}</td>
@@ -124,7 +124,7 @@
       <v-col cols = 12>
         <v-autocomplete
         v-model="ManageMenu.mnid"
-        :items="showtable"
+        :items="MenuList"
         label="ค้นหาเมนูอาหาร"
         item-text="m_name"
         item-value="mnid"
@@ -212,15 +212,15 @@ export default {
       MenuCate:[],
       MenuIngre:[],
       MenuType:[],
-      showtable:[]
+      MenuList:[]
     };
   },
   methods:{
     removeData(){
       http.delete("/manageMenus/"+this.ManageMenu.mnid).then(response =>{
         console.log(response);
-        this.showtable = response.data;
-        // location.reload();
+        this.getMenuList();
+        this.MenuList = response.data;
         this.dialog=false
         this.snackbar=true
         this.status="ลบเมนูสำเร็จ!"
@@ -242,17 +242,15 @@ export default {
       this.ManageMenu.tid)
       .then(response => {
         console.log(response);
-        location.reload();
-        this.showtable = response.data;
+        //location.reload();
+        this.getMenuList();
+        this.MenuList = response.data;
         this.snackbar=true
         this.status="เพิ่มเมนูสำเร็จ!"
         this.cl="success"
-        this.getDataTable();
-
       })
       .catch(e => {
         console.log(e);
-        // alert("เพิ่มเมนูไม่สำเร็จ")
         this.snackbar=true
         this.cl="error"
         this.status="เพิ่มเมนูไม่สำเร็จ!"
@@ -283,9 +281,9 @@ export default {
 
     },
 
-    getDataTable(){
+    getMenuList(){
       http.get("/manageMenus").then(response =>{
-        this.showtable = response.data;
+        this.MenuList = response.data;
       });
       this.submitted = true;
     }
@@ -294,7 +292,7 @@ export default {
     this.getMenuCate();
     this.getMenuIngre();
     this.getMenuType();
-    this.getDataTable();
+    this.getMenuList();
     this.removeData();
   }
 }
