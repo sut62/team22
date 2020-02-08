@@ -50,8 +50,7 @@ public class Employee {
     @Pattern(regexp = "\\d{13}")
     private String E_NUM;
 
-    
-
+    @Column(name = "REGDATE")
     private Date E_REGDATE;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Age.class)
