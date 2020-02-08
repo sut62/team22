@@ -27,6 +27,7 @@ public class Gender {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="Gender_seq")
 	@Column(name="Gender_ID",unique = true, nullable = true)
 	private @NonNull Long id;
+	@Column(name = "gender")
 	private @NonNull String name;
 
 	@OneToMany(fetch = FetchType.EAGER)
