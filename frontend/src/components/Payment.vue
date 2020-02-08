@@ -82,19 +82,6 @@
               </v-col>
             </v-row>
 
-          <v-snackbar
-      v-model="snackbar"
-      top
-    >
-      {{ text }}
-      <v-btn
-        color="pink"
-        text
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
 
 
             <v-card-text>
@@ -119,6 +106,22 @@
               <div class="my-2">
                 <v-btn  v-if="Payment.Selectmembership.idmbs == 1" @click="findMember" depressed large color="primary">ค้นหา</v-btn>
               </div>
+              <v-alert v-model="check" :type="type">
+                <v-row>
+                    <v-col class="grow">
+                      {{text}}
+                    </v-col>
+                    <v-col class="shrink">
+                      <v-btn
+                      @click="check = false"
+
+                      color="blue"
+                    >
+                    CLOSE
+                    </v-btn>
+                </v-col>
+                </v-row>
+              </v-alert>
           </v-row>
 
 
@@ -174,7 +177,29 @@
         
         </v-form>
       </v-col>
+      
     </v-row>
+    <div>
+      <v-alert  prominent v-model="snackbar" :type="type">
+        <v-row align="center"> 
+          <v-col class="grow">
+            {{text}}
+          </v-col>
+          <v-col class="shrink">
+            <v-btn
+              @click="showReceipt"
+              color="blue"
+              :disabled="type == 'error'"
+            >
+            พิมพ์ใบเสร็จ
+            </v-btn>
+          </v-col>
+        </v-row>
+        
+        
+      </v-alert>
+    </div>
+    
 
 
   </v-container>
@@ -203,7 +228,8 @@ export default {
         Total:0,
         Change:0,
         Money:0,
-        Selectemployee: ""
+        Selectemployee: "",
+        createDate:"",
       },
       tel: "",
       name:"",
@@ -215,7 +241,7 @@ export default {
     selectAll: false,
     confirm:false,
     price:0,
-
+    type:'',
       items: [],
       fooditems: [],
       valid: false,
@@ -259,11 +285,8 @@ export default {
           this.orderfoods = response.data;
           
           
-          console.log(response.data);
         })
-        .catch(e => {
-          console.log(e);
-        });
+        
     },
     // ดึงข้อมูล member ใส่ combobox
     getMemberships() {
@@ -271,90 +294,91 @@ export default {
         .get("/memberships")
         .then(response => {
           this.memberships = response.data;
-          console.log(response.data);
+          
         })
-        .catch(e => {
-          console.log(e);
-        });
+        
     },
 
     // ดึงข้อมูล RentalType ใส่ combobox
     getEmployees() {
       http
         .get("/Employee")
-        .then(response => {
+        .then( response => {
           this.employees = response.data;
-          console.log(response.data);
+          
         })
-        .catch(e => {
-          console.log(e);
-        });
     },
 
     findMember() {
       http.get("/members/" + this.tel).then(response => {
-          console.log(response);
+          
           if (response.data != null) {
             this.Payment.Selectmember= response.data;
-          
-            this.Check = response.status;
-          }      else {
-            this.clear()
-            this.snackbar = true
-            this.text = "บันทึกสำเร็จ"
-          }          
+            
+            this.check = true;
+            this.text = 'พบสมาชิก'
+            this.type = 'success'
+          }
+          else{
+            this.check = true;
+            this.text = 'ไม่พบสมาชิก'
+            this.type = 'error'
+          }         
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          
         });
  
     },
+    showReceipt(){
+      this.$router.push({
+              name:'receipt',params:{
+                change:this.Payment.Change,
+                money:this.Payment.Money,
+                table:this.Payment.Selecttable,
+                total:this.Payment.Total,
+                dish:this.totaldish,
+                oders:this.selected,
+                memtype:this.Payment.Selectmember.select_memtype.name,
+                createDate:this.Payment.createDate
 
+              }
+          })
+    },
     // function เมื่อกดปุ่ม record
     savePayment() {
-
-        var mon = this.Payment.Money
-        
-      
+        this.Payment.createDate = new Date()
         if(this.Payment.Selectmember.select_memtype.name == "บัตรนักเรียน/นักศึกษา"){
           this.Payment.Total = this.price-this.price*0.05 //5%
           this.Payment.Change = this.Payment.Money - this.Payment.Total
-          var tot = this.Payment.Total
+          
             http
         .post(
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
               "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id,
-              "selecttable":this.Payment.Selecttable
+              "selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
           
         )
-        .then(response => {
+        .then(() => {
           this.snackbar= true;
-          this.text = "บันทึกสำเร็จ";
+          this.text='save success '
+          this.type = 'success'
           
-          this.getPayments();
-          this.clear();
-          this.$router.push({
-              name:'receipt',params:{
-                change:this.Payment.Change,
-                money:mon,
-                table:this.Payment.Selecttable,
-                total:tot,
-                dish:this.totaldish,
-                oders:this.selected,
-                memtype:this.Payment.Selectmember.select_memtype.name
-
-              }
-          })
-          console.log(response);
+          
+          
+          
+          
           
           //window.location.reload();
           
           
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          this.snackbar= true;
+          this.text='save fail '
+          this.type = 'error'
           
 
         });
@@ -362,43 +386,33 @@ export default {
         else if(this.Payment.Selectmember.select_memtype.name == "ทั่วไป"){
           this.Payment.Total = this.price-this.price*0.07 //7%
           this.Payment.Change = this.Payment.Money - this.Payment.Total
-          tot = this.Payment.Total
+          
             http
         .post(
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
               
               "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id
-              ,"selecttable":this.Payment.Selecttable
+              ,"selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
         )
-        .then(response => {
+        .then(() => {
           this.snackbar= true;
-          this.text = "บันทึกสำเร็จ"
+          this.text='save success '
+          this.type = 'success'
           
-          this.getPayments();
-          this.clear();
-          console.log(response);
-          this.$router.push({
-              name:'receipt',params:{
-                change:this.Payment.Change,
-                money:mon,
-                table:this.Payment.Selecttable,
-                total:tot,
-                dish:this.totaldish,
-                oders:this.selected,
-                
-                memtype:this.Payment.Selectmember.select_memtype.name
-
-              }
-          })
+          
+          
+          
           
           //window.location.reload();
           
           
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          this.snackbar= true;
+          this.text='save fail '
+          this.type = 'error'
         });
         }
         else if(this.Payment.Selectmember.select_memtype.name == "VIP"){
@@ -406,43 +420,33 @@ export default {
           
           this.Payment.Total = this.price-this.price*0.10 //10%
           this.Payment.Change = this.Payment.Money - this.Payment.Total
-          tot = this.Payment.Total
+          
          
             http
         .post(
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
               "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id
-              ,"selecttable":this.Payment.Selecttable
+              ,"selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
           
         )
-        .then(response => {
+        .then(() => {
           this.snackbar= true;
-          this.text = "บันทึกสำเร็จ"
+          this.text='save success '
+          this.type = 'success'
           
-          this.getPayments();
-          this.clear();
-          console.log(response);
-          this.$router.push({
-              name:'receipt',params:{
-                change:this.Payment.Change,
-                money:mon,
-                table:this.Payment.selecttable,
-                total:tot,
-                dish:this.totaldish,
-                oders:this.Selected,
-                memtype:this.Payment.Selectmember.select_memtype.name
-
-              }
-          })
+         
+          
           
           //window.location.reload();
           
           
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+         this.snackbar= true;
+          this.text='save fail '
+          this.type = 'error'
 
         });
         }
@@ -450,7 +454,7 @@ export default {
         else{
           this.Payment.Total = this.price
           this.Payment.Change = this.Payment.Money - this.Payment.Total
-          tot = this.Payment.Total
+         
           
 
           http
@@ -458,56 +462,32 @@ export default {
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
               "selectmemberships": this.Payment.Selectmembership.idmbs,"selectmember": 0
-              ,"selecttable":this.Payment.Selecttable
+              ,"selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
           
         )
-        .then(response => {
+        .then(()=> {
           this.snackbar= true;
-          this.text = "บันทึกสำเร็จ"
+          this.text='save success '
+          this.type = 'success'
           
-          this.getPayments();
-          this.clear();
-          console.log(response);
-          this.$router.push({
-              name:'receipt',params:{
-                change:this.Payment.Change,
-                money:mon,
-                table:this.Payment.selecttable,
-                total:tot,
-                dish:this.totaldish,
-                oders:this.Selected,
-                memtype:"none"
-
-              }
-          })
+          
+         
+          
           
           //window.location.reload();
           
           
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          this.snackbar= true;
+          this.text='save fail '
+          this.type = 'error'
 
         });
         }
       
       //this.submitted = true;
-    },
-    clear() {
-      this.$refs.form.reset();
-      this.memberCheck = false;
-    },
-    getPayments() {
-      http
-        .get("/payment")
-        .then(response => {
-          this.items = response.data;
-          console.log(this.items);
-        })
-        .catch(e => {
-          console.log(e);
-        });
     },
     getOrderFood() {
       http
@@ -515,11 +495,9 @@ export default {
         .then(response => {
           this.fooditems = response.data;
           
-          console.log(this.items);
+          
         })
-        .catch(e => {
-          console.log(e);
-        });
+        
     },
   select() {
       this.selected = {};
@@ -538,8 +516,7 @@ export default {
       this.getOrderFoods();
       this.getMemberships();
       this.getEmployees();
-    
-      this.getPayments();
+     
     }
     /* eslint-enable no-console */
   },
@@ -547,8 +524,8 @@ export default {
     this.getOrderFoods();
     this.getMemberships();
     this.getEmployees();
-    this.getOrderFood()
-    this.getPayments();
+    
+    
   }
 };
 </script>

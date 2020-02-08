@@ -1,24 +1,27 @@
 package com.okta.springbootvue.controller.dto;
 
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class OrderList{
+public class PaymentData{
 
     private Long selecttable;
     private Long selectmember;
     private Long selectemployee;
     private Long selectmemberships;
-    private Integer change;
-    private Integer money;
+    private String change;
+    private String money;
     private String total;
+    private String date;
     
     public Long getTable(){
         return selecttable;
@@ -32,13 +35,19 @@ public class OrderList{
     public Long getMemberships(){
         return selectmemberships;
     }
-    public Integer getMoney(){
-        return money;
+    public Double getMoney(){
+        return Double.valueOf(money);
     }
-    public Integer getChange(){
-        return change;
+    public Double getChange(){
+        return Double.valueOf(change);
     }
     public Double getTotal(){
         return Double.valueOf(total);
+    }
+    public LocalDateTime getDate(){
+        String so = date.substring(0,date.length()-1);
+        LocalDateTime tdate = LocalDateTime.parse(so);
+
+        return tdate;
     }
 }

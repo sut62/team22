@@ -1,6 +1,5 @@
 package com.okta.springbootvue.repository;
 
-import java.util.List;
 
 import com.okta.springbootvue.entity.Payment;
 
