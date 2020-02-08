@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
+
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -13,10 +13,9 @@ import javax.validation.ValidatorFactory;
 import java.util.Optional;
 import java.util.Set;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 import com.okta.springbootvue.repository.*;
 import com.okta.springbootvue.entity.*;
