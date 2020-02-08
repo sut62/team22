@@ -20,6 +20,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,26 +41,22 @@ public class Payment {
     
     @Min(value = 0,message = "must not below 0")
     @NotNull(message = "must not be null")
-    @Positive(message = "must be positive number")
     @Column(name = "Money")
-    private Integer Money;
+    private Double Money;
 
     @Min(value = 0,message = "must not below 0")
     @NotNull(message = "must not be null")
-    @Positive(message = "must be positive number")
     @Column(name = "Change")
-    private Integer Change;
+    private Double Change;
 
     @Min(value = 0,message = "must not below 0")
-    @NotNull(message = "must not be null")
-    @Positive(message = "must be positive number")
+    @NotNull(message = "must not be null") 
     @Column(name = "Total")
     private Double Total;
 
-
-    @PastOrPresent(message = "must not be past")
+    @PastOrPresent(message = "must not be future")
     @Column(name = "CreateDate")
-    private Date CreateDate;
+    private LocalDateTime createDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
     @JoinColumn(name = "TABLE_ID", insertable = true)

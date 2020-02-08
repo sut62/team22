@@ -7,6 +7,7 @@
       <p class="subtitle-1 text-center">Receipt restaurant.</p>
       <p class="text-center">va te faire foutre premier ministre.</p>
       <p class="text-center">BB place Nakhon Ratchasima 30000</p>
+      <p class="text-center">Create Date: {{this.$attrs.createDate}}</p>
 
     </v-card-text>
         <p>--------------------------------------------------------------------------------------------</p>
@@ -43,35 +44,9 @@
   </v-card>
 </template>
 <script>
-import http from "../plugins/https"
+
 export default {
   name:'receipt',
-  data(){
-    return{
-      order:[]
-    }
-  },
-  created() {
-    
-  },
-  methods: {
-    getOrders(){
-      http
-        .get("/Order")
-        .then(response => {
-          this.order = response.data;
-          
-          
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-    }
-  },
   
-
-    
-}
+  }
 </script>

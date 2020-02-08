@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.Set;
 
 import com.okta.springbootvue.entity.*;
 import com.okta.springbootvue.repository.*;
-import com.okta.springbootvue.controller.dto.OrderList;
+import com.okta.springbootvue.controller.dto.PaymentData;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -46,16 +47,13 @@ public class PaymentController {
         this.paymentRepository = paymentRepository;
     }
 
-    @GetMapping("/payment")
-    public Collection<Payment> Payments() {
-        return paymentRepository.findAll().stream().collect(Collectors.toList());
-    }
+    
     @PostMapping("/Savepayment")
-    public void savePayment(@RequestBody OrderList orderList){
+    public void savePayment(@RequestBody PaymentData paymentData){
         Payment payment = new Payment();
-        System.out.println("\n"+orderList.getMoney()+" "+orderList.getTable()+"\n");
-        if(orderList.getMember()!=0){
-            Optional<Member> mem = memberRepository.findById(orderList.getMember());
+        System.out.println("\n"+paymentData.getMoney()+" "+paymentData.getTable()+"\n");
+        if(paymentData.getMember()!=0){
+            Optional<Member> mem = memberRepository.findById(paymentData.getMember());
             Member membs = mem.get();
             payment.setSelectmember(membs);
         }
@@ -64,26 +62,28 @@ public class PaymentController {
         payment.setSelectmember(mem);
         }
         
-        Optional<Membership> mems = membershipRepository.findById(orderList.getMemberships());
+        Optional<Membership> mems = membershipRepository.findById(paymentData.getMemberships());
             Membership memss = mems.get();
-        Optional<Employee> emp = employeeRepository.findById(orderList.getEmployee());
+        Optional<Employee> emp = employeeRepository.findById(paymentData.getEmployee());
         Employee emps = emp.get();
         System.out.println("\n"+emps+"\n");
+        System.out.println("\n"+paymentData.getDate()+"\n");
         
         
         
         
-        Optional<tables> sor = tablesRepository.findById(orderList.getTable());
+        Optional<tables> sor = tablesRepository.findById(paymentData.getTable());
         tables or = sor.get();
         System.out.println("\n"+or+"\n");
+        LocalDateTime date = paymentData.getDate();
         
         payment.setSelecttable(or);
         payment.setSelectemployee(emps);
         payment.setSelectmembership(memss);
-        payment.setMoney(orderList.getMoney());
-        payment.setChange(orderList.getChange());
-        payment.setTotal(orderList.getTotal());
-        payment.setCreateDate(new Date());
+        payment.setMoney(paymentData.getMoney());
+        payment.setChange(paymentData.getChange());
+        payment.setTotal(paymentData.getTotal());
+        payment.setCreateDate(date);
         paymentRepository.save(payment);
         
                 
