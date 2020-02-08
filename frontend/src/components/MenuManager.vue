@@ -1,4 +1,4 @@
-<template>
+snbr<template>
   <div class="mainpage">
     <div class="outside">
       <br>
@@ -71,7 +71,7 @@
               </div>
 
               <v-snackbar
-              v-model="snackbar"
+              v-model="snbr"
               time=5000
               top
               :color="cl"
@@ -80,7 +80,7 @@
               <v-btn
 
               text
-              @click="snackbar = false"
+              @click="snbr = false"
               >
               ปิด
             </v-btn></v-snackbar>
@@ -197,7 +197,7 @@ export default {
   name:"ManageMenu",
   data(){
     return{
-      snackbar: false,
+      snbr: false,
       status:"",
       cl:"",
       dialog: false,
@@ -222,13 +222,19 @@ export default {
         this.getMenuList();
         this.MenuList = response.data;
         this.dialog=false
-        this.snackbar=true
+        this.snbr=true
         this.status="ลบเมนูสำเร็จ!"
         this.cl="success"
-
+      })
+      .catch(e => {
+        console.log(e);
+        this.snbr=true
+        this.cl="error"
+        this.status="ลบเมนูไม่สำเร็จ!"
       });
       this.submitted = true;
     },
+
     saveData(){
       http.post("/manageMenus/"+
       this.ManageMenu.MENU_NAME
@@ -245,17 +251,16 @@ export default {
         //location.reload();
         this.getMenuList();
         this.MenuList = response.data;
-        this.snackbar=true
+        this.snbr =true
         this.status="เพิ่มเมนูสำเร็จ!"
         this.cl="success"
       })
       .catch(e => {
         console.log(e);
-        this.snackbar=true
+        this.snbr=true
         this.cl="error"
         this.status="เพิ่มเมนูไม่สำเร็จ!"
-      })
-      ;
+      });
       this.submitted = true;
     },
 
