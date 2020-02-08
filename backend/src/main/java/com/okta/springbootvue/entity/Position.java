@@ -26,7 +26,7 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="Position_SEQ")
     @Column(name="Position_ID",unique = true, nullable = true)
     private @NonNull Long id;
-
+    @Column(name = "Position")
     private @NonNull String name;
 
     @OneToMany(fetch = FetchType.EAGER)
