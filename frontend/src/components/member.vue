@@ -21,7 +21,8 @@
       </v-col>
       <v-col cols="6">
     <v-text-field
-      v-model="Member.name"      
+      v-model="Member.name"
+      hint="ตัวอักษรความยาวไม่ต่ำกว่า10แต่ไม่เกิน30"
       label="ชื่อ-สกุล"  
     ></v-text-field>
       </v-col>
@@ -64,7 +65,8 @@
                   </v-date-picker>
                 </v-menu>
     <v-text-field
-      v-model="Member.tel"      
+      v-model="Member.tel"
+      hint="เป็นตัวเลขเท่านั้น(ไม่มี -)"
       label="เบอร์โทร"  
        prepend-icon="mdi-dialpad"
     ></v-text-field>
@@ -72,7 +74,8 @@
 
     <v-row justify="center">
     <v-text-field
-      v-model="Member.mail"      
+      v-model="Member.mail"
+      hint="อีเมลเท่านั้น"      
       label="E-mail"  
        prepend-icon="mdi-message-text"
     ></v-text-field>

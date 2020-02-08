@@ -26,7 +26,7 @@ public class Marital_Status {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="Marital_Status_SEQ")
     @Column(name="Marital_Status_ID",unique = true, nullable = true)
     private @NonNull Long id;
-
+    @Column(name = "Marital_Status")
     private @NonNull String name;
 
     @OneToMany(fetch = FetchType.EAGER)

@@ -14,6 +14,6 @@ public
 interface MemberRepository extends JpaRepository<Member, Long> {
     Member findById(long id);
 
-    @Query(value = "SELECT * FROM MEMBER WHERE TEL = :tel",nativeQuery = true)
+    @Query(value = "SELECT * FROM MEMBER WHERE MEMBER_TEL = :tel",nativeQuery = true)
     Optional<Member> findByTel(@Param("tel") String tel);
 }

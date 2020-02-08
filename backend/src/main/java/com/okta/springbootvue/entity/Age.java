@@ -8,7 +8,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Column;
