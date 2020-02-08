@@ -58,7 +58,6 @@ export default {
         Check: false,
         al1 : false,
         al2 : false,
-        aa: false
         }
     },
     
