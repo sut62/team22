@@ -246,5 +246,32 @@ public class OrderFoodTestCase {
         assertEquals("status", v.getPropertyPath().toString());
 
     }
+
+    @Test
+    void B6014292_testOrderOrderTypedataCase(){
+        OrderType ordertype = new OrderType();
+        ordertype.setType("ห่อกลับบ้าน");
+
+        ordertypeRepository.saveAndFlush(ordertype);
+
+        Optional<OrderType>  found = ordertypeRepository.findById(ordertype.getId());
+        assertEquals("ห่อกลับบ้าน", found.get().getType());
+       
+    }
+
     
+    @Test
+    void B6014292_testOrderTypeNullCase(){
+        OrderType ordertype = new OrderType();
+        ordertype.setType(null);
+
+        Set<ConstraintViolation<OrderType>> result = validator.validate(ordertype);
+
+        assertEquals(1, result.size());
+
+        ConstraintViolation<OrderType> v = result.iterator().next();
+        assertEquals("must not be type null", v.getMessage());
+        assertEquals("type", v.getPropertyPath().toString());
+
+    }
 }
