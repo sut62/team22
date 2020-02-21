@@ -58,7 +58,7 @@ public class Employee {
     private String E_NUM;
 
     @Column(name = "REGDATE")
-    private Date E_REGDATE;
+    private @NotNull Date E_REGDATE;
 
    
 

@@ -7,8 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-
+import javax.validation.constraints.NotNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -25,7 +24,7 @@ public class OrderType {
 	private @NonNull Long id;
 
 	
-
-	private @NonNull String Type;
+    @NotNull(message = "must not be type null")
+	private String type;
 
 }
