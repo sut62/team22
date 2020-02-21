@@ -59,18 +59,22 @@ public class Member {
     @Column(name="DATE")
     private @NonNull Date SaveDate;
 
+    @NotNull(message = "must not be null")
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Prefix.class)
     @JoinColumn(name = "PREFIX_ID", insertable = true)
     private Prefix select_prefix;
 
+    @NotNull(message = "must not be null")
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
     @JoinColumn(name = "GENDER_ID", insertable = true)
     private Gender select_gender;
 
+    @NotNull(message = "must not be null")
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = MemType.class)
     @JoinColumn(name = "MemType_ID", insertable = true)
     private MemType select_memtype;
 
+    @NotNull(message = "must not be null")
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
     @JoinColumn(name = "Employee_ID", insertable = true)
     private Employee select_employee;
