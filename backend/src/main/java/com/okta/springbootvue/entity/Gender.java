@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import java.util.Collection;
 
@@ -28,7 +29,7 @@ public class Gender {
 	@Column(name="Gender_ID",unique = true, nullable = true)
 	private @NonNull Long id;
 	@Column(name = "gender")
-	private @NonNull String name;
+	private @NotNull String name;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	// mappedBy  = "rentGender"
