@@ -36,8 +36,6 @@ public class EmployeeController {
     @Autowired
     private final EmployeeRepository employeeRepository;
     @Autowired
-    private AgeRepository ageRepository;
-    @Autowired
     private GenderRepository genderRepository;
     @Autowired
     private Marital_StatusRepository marital_StatusRepository;
@@ -54,9 +52,9 @@ public class EmployeeController {
         return employeeRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/Employee/{Age_ID}/{Gender_ID}/{Position_ID}/{Marital_Status_ID}/{E_NAME}/{E_TEL}/{E_ADDRESS}/{E_BIRTH}/{E_NUM}")
+    @PostMapping("/Employee/{E_AGE}/{Gender_ID}/{Position_ID}/{Marital_Status_ID}/{E_NAME}/{E_TEL}/{E_ADDRESS}/{E_BIRTH}/{E_NUM}")
     public Employee newEmployee(Employee newEmployee,
-    @PathVariable long Age_ID,
+    @PathVariable Integer E_AGE,
     @PathVariable long Gender_ID,
     @PathVariable long Position_ID,
     @PathVariable long Marital_Status_ID,
@@ -73,9 +71,8 @@ public class EmployeeController {
     Gender gender = genderRepository.findById(Gender_ID);
     Marital_Status marital_Status = marital_StatusRepository.findById(Marital_Status_ID);
     Position position = positionRepository.findById(Position_ID);
-    Age age = ageRepository.findById(Age_ID);
     
-    newEmployee.setAge(age);
+    newEmployee.setE_AGE(E_AGE);
     newEmployee.setGender(gender);
     newEmployee.setPosition(position);
     newEmployee.setMarital_Status(marital_Status);

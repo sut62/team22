@@ -7,9 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -26,7 +28,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="Employee")
+@Table(name="Employee",uniqueConstraints = {
+    @UniqueConstraint(columnNames = "E_NUM")
+  })
 public class Employee {
 
     @Id
@@ -43,6 +47,9 @@ public class Employee {
 
     private @NotNull String E_ADDRESS;
 
+    @Min(value=0)
+    private Integer E_AGE;
+
     @Past
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date E_BIRTH;
@@ -53,9 +60,7 @@ public class Employee {
     @Column(name = "REGDATE")
     private Date E_REGDATE;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Age.class)
-    @JoinColumn(name = "Age_ID", insertable = true)
-    private Age age;
+   
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Gender.class)
     @JoinColumn(name = "Gender_ID", insertable = true)

@@ -26,7 +26,7 @@ public class RestaurantApplication  {
 
 	@Bean
 	ApplicationRunner init(PrefixRepository prefixRepository, GenderRepository genderRepository, MemTypeRepository memtypeRepository,
-	AgeRepository ageRepository,Marital_StatusRepository marital_StatusRepository,PositionRepository positionRepository,
+	Marital_StatusRepository marital_StatusRepository,PositionRepository positionRepository,
 	MenuCateRepository CateRep, MenuIngreRepository IngreRep, MenuTypeRepository TypeRep,
 	TablesRepository tablesRepository , ServicesRepository servicesRepository , OrderTypeRepository ordertypeRepository,MembershipRepository membershipRepository,
 	OrderStatusRepository orderstatusRepository
@@ -48,12 +48,6 @@ public class RestaurantApplication  {
 				Prefix prefix = new Prefix(); // สร้าง Object Quantity
 				prefix.setName(name); // set ชื่อ (name) ให้ Object ชื่อ Quantity
 				prefixRepository.save(prefix); // บันทึก Objcet ชื่อ Quantity
-			});
-
-			Stream.of(15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60).forEach(name -> {
-				Age age = new Age();
-				age.setAge(name);
-				ageRepository.save(age);
 			});
 
 			Stream.of("พนักตำเเหน่งหน้าเคาน์เตอร์", "พนักงานร้านอาหาร", "พนักงานรับออร์เดอร์").forEach(name -> {
