@@ -33,6 +33,10 @@ class MemberTestCase {
 
   @Autowired
   private MemberRepository memberRepository;
+  @Autowired
+  private PrefixRepository prefixRepository;
+
+  Prefix prefix = new Prefix();
 
 
 
@@ -41,6 +45,10 @@ class MemberTestCase {
   
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     validator = factory.getValidator();
+
+    
+    prefix.setName("นาย");
+    prefixRepository.saveAndFlush(prefix);
   }
   @Test
   
@@ -55,6 +63,7 @@ class MemberTestCase {
     member.setBirth(dateFormat.parse(date));
     member.setMail("moosorasich@hotmail.com");
     member.setSaveDate(ten);
+    member.setSelect_prefix(prefix);
 
     member = memberRepository.saveAndFlush(member);
 
@@ -64,6 +73,7 @@ class MemberTestCase {
     assertEquals(dateFormat.parse(date), found.get().getBirth());
     assertEquals("moosorasich@hotmail.com", found.get().getMail());
     assertEquals(ten, found.get().getSaveDate());
+    assertEquals(prefix, found.get().getSelect_prefix());
   }
   
   @Test

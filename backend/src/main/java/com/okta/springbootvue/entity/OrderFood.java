@@ -37,18 +37,22 @@ public class OrderFood {
  
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
     @JoinColumn(name = "tables_ID", insertable = true)
+    @NotNull(message = "must not be null tables")
     private tables tables;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = ManageMenu.class)
     @JoinColumn(name = "Menu_ID", insertable = true)
+    @NotNull(message = "must not be null managemenu")
     private ManageMenu managemenu;
  
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderType.class)
     @JoinColumn(name = "OrderType_ID", insertable = true)
+    @NotNull(message = "must not be null ordertype")
     private OrderType ordertype;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderStatus.class)
     @JoinColumn(name = "OrderStatus_ID", insertable = true)
+    @NotNull(message = "must not be null orderstatus")
     private OrderStatus orderstatus;
 
     
