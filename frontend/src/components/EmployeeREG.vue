@@ -32,16 +32,15 @@
     
 
       <v-col cols="6" sm="6" md="3" class="mt-0 white">
-        <v-autocomplete
-          label="อายุ"
-          outlined
-          v-model="Employee.ageId"
-          :items="ages"
-          item-text="age"
-          item-value="id"
-          :rules="[(v) => !!v || 'Item is required']"
-          required
-        ></v-autocomplete>
+        
+       <v-chip
+      class="ma-2"
+      label
+    >
+    อายุ
+    {{this.age}}
+    ปี
+    </v-chip>
       </v-col>
     </v-row>
 
@@ -128,7 +127,7 @@
                   <v-date-picker v-model="date" locale="th" no-title scrollable>
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(date)+MakeAge()">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
       </v-col>
@@ -263,9 +262,9 @@ export default {
       imge:null,
       show:false,
       check:'',
+      age:'',
       fail:'',
       date: new Date().toISOString().substr(0, 10),
-      headers: [{ text: "Employee", value: "employee.name" }],
       items: [],
       Ages: [],
       Marital_Statuss: [],
@@ -287,7 +286,7 @@ export default {
           console.log(e);
         });
     },
-    // ดึงข้อมูล Employee ใส่ combobox
+    
     getPositions() {
       http
         .get("/Position")
@@ -309,6 +308,7 @@ export default {
 
       )
     },
+
     getGenders() {
       http
         .get("/Gender")
@@ -320,7 +320,7 @@ export default {
           console.log(e);
         });
     },
-    // ดึงข้อมูล Delivery_Type ใส่ combobox
+    
     getMarital_Statuss() {
       http
         .get("/Marital_Status")
@@ -343,6 +343,18 @@ export default {
           console.log(e);
         });
     },
+    MakeAge(){
+      var today = new Date();
+      console.log(today)
+    var birthDate = new Date(this.date);
+    console.log(birthDate)
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return this.age=age;
+    },
     check13digit(){
         this.showsave = false;
         this.check = ''
@@ -355,8 +367,6 @@ export default {
           this.check = '<FONT color="#FF0000" size="4"> <p>Wrong</p></FONT>'
         }
         this.fail = ''
-        
-      
       
     },
     // function เมื่อกดปุ่ม submit
@@ -364,7 +374,7 @@ export default {
       http
         .post(
           "/Employee/" +
-            this.Employee.ageId +
+            this.age +
             "/" +
             this.Employee.genderId +
             "/" +
