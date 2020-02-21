@@ -26,11 +26,39 @@ public class OrderFoodTestCase {
 
     @Autowired
     private OrderFoodRepository orderfoodRepository;
+    @Autowired
+    private TablesRepository tablesRepository;
+    @Autowired
+    private OrderTypeRepository ordertypeRepository;
+    @Autowired
+    private ManageMenuRepository managemenuRepository;
+    @Autowired
+    private OrderStatusRepository orderstatusRepository;
+
+    tables table = new tables();
+    OrderType types = new OrderType();
+    ManageMenu managemenu = new ManageMenu();
+    OrderStatus status = new OrderStatus();
 
     @BeforeEach
     public void setup() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+        
+        table.setSeats(4);
+        tablesRepository.saveAndFlush(table);
+
+        types.setType("ห่อกลับบ้าน");
+        ordertypeRepository.saveAndFlush(types);
+        
+        managemenu.setM_name("ข้าวมันไก่");
+        managemenu.setM_price(45);
+        managemenuRepository.saveAndFlush(managemenu);
+
+        status.setStatus("เสิร์ฟอาหารเรียบร้อย");
+        orderstatusRepository.saveAndFlush(status);
+
+        
     }
 
     // ตั้งชื่อ test ให้สอดคล้องกับสิ่งที่ต้อง test
@@ -38,17 +66,29 @@ public class OrderFoodTestCase {
     void B6014292_testOrderFoodSaveSuccess() {
         OrderFood  orderfood = new OrderFood();
         orderfood.setDishquantity(1);
+        orderfood.setTables(table);
+        orderfood.setManagemenu(managemenu);
+        orderfood.setOrdertype(types);
+        orderfood.setOrderstatus(status);
 
         orderfood = orderfoodRepository.saveAndFlush(orderfood);
 
         Optional<OrderFood>  found = orderfoodRepository.findById(orderfood.getId());
         assertEquals(1, found.get().getDishquantity());
+        assertEquals(table, found.get().getTables());
+        assertEquals(managemenu, found.get().getManagemenu());
+        assertEquals(types, found.get().getOrdertype());
+        assertEquals(status, found.get().getOrderstatus());
     }
 
     @Test
     void B6014292_testOrderFoodPositiveNumberCase(){
         OrderFood  orderfood = new OrderFood();
         orderfood.setDishquantity(-1);
+        orderfood.setTables(table);
+        orderfood.setManagemenu(managemenu);
+        orderfood.setOrdertype(types);
+        orderfood.setOrderstatus(status);
 
         Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
 
@@ -65,6 +105,10 @@ public class OrderFoodTestCase {
     void B6014292_testOrderFoodDataNullCase(){
         OrderFood  orderfood = new OrderFood();
         orderfood.setDishquantity(null);
+        orderfood.setTables(table);
+        orderfood.setManagemenu(managemenu);
+        orderfood.setOrdertype(types);
+        orderfood.setOrderstatus(status);
 
         Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
 
@@ -80,6 +124,11 @@ public class OrderFoodTestCase {
     void B6014292_testOrderFoodMaxNumberCase(){
         OrderFood  orderfood = new OrderFood();
         orderfood.setDishquantity(1000);
+        orderfood.setTables(table);
+        orderfood.setManagemenu(managemenu);
+        orderfood.setOrdertype(types);
+        orderfood.setOrderstatus(status);
+
 
         Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
 
@@ -89,6 +138,98 @@ public class OrderFoodTestCase {
         assertEquals("must not be more 100", v.getMessage());
         assertEquals("dishquantity", v.getPropertyPath().toString());
 
+    }
+
+    @Test
+    void B6014292_testOrderFoodtablenullCase(){
+        OrderFood  orderfood = new OrderFood();
+        orderfood.setDishquantity(1);
+        orderfood.setTables(null);
+        orderfood.setManagemenu(managemenu);
+        orderfood.setOrdertype(types);
+        orderfood.setOrderstatus(status);
+
+
+        Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
+
+        assertEquals(1, result.size());
+
+        ConstraintViolation<OrderFood> v = result.iterator().next();
+        assertEquals("must not be null tables", v.getMessage());
+        assertEquals("tables", v.getPropertyPath().toString());
+
+    }
+
+    @Test
+    void B6014292_testOrderFoodManagemenunullCase(){
+        OrderFood  orderfood = new OrderFood();
+        orderfood.setDishquantity(1);
+        orderfood.setTables(table);
+        orderfood.setManagemenu(null);
+        orderfood.setOrdertype(types);
+        orderfood.setOrderstatus(status);
+
+
+        Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
+
+        assertEquals(1, result.size());
+
+        ConstraintViolation<OrderFood> v = result.iterator().next();
+        assertEquals("must not be null managemenu", v.getMessage());
+        assertEquals("managemenu", v.getPropertyPath().toString());
+
+    }
+
+    @Test
+    void B6014292_testOrderFoodOrderTypenullCase(){
+        OrderFood  orderfood = new OrderFood();
+        orderfood.setDishquantity(1);
+        orderfood.setTables(table);
+        orderfood.setManagemenu(managemenu);
+        orderfood.setOrdertype(null);
+        orderfood.setOrderstatus(status);
+
+
+        Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
+
+        assertEquals(1, result.size());
+
+        ConstraintViolation<OrderFood> v = result.iterator().next();
+        assertEquals("must not be null ordertype", v.getMessage());
+        assertEquals("ordertype", v.getPropertyPath().toString());
+
+    }
+
+    @Test
+    void B6014292_testOrderFoodOrderstatusnullCase(){
+        OrderFood  orderfood = new OrderFood();
+        orderfood.setDishquantity(1);
+        orderfood.setTables(table);
+        orderfood.setManagemenu(managemenu);
+        orderfood.setOrdertype(types);
+        orderfood.setOrderstatus(null);
+
+
+        Set<ConstraintViolation<OrderFood>> result = validator.validate(orderfood);
+
+        assertEquals(1, result.size());
+
+        ConstraintViolation<OrderFood> v = result.iterator().next();
+        assertEquals("must not be null orderstatus", v.getMessage());
+        assertEquals("orderstatus", v.getPropertyPath().toString());
+
+    }
+
+    @Test
+    void B6014292_testOrderStatusdataCase(){
+        OrderStatus orderstatus = new OrderStatus();
+        orderstatus.setStatus("เสิร์ฟอาหารเรียบร้อย");
+
+        orderstatusRepository.saveAndFlush(orderstatus);
+
+        Optional<OrderStatus>  found = orderstatusRepository.findById(orderstatus.getId());
+        assertEquals("เสิร์ฟอาหารเรียบร้อย", found.get().getStatus());
+       
     }
 
     @Test
