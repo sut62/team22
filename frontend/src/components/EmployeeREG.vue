@@ -286,7 +286,7 @@ export default {
           console.log(e);
         });
     },
-    // ดึงข้อมูล Employee ใส่ combobox
+    
     getPositions() {
       http
         .get("/Position")
@@ -320,7 +320,7 @@ export default {
           console.log(e);
         });
     },
-    // ดึงข้อมูล Delivery_Type ใส่ combobox
+    
     getMarital_Statuss() {
       http
         .get("/Marital_Status")
