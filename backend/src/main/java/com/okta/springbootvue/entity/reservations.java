@@ -40,6 +40,7 @@ public class reservations {
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
 	@JoinColumn(name = "MEMBER_ID")
+	@NotNull(message = "member must not be null")
 	private Member reservefor;
 
 	@NotNull
@@ -57,11 +58,13 @@ public class reservations {
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
 	@JoinColumn(name = "table_id",insertable = true)
+	@NotNull(message = "table must not be null")
 	private tables has;
 
 
 	@ManyToOne(fetch = FetchType.EAGER,targetEntity = services.class)
 	@JoinColumn(name = "service_ID",insertable = true)
+	@NotNull(message = "service must not be null")
 	private services serviceto;
 
 }
