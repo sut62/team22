@@ -17,7 +17,6 @@ public class PaymentData{
     private Long selecttable;
     private Long selectmember;
     private Long selectemployee;
-    private Long selectmemberships;
     private String change;
     private String money;
     private String total;
@@ -31,9 +30,6 @@ public class PaymentData{
     }
     public Long getEmployee(){
         return selectemployee;
-    }
-    public Long getMemberships(){
-        return selectmemberships;
     }
     public Double getMoney(){
         return Double.valueOf(money);
