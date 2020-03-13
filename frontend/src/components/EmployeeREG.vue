@@ -360,8 +360,8 @@ export default {
         this.check = ''
         var text = this.Employee.enum;
         if(text.length==13){
-          this.showsave = true;
           this.check = '<FONT color="#3EFF99" size="4"> <p>Correct</p></FONT>'
+          this.showsave = true;
         }
         else if(text.length!=13){
           this.check = '<FONT color="#FF0000" size="4"> <p>Wrong</p></FONT>'
