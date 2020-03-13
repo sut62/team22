@@ -28,7 +28,7 @@ public class RestaurantApplication  {
 	ApplicationRunner init(PrefixRepository prefixRepository, GenderRepository genderRepository, MemTypeRepository memtypeRepository,
 	Marital_StatusRepository marital_StatusRepository,PositionRepository positionRepository,
 	MenuCateRepository CateRep, MenuIngreRepository IngreRep, MenuTypeRepository TypeRep,
-	TablesRepository tablesRepository , ServicesRepository servicesRepository , OrderTypeRepository ordertypeRepository,MembershipRepository membershipRepository,
+	TablesRepository tablesRepository , ServicesRepository servicesRepository , OrderTypeRepository ordertypeRepository,
 	OrderStatusRepository orderstatusRepository
 
 	) {
@@ -93,11 +93,7 @@ public class RestaurantApplication  {
 				TypeRep.save(tn);
 			});
 
-			Stream.of("เป็นสมาชิก","ไม่เป็นมาชิก").forEach(MBSame -> {
-				Membership membership = new Membership();
-				membership.setNamembs(MBSame);
-				membershipRepository.save(membership);
-			});
+			
 			tables tb = new tables();
 			tb.setSeats(4);
 			tables tb1 = new tables();

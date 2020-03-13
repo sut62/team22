@@ -72,8 +72,6 @@
                   outlined 
                   v-model="Payment.Selectmembership"
                   :items="memberships"
-                  item-text="namembs"
-                  item-value="idmbs"
                   :rules="[(v) => !!v || 'Item is required']"
                   required
                   prepend-icon="mdi-human-male"
@@ -88,7 +86,7 @@
               <v-container>
                 <v-row>
                   <v-text-field
-                    v-if="Payment.Selectmembership.idmbs == 1"
+                    v-if="Payment.Selectmembership == 'เป็นสมาชิก' "
                     outlined
                     label="เบอร์โทรศัพท์"
                     v-model="tel"
@@ -104,7 +102,7 @@
           <v-row >
             <v-spacer></v-spacer>
               <div class="my-2">
-                <v-btn  v-if="Payment.Selectmembership.idmbs == 1" @click="findMember" depressed large color="primary">ค้นหา</v-btn>
+                <v-btn  v-if="Payment.Selectmembership == 'เป็นสมาชิก'" @click="findMember" depressed large color="primary">ค้นหา</v-btn>
               </div>
               <v-alert v-model="check" :type="type">
                 <v-row>
@@ -132,9 +130,9 @@
                   outlined
                   v-model="Payment.Selectemployee"
                   :items="employees"
-                  item-text="e_name"
-                  item-value="id"
                   :rules="[(v) => !!v || 'Item is required']"
+                  item-text='e_name'
+                  item-value='id'
                   required
                   return-object
                   prepend-icon="mdi-human-male"
@@ -216,7 +214,6 @@ export default {
     return {
       Payment: {
         Selecttable: "",
-        Selectmembership: "",
         Selectmember : {
         name:null,
         select_memtype:{
@@ -237,7 +234,7 @@ export default {
       show:``,
       memberCheck: false,
       check:false,
-		selected: [],
+		selected:[],
     selectAll: false,
     confirm:false,
     price:0,
@@ -252,7 +249,7 @@ export default {
 
       orderfoods : []
 
-      , employees : [], memberships : [],
+      , employees : [], memberships : ['เป็นสมาชิก','ไม่เป็นสมาชิก'],
       totaldish:0
 
     };
@@ -264,13 +261,13 @@ export default {
     // ดึงข้อมูล Employee ใส่ combobox
     conFirm(){
           this.confirm = true
-          let i = 1
           let sum = 0
-          for(i in this.selected){
-
-            sum +=this.orderfoods[i].dishquantity*this.orderfoods[i].managemenu.m_price
-            this.totaldish +=this.orderfoods[i].dishquantity
-            this.Payment.Selecttable=this.orderfoods[i].tables.id
+          console.log(this.selected.length)
+          for(let i of this.selected){
+            console.log(i)
+            sum +=this.orderfoods[i-1].dishquantity*this.orderfoods[i-1].managemenu.m_price
+            this.totaldish +=this.orderfoods[i-1].dishquantity
+            this.Payment.Selecttable=this.orderfoods[i-1].tables.id
             
             
           }
@@ -288,16 +285,7 @@ export default {
         })
         
     },
-    // ดึงข้อมูล member ใส่ combobox
-    getMemberships() {
-      http
-        .get("/memberships")
-        .then(response => {
-          this.memberships = response.data;
-          
-        })
-        
-    },
+    
 
     // ดึงข้อมูล RentalType ใส่ combobox
     getEmployees() {
@@ -356,7 +344,7 @@ export default {
         .post(
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
-              "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id,
+              "selectmember":this.Payment.Selectmember.id,
               "selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
           
@@ -392,7 +380,7 @@ export default {
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
               
-              "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id
+              "selectmember":this.Payment.Selectmember.id
               ,"selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
         )
@@ -426,7 +414,7 @@ export default {
         .post(
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
-              "selectmemberships":this.Payment.Selectmembership.idmbs,"selectmember":this.Payment.Selectmember.id
+              "selectmember":this.Payment.Selectmember.id
               ,"selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
           
@@ -461,7 +449,7 @@ export default {
           .post(
           "/Savepayment",
             {"money":this.Payment.Money,"total":this.Payment.Total,"change":this.Payment.Change,"selectemployee":this.Payment.Selectemployee.id,
-              "selectmemberships": this.Payment.Selectmembership.idmbs,"selectmember": 0
+              "selectmember": 0
               ,"selecttable":this.Payment.Selecttable,"date":this.Payment.createDate
               }
           
@@ -514,15 +502,16 @@ export default {
 		},
     refreshList() {
       this.getOrderFoods();
-      this.getMemberships();
       this.getEmployees();
+      
+     
      
     }
     /* eslint-enable no-console */
   },
   mounted() {
     this.getOrderFoods();
-    this.getMemberships();
+    
     this.getEmployees();
     
     

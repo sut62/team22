@@ -57,6 +57,7 @@ public class Payment {
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = tables.class)
     @JoinColumn(name = "TABLE_ID", insertable = true)
+    @NotNull
     private tables selecttable;
 
 
@@ -67,11 +68,9 @@ public class Payment {
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
     @JoinColumn(name = "EMPLOYEE_ID", insertable = true)
+    @NotNull
     private Employee selectemployee;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Membership.class)
-    @JoinColumn(name = "MEMBERSHIP_ID", insertable = true)
-    private Membership selectmembership;
 
    
 

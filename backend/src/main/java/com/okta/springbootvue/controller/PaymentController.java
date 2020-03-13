@@ -7,12 +7,10 @@ import java.util.Optional;
 import com.okta.springbootvue.controller.dto.PaymentData;
 import com.okta.springbootvue.entity.Employee;
 import com.okta.springbootvue.entity.Member;
-import com.okta.springbootvue.entity.Membership;
 import com.okta.springbootvue.entity.Payment;
 import com.okta.springbootvue.entity.tables;
 import com.okta.springbootvue.repository.EmployeeRepository;
 import com.okta.springbootvue.repository.MemberRepository;
-import com.okta.springbootvue.repository.MembershipRepository;
 import com.okta.springbootvue.repository.PaymentRepository;
 import com.okta.springbootvue.repository.TablesRepository;
 
@@ -33,8 +31,6 @@ public class PaymentController {
     private EmployeeRepository employeeRepository;
     @Autowired
     private MemberRepository memberRepository;
-    @Autowired
-    private MembershipRepository membershipRepository;
 
     PaymentController(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
@@ -50,13 +46,6 @@ public class PaymentController {
             Member membs = mem.get();
             payment.setSelectmember(membs);
         }
-        else{
-        Member mem= memberRepository.findById((long)0);
-        payment.setSelectmember(mem);
-        }
-        
-        Optional<Membership> mems = membershipRepository.findById(paymentData.getMemberships());
-            Membership memss = mems.get();
         Optional<Employee> emp = employeeRepository.findById(paymentData.getEmployee());
         Employee emps = emp.get();
         System.out.println("\n"+emps+"\n");
@@ -72,7 +61,6 @@ public class PaymentController {
         
         payment.setSelecttable(or);
         payment.setSelectemployee(emps);
-        payment.setSelectmembership(memss);
         payment.setMoney(paymentData.getMoney());
         payment.setChange(paymentData.getChange());
         payment.setTotal(paymentData.getTotal());
