@@ -82,7 +82,7 @@ public class OrderFoodTestCase {
     }
 
     @Test
-    void B6014292_testOrderFoodPositiveNumberCase(){
+    void B6014292_testOrderFoodNegativeNumberCase(){
         OrderFood  orderfood = new OrderFood();
         orderfood.setDishquantity(-1);
         orderfood.setTables(table);
