@@ -298,7 +298,6 @@ export default {
     this.getMenuIngre();
     this.getMenuType();
     this.getMenuList();
-    this.removeData();
   }
 }
 </script>
